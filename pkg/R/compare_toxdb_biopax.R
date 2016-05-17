@@ -1,0 +1,173 @@
+compare_toxdb_biopax <-
+function(source_dir="D:/Dropbox/Rancho/NCATS/ToxDB/_owls"
+             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v008.xlsx"
+             ,source_name=NULL){
+        ########################################################################
+        ########################################################################
+        #biopax sources
+        biopax_source_names<-
+            c("BioCarta"          
+              ,"KEGG"
+              ,"NCI-Nature"
+              ,"NetPath"         
+              ,"Reactome"         
+              ,"Science Signaling"
+              ,"Wiki Pathways"  
+            )
+        ########################################################################
+        ########################################################################
+        require(RIGessentials)
+        pkg<-c("plyr"
+               ,"dplyr"
+               ,"rBiopaxParser"
+               ,"mygene"
+               ,"readxl"
+               ,"openxlsx")
+        loadPackages(pkg)
+        prepareSession("D:/Dropbox/Rancho/NCATS/ToxDB/"
+                       ,nolocale=FALSE)
+        if(!(source_name %in% biopax_source_names)){
+            source_name<-
+                tkradio_from_vect(biopax_source_names
+                                  ,"Select BioPAX Source.")
+        }
+      
+        #load all pathways matched up
+        pathways_per_source<-
+            read_excel(path = pw_matchup_file
+                       ,col_types = rep("text",10)
+                       ,sheet = 1) %>%
+            dplyr::filter(!is.na(biopax.Pathway.Name)) %>%
+            dplyr::select(toxdb.Pathway.ID
+                          ,toxdb.Pathway.Name
+                          ,biopax.Pathway.Name
+                          ,pathway.Match.Status
+                          ,Source) %>%
+            arrange(Source
+                    ,toxdb.Pathway.ID) 
+        
+        #which source name (biopax) to process
+        all_pathways<-
+            pathways_per_source %>%
+            filter(Source==source_name) 
+        all_pathways$toxdb.Pathway.Name<-
+            tolower(all_pathways$toxdb.Pathway.Name)
+        #choose only pertaining toxdb pathway source and its elements
+        toxdb<-
+            load.toxdb.genes.per.source(source_name=source_name
+                                        ,source_dir=source_dir
+                                        ,all_pathways=all_pathways)
+        
+        #load list of pathways and components from biopax
+        owl_biopax<-
+            load.biopax(source_name=source_name
+                        ,source_dir=source_dir)
+        pw_biopax<-
+            load.biopax.pathways(owl_biopax=owl_biopax) 
+        pw_biopax$biopax.Pathway.Name<-
+            pw_biopax$biopax.Pathway.Name %>%
+            trimws
+        
+        #check if pathways that are supposed to be in biopax, actually are there
+        mismatch_pathways<-
+            all_pathways[!(all_pathways$biopax.Pathway.Name %in% pw_biopax$biopax.Pathway.Name) |
+                             !(all_pathways$toxdb.Pathway.Name %in% toxdb$toxdb.Pathway.Name),]
+        if(nrow(mismatch_pathways)>0){
+            message("Some pathways from the list do not match those in biopax or toxdb gene list!")
+            print(mismatch_pathways)
+            View(mismatch_pathways)
+            stop("Aborting.")
+        }
+        biopax_pw_missing_from_list<-
+            pw_biopax[!(pw_biopax$biopax.Pathway.Name %chin% all_pathways$biopax.Pathway.Name),] %>%
+            mutate(pathway.Match.Status="Missing"
+                   ,toxdb.Pathway.ID=NA
+                   ,toxdb.Pathway.Name=NA
+                   ,Source=source_name)
+        
+        ####################### add pathway IDs ################################
+        #add biopax pw ids
+        all_pathways_pwid<-
+            add.biopax.ids(all_pathways=all_pathways
+                           ,pw_biopax=pw_biopax)
+        
+        #add missing pathways from biopax
+        all_pathways_pwid<-
+            rbind.data.frame(all_pathways_pwid
+                             ,biopax_pw_missing_from_list)
+        ####################### add pathway IDs ################################
+        
+        ####################### find pathway components for each ID ################################
+        #for each pathway id (row) find the components for that pathway
+        #and add them
+        df_pw_proteins<-
+            adply(.data=all_pathways_pwid
+                  ,.margins=1
+                  ,.fun=function(x){
+                      add_db_ids(owl_biopax=owl_biopax
+                                 ,pw_id=x$biopax.Pathway.ID)
+                  }) %>%
+            mutate(biopax.Gene.Symbol=NA
+                   ,ENTREZID=NA) %>%
+            data.frame
+        
+        #choose keytypes to look for
+        #keytypes<-c("ENTREZID","UNIPROT")
+        
+        #add annotations and filter out only entries with db in keytypes
+        df_pw_proteins_annot<-
+            add.MULT.symbols.entrezids(df_pw_proteins=df_pw_proteins
+                                       #,keytypes=keytypes
+                                       ,filter_keytypes = TRUE)
+        
+        #ensure toxdb and annotated biopax df have same columns
+        #and fill some of them
+        df_pw_proteins_annot<-
+            adjust_columns(df_to_adjust = df_pw_proteins_annot
+                           ,df_template = toxdb)
+        toxdb<-
+            adjust_columns(df_to_adjust = toxdb
+                           ,df_template = df_pw_proteins_annot)
+        
+        toxdb$pathway.Match.Status<-
+            all_pathways_pwid$pathway.Match.Status[match(toxdb$toxdb.Pathway.ID
+                                                         ,all_pathways_pwid$toxdb.Pathway.ID)]
+        ####################### find pathway components for each ID ################################
+        
+        ####################### correlate which genes match ################################
+        #prepare data frame(s) with matching genes, genes present in one, but not the other
+        #and vice versa
+        comparison_results<-
+            adply(.data=as.data.frame(all_pathways_pwid)
+                  ,.margins=1
+                  ,.fun=function(x){
+                      compare_pw_components(biopax_prot=df_pw_proteins_annot
+                                            ,toxdb_prot=toxdb
+                                            ,dfrow=x
+                                            ,output="all"
+                      )}
+            )
+        ####################### correlate which genes match ################################
+        
+        ####################### output #################################
+        #output the present and absent pathways into respective files
+        openxlsx:::write.xlsx(all_pathways_pwid
+                              ,file=paste(Sys.Date()
+                                          ,"pathways"
+                                          ,source_name
+                                          ,"toxdb_biopax.xlsx"
+                                          ,sep="_")
+                              ,col.names=TRUE
+                              ,row.names=FALSE)
+        
+        #output the comparison results
+        openxlsx:::write.xlsx(comparison_results
+                              ,file=paste(Sys.Date()
+                                          ,"genes"
+                                          ,source_name
+                                          ,"toxdb_biopax.xlsx"
+                                          ,sep="_")
+                              ,col.names=TRUE
+                              ,row.names=FALSE
+                              ,keepNA=TRUE)
+    }
