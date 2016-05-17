@@ -3,12 +3,21 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
+Add Symbols and Entrez IDs to List of Genes
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-add.MULT.symbols.entrezids(df_pw_proteins = NULL, keytypes = c("entrezgene", "mim", "uniprot", "unigene", "ensemblgene", "hprd", "hgnc"), filter_keytypes = TRUE)
+add.MULT.symbols.entrezids(df_pw_proteins = NULL
+                           ,keytypes = c("entrezgene"
+                                         , "mim"
+                                         , "uniprot"
+                                         , "unigene"
+                                         , "ensemblgene"
+                                         , "hprd"
+                                         , "hgnc")
+                           ,filter_keytypes = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
