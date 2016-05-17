@@ -3,10 +3,10 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
+Extract DB IDs for All Proteins in Pathway
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-Extract DB IDs for All Proteins in Pathway
 }
 \usage{
 add_db_ids(owl_biopax = NULL, pw_id = NULL, biopaxlevel = 3)
