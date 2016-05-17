@@ -3,7 +3,7 @@ function(source_name=NULL
              ,source_dir=NULL){
         #get all objects from parent environment
         objects<-
-            ls(envir = parent.env(env = environment()))
+            ls(envir = .GlobalEnv)
         #any biopax files in env?
         is_present_biopax<-
             sapply(objects,function(obj) {
