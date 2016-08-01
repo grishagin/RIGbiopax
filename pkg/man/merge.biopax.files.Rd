@@ -9,18 +9,14 @@ Merge Multiple BioPAX Files into One File
 Merge multiple BioPAX files into one BioPAX file, while preserving all unique relationships between pathway components.
 }
 \usage{
-merge.biopax.files(source_name=NULL
-                   ,source_dir=NULL
+merge.biopax.files(source_dir=NULL
                    ,change_ids=TRUE
                    ,write_to_file=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{source_name}{
-  source directory.
-}
   \item{source_dir}{
-  source name.
+  a directory with \code{*.owl} files.
 }
   \item{change_ids}{
   logical. Add file identifiers to every id in that file? Useful, if all files employ the same id system.

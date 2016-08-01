@@ -1,8 +1,7 @@
 
 ############################### merge.biopax.files ############################### 
 merge.biopax.files<-
-    function(source_name=NULL
-             ,source_dir=NULL
+    function(source_dir=NULL
              ,change_ids=TRUE
              ,write_to_file=FALSE){
         
@@ -19,21 +18,12 @@ merge.biopax.files<-
         require(rBiopaxParser
                 ,quietly=TRUE)
         
-        if(is.null(source_name)){
-            stop("Provide source_name!")
-        }
         if (is.null(source_dir)){
             source_dir<-getwd()
         }
         
         #find owl directory and filenames in it
-       
-        owl.dirs<-list.dirs(source_dir
-                            ,recursive = FALSE)
-        owl_num<-agrep(source_name
-                       ,owl.dirs
-                       ,max.distance = 0.2)
-        owl.filename<-list.files(owl.dirs[owl_num]
+        owl.filename<-list.files(source_dir
                                  ,pattern = "\\.owl"
                                  ,full.names = TRUE)
         if(length(owl.filename)<1){
@@ -89,8 +79,7 @@ merge.biopax.files<-
         if(write_to_file){
             biopax_filename<-
                 paste(Sys.Date()
-                      ,source_name
-                      ,"combined.owl"
+                      ,"combined_biopax.owl"
                       ,sep="_")
             writeBiopax_Rancho(biopax = new_biopax
                                ,file = biopax_filename
