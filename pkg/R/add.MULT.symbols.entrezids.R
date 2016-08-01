@@ -16,15 +16,17 @@ function(df_pw_proteins=NULL
         }
         
         #replace db ids name with proper annotation ids
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "LL"]<-"entrezgene"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "EntrezGene"]<-"entrezgene"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "Entrez Gene"]<-"entrezgene"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "UniProt"]<-"uniprot"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "UniGene"]<-"unigene"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "Ensembl"]<-"ensemblgene"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "OMIM"]<-"mim"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "HPRD"]<-"hprd"
-        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "HGNC"]<-"hgnc"
+        df_pw_proteins$biopax.Gene.ID.Type<-
+            tolower(df_pw_proteins$biopax.Gene.ID.Type)
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "ll"]<-"entrezgene"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "entrezgene"]<-"entrezgene"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "entrez gene"]<-"entrezgene"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "uniprot"]<-"uniprot"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "unigene"]<-"unigene"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "ensembl"]<-"ensemblgene"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "omim"]<-"mim"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "hprd"]<-"hprd"
+        df_pw_proteins$biopax.Gene.ID.Type[df_pw_proteins$biopax.Gene.ID.Type %chin% "hgnc"]<-"hgnc"
         
         
         #ensure correct types of Gene Symbol and Entrezid columns

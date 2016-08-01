@@ -23,18 +23,39 @@ function(owl_biopax=NULL
         require(data.table)
         require(rBiopaxParser)
         
-        #component ids
-        pw_components_ids<-
-            listPathwayComponents(biopax=owl_biopax
-                                  ,id=pw_id
-                                  ,returnIDonly=TRUE
-                                  ,biopaxlevel=biopaxlevel)
-        
+        #now, some biopax sources are prepared from multiple files
+        #which sometimes do not have explicit relationships between components
+        #and genes/proteins (i.e. these pathways are simply "gene bags")
+        #to include them, first determine if there's a pathway reference
+        if(length(grep("_pwref_",pw_id))>0){
+            pwref<-
+                strsplit(pw_id,"_pwref_") %>%
+                unlist %>%
+                .[length(.)]
+            #get all instances with said pwref
+            pw_components_ids<-
+                owl_biopax$dt$id %>%
+                grep(pwref
+                     ,.
+                     ,value = TRUE)
+            
+        } else {
+            #if no such reference has been found
+            #look for component ids
+            pw_components_ids<-
+                listPathwayComponents(biopax=owl_biopax
+                                      ,id=pw_id
+                                      ,returnIDonly=TRUE
+                                      ,biopaxlevel=biopaxlevel)
+        }
+    
         #get component instances
         pw_components<-
             selectInstances(biopax=owl_biopax
                             ,id=pw_components_ids
-                            ,includeReferencedInstances=TRUE)
+                            ,includeReferencedInstances=TRUE) %>%
+            unique
+            
         
         #determine Xref class name
         print(pw_id)
@@ -43,7 +64,7 @@ function(owl_biopax=NULL
         #also add pw name and pw id columns
         results_df<-
             pw_components %>%
-            filter(class=="RelationshipXref" | class=="UnificationXref") %>%
+            filter(class %in% "RelationshipXref" | class %in% "UnificationXref") %>%
             dplyr::select(biopax.Component.ID=id
                           ,property
                           ,property_value) %>%

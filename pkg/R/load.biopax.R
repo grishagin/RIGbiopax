@@ -1,24 +1,78 @@
 load.biopax <-
-function(source_name=NULL
+    function(source_name=NULL
              ,source_dir=NULL){
-        #get all objects from parent environment
+        require(tcltk)
+        require(rBiopaxParser)
+        require(RIGessentials)
+        
+        #get all obj names in global environment
         objects<-
             ls(envir = .GlobalEnv)
-        #any biopax files in env?
-        is_present_biopax<-
-            sapply(objects,function(obj) {
-                "biopax" %in% class(get(obj))   
-            }) 
         
-        if(sum(is_present_biopax)<1){
+        #if params for reading biopax have not been specified...
+        if (is.null(source_name) | is.null(source_dir)){
+            
+            #check for an object amongst loaded objects
+            is_biopax<-
+                sapply(objects,function(obj) {
+                    "biopax" %in% class(get(obj))   
+                }) 
+            if(sum(is_biopax)<1){
+                #if no biopax object found in the environment,
+                #prompt to choose workspace or biopax file
+                message("Biopax object was not found in the environment!")
+                
+                #... ask for workspace or biopax file
+                filetoload<-
+                    invisible(tcltk::tk_choose.files(caption = "Choose *.owl or *.Rdata file to read/load."
+                                                     ,multi=FALSE
+                                                     ,filters=matrix(c("BioPAX"
+                                                                       ,"Workspace"
+                                                                       ,".owl"
+                                                                       ,".Rdata")
+                                                                     ,ncol=2)))
+                #check if in either case the file can be loaded/read
+                trytoloadws<-
+                    suppressWarnings(try(load(filetoload),silent=TRUE))
+                trytoreadbp<-
+                    suppressWarnings(try(biopax<-
+                                             readBiopax(filetoload),silent=TRUE))
+
+                #if not, inform
+                if(trytoloadws!=TRUE & trytoreadbp!=TRUE){
+                    message("Could not interpret the file as either a Workspace or a BioPAX!")
+                }
+                
+                #successful or not, try loading biopax again
+                biopax<-
+                    load.biopax()
+
+            } else if(sum(is_biopax)>1){
+                #if more than one biopax, 
+                #open a radiobutton picker form
+                message("More than one biopax object present in environment!")
+                message("Pick the desired object name in a popup window")
+                
+                biopax<-
+                    get(tkradio_from_vect(vect = subset(objects
+                                                        ,is_biopax)
+                                          ,window_title = "Pick the desired biopax object"))
+
+            } else {
+                #if just one object found,
+                #return it as biopax
+                biopax<-
+                    get(subset(objects
+                               ,is_biopax))
+            }
+   
+        } else {
+            #if both file name and dir name have been provided
+            #try to load the file
             biopax<-
                 load.biopax.file(source_name=source_name
                                  ,source_dir=source_dir)
-        } else if(sum(is_present_biopax)>1){
-            stop("More than one biopax object present in environment already")
-        } else {
-            biopax<-
-                get(subset(objects,is_present_biopax))
         }
+        
         return(biopax)
     }
