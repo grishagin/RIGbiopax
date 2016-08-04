@@ -1,7 +1,8 @@
-compare_toxdb_biopax <-
+MAIN_compare_toxdb_biopax <-
 function(source_dir="D:/Dropbox/Rancho/NCATS/ToxDB/_owls"
-             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v008.xlsx"
+             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v010.xlsx"
              ,source_name=NULL){
+        require(RIGessentials)
         ########################################################################
         ########################################################################
         #biopax sources
@@ -16,7 +17,6 @@ function(source_dir="D:/Dropbox/Rancho/NCATS/ToxDB/_owls"
             )
         ########################################################################
         ########################################################################
-        require(RIGessentials)
         pkg<-c("plyr"
                ,"dplyr"
                ,"rBiopaxParser"
