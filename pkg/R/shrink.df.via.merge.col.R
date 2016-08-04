@@ -19,9 +19,11 @@ function(dFrame=NULL
                   ,.fun = function(KEY){
                       merged_id_df<-
                           dFrame[dFrame[,colKey] %chin% KEY
-                                 ,colToMerge] %>%
+                                 ,colToMerge
+                                 ,drop = FALSE] %>%
                           lapply(paste,collapse=patternToMerge) %>%
                           as.data.frame
+                      
                       merged_id_df$KEY<-KEY
                       merged_id_df<-
                           merged_id_df %>%
