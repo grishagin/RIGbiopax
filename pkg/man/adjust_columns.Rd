@@ -3,10 +3,10 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
-Add Columns to Dataframe Based on Another Dataframe
+Add Columns of a Dataframe Based on Another Dataframe
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Compare column names of one dataframe to column names of the template dataframe. After that, add missing columns and fill them with NA values. 
 }
 \usage{
 adjust_columns(df_to_adjust = NULL, df_template = NULL)
@@ -14,54 +14,13 @@ adjust_columns(df_to_adjust = NULL, df_template = NULL)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{df_to_adjust}{
-%%     ~~Describe \code{df_to_adjust} here~~
+  dataframe to be adjusted.
+
 }
   \item{df_template}{
-%%     ~~Describe \code{df_template} here~~
+  dataframe to be used as a template.
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Ivan Grishagin
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (df_to_adjust = NULL, df_template = NULL) 
-{
-    if (is.null(df_to_adjust) | (is.null(df_template))) {
-        stop("Not all mandatory parameters provided.")
-    }
-    unique_colnames <- unique(c(colnames(df_to_adjust), colnames(df_template)))
-    df_to_adjust[, unique_colnames[!(unique_colnames \%in\% colnames(df_to_adjust))]] <- NA
-    return(df_to_adjust)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

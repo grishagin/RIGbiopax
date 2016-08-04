@@ -1,7 +1,7 @@
 load.toxdb.genes.per.source <-
 function(source_name
-             ,source_dir=getwd()
-             ,toxdb_genes_file="toxdb_pathways_15Jun.txt"
+             ,source_dir=NULL
+             ,toxdb_genes_file=NULL
              ,all_pathways){
         #list of genes and pathways
         #and select only pertaining columns
