@@ -1,11 +1,21 @@
 MAIN_compare_toxdb_biopax <-
 function(work_dir=NULL
-             ,source_owl_dir="./_owls"
+             ,source_owl_dir=NULL
              ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v010.xlsx"
              ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
              ,source_name=NULL){
+    
         require(RIGessentials)
-        prepareSession(work_dir)
+
+    
+        # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
+        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v010.xlsx"
+        # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
+        # source_name=NULL
+        # source_owl_dir=NULL
+        
+        prepareSession(work_dir
+                       ,nolocale=FALSE)
         
         ########################################################################
         ########################################################################
@@ -28,9 +38,12 @@ function(work_dir=NULL
                ,"readxl"
                ,"openxlsx")
         loadPackages(pkg)
-        prepareSession("D:/Dropbox/Rancho/NCATS/ToxDB/"
-                       ,nolocale=FALSE)
+        
+        if(is.null(source_name)){
+            source_name<-NA
+        }
         if(!(source_name %in% biopax_source_names)){
+            message("Choose BioPAX source name. The choice picker is likely behind your active window.")
             source_name<-
                 tkradio_from_vect(biopax_source_names
                                   ,"Select BioPAX Source.")
@@ -39,7 +52,7 @@ function(work_dir=NULL
         #load all pathways matched up
         pathways_per_source<-
             read_excel(path = pw_matchup_file
-                       ,col_types = rep("text",10)
+                       ,col_types = rep("text",11)
                        ,sheet = 1) %>%
             dplyr::filter(!is.na(biopax.Pathway.Name)) %>%
             dplyr::select(toxdb.Pathway.ID
