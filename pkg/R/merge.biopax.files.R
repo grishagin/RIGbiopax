@@ -8,10 +8,10 @@ merge.biopax.files<-
         require(RIGbiopax)
         require(rBiopaxParser)
         
-        if(!("writeBiopax_Rancho" %in% ls(envir = .GlobalEnv)) &
-           write_to_file){
-            stop("merge.biopax.files: load writeBiopax_Rancho function first!")
-        }
+        # if(!("writeBiopax_Rancho" %in% ls(envir = .GlobalEnv)) &
+        #    write_to_file){
+        #     stop("merge.biopax.files: load writeBiopax_Rancho function first!")
+        # }
         
         #in case a biopax source is in multiple files,
         #their tables are loaded and merged into one file
