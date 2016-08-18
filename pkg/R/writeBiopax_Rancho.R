@@ -32,7 +32,9 @@ writeBiopax_Rancho<-
                         stop(paste("Error: File ", file, " already exists.", 
                                    sep = ""))
                 }
-                rBiopaxParser:::checkValidity(biopax)
+                
+                .checkValidity_Rancho(biopax)
+                
                 d <-
                     .internal_generateXMLfromBiopax_Rancho(biopax
                                                            ,namespaces
