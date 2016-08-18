@@ -1,4 +1,4 @@
-.checkValidity_Rancho<-
+internal_checkValidity_Rancho<-
     function (biopax) 
     {
         #copy from rBiopaxParser

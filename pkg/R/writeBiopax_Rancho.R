@@ -38,9 +38,9 @@ writeBiopax_Rancho<-
                                    sep = ""))
                 }
                 
-                .checkValidity_Rancho(biopax)
+                internal_checkValidity_Rancho(biopax)
                 
-                d <-.internal_generateXMLfromBiopax_Rancho(biopax
+                d <-internal_generateXMLfromBiopax_Rancho(biopax
                                                            ,namespaces
                                                            ,verbose = verbose
                                                            ,biopaxlevel = biopaxlevel)

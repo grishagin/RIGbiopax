@@ -1,4 +1,4 @@
-.internal_generateXMLfromBiopax_Rancho<-
+internal_generateXMLfromBiopax_Rancho<-
     function (biopax
               ,namespaces = namespaces
               ,verbose = TRUE
