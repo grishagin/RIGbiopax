@@ -2,7 +2,7 @@ internal_generateXMLfromBiopax_Rancho<-
     function (biopax
               ,namespaces = namespaces
               ,verbose = TRUE
-              biopaxlevel=3) 
+              ,biopaxlevel=3) 
     {
         
         if (biopaxlevel==2){
