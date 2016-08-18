@@ -19,21 +19,31 @@ internal_generateXMLfromBiopax_Rancho<-
                   ,namespace = "owl"
                   ,attrs = c(`rdf:about` = "")
                   ,close = FALSE)
+        print(4)
+        
         d$addNode("imports"
                   ,namespace = "owl"
                   ,attrs = c(`rdf:resource` = level_url))
+        print(5)
+        
         d$addNode("comment"
                   ,paste("BioPAX output created"
                          ,date()
                          ,"using the Rancho-modified rBiopaxParser package.")
                   ,namespace = "rdfs"
                   ,attrs = c(`rdf:datatype` = "http://www.w3.org/2001/XMLSchema#string"))
+        print(6)
+        
         
         d$closeTag()
         instanceList = unique(biopax$dt[, list(class, id)])
         count = 1
+        print(7)
+        
         
         for (i in 1:dim(instanceList)[1]) {
+            print(i)
+            
             instance = biopax$dt[class == instanceList[i]$class & 
                                      id == instanceList[i]$id, ]
             d$addNode(as.character(instance[1]$class)
