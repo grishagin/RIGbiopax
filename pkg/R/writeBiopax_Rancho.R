@@ -9,6 +9,11 @@ writeBiopax_Rancho<-
                 if (!biopaxlevel %in% c(2,3)){
                     stop("writeBiopax_Rancho: Incorrect biopax level specified. Aborting.")
                 }
+            
+                if (is.null(file)){
+                    file<-paste(Sys.Date()
+                                ,"new_biopax.owl")
+                }
 
             
                 if (is.null(namespaces)){
