@@ -58,14 +58,23 @@ function(biopax_prot=NULL
                    ,pathway.Match.Status = as.character(dfrow$pathway.Match.Status))
         
         if(nrow(biopax_prot_sub)<1){
-            message("compare_pw_components: biopax_prot_sub has 0 rows!")
+            message("compare_pw_components: biopax_prot_sub has 0 rows! "
+                    ,"pw_biopax_id = "
+                    ,pw_biopax_id)
             return(toxdb_prot_sub)
         } else if(nrow(toxdb_prot_sub)<1){
-            message("compare_pw_components: toxdb_prot_sub has 0 rows!")
+            message("compare_pw_components: toxdb_prot_sub has 0 rows! "
+                    ,"pw_toxdb_id = "
+                    ,pw_toxdb_id)
             return(biopax_prot_sub)
         } else if (nrow(biopax_prot_sub)<1 &
                    nrow(toxdb_prot_sub)<1){
-            message("compare_pw_components: biopax_prot_sub and toxdb_prot_sub have 0 rows!")
+            message("compare_pw_components: biopax_prot_sub and toxdb_prot_sub have 0 rows! "
+                    ,"pw_biopax_id = "
+                    ,pw_biopax_id
+                    ,", "
+                    ,"pw_toxdb_id = "
+                    ,pw_toxdb_id)
             return(dummy_df)
         } 
         
