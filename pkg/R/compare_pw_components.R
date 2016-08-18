@@ -26,7 +26,9 @@ function(biopax_prot=NULL
                 toxdb_prot %>%
                 filter(toxdb.Pathway.ID==pw_toxdb_id)
             if(nrow(biopax_prot_sub)<1){
-                message("compare_pw_components: biopax_prot_sub is NA toxdb_prot_sub has 0 rows!")
+                message("compare_pw_components: pw_biopax_id is NA toxdb_prot_sub has 0 rows! "
+                        ,"pw_toxdb_id = "
+                        ,pw_toxdb_id)
                 return(dummy_df)
             }
             return(toxdb_prot_sub)
@@ -35,7 +37,9 @@ function(biopax_prot=NULL
                 biopax_prot %>%
                 filter(biopax.Pathway.ID==pw_biopax_id)
             if(nrow(biopax_prot_sub)<1){
-                message("compare_pw_components: pw_toxdb_id is NA and biopax_prot_sub has 0 rows!")
+                message("compare_pw_components: pw_toxdb_id is NA and biopax_prot_sub has 0 rows! "
+                        ,"pw_biopax_id = "
+                        ,pw_biopax_id)
                 return(dummy_df)
             }
             return(biopax_prot_sub)
