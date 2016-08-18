@@ -40,8 +40,8 @@ writeBiopax_Rancho<-
                 
                 internal_checkValidity_Rancho(biopax)
                 
-                d <-internal_generateXMLfromBiopax_Rancho(biopax
-                                                           ,namespaces
+                d <-internal_generateXMLfromBiopax_Rancho(biopax = biopax
+                                                           ,namespaces = namespaces
                                                            ,verbose = verbose
                                                            ,biopaxlevel = biopaxlevel)
                 if (is.null(file)) {
