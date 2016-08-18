@@ -15,7 +15,7 @@ merge.gene.comparison.results<-
             stop("merge.toxdb.results: Haven't found any files! Stopping.")
         }
         
-        #list of dfs for each excel
+        #list of dataframes for each excel file
         #which are then merged into one big df
         big_df<-
             lapply(files
