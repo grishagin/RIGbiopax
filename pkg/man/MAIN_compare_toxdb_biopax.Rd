@@ -8,7 +8,7 @@ Main function of the package. Extract all proteins ("genes") from a BioPAX sourc
 }
 \usage{
 compare_toxdb_biopax(work_dir=NULL
-                     ,source_owl_dir="./_owls"
+                     ,source_owl_dir=NULL
                      ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v010.xlsx"
                      ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
                      ,source_name=NULL)
@@ -19,7 +19,7 @@ compare_toxdb_biopax(work_dir=NULL
   directory, where all source files/folders are located and will be written to.
 }
   \item{source_owl_dir}{
-  directory with \code{*.owl} files.
+  directory with \code{*.owl} files. If no directory provided, a prompt will pop up. See \code{load.biopax} function for more information.
 }
   \item{pw_matchup_file}{
   file that provides match-up between toxdb pathway names and BioPAX pathway names. 
