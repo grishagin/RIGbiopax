@@ -14,7 +14,7 @@ writeBiopax_Rancho(biopax
                   ,file = NULL
                   ,verbose = TRUE
                   ,overwrite = FALSE
-                  ,level=3
+                  ,biopaxlevel=3
                   ,namespaces=NULL))
 }
 %- maybe also 'usage' for other objects documented here.
@@ -31,7 +31,7 @@ writeBiopax_Rancho(biopax
     \item{overwrite}{
   
   }
-    \item{level}{
+    \item{biopaxlevel}{
   
   }
     \item{namespaces}{

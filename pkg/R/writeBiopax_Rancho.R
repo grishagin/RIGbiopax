@@ -3,22 +3,22 @@ writeBiopax_Rancho<-
                   ,file = NULL
                   ,verbose = TRUE
                   ,overwrite = FALSE
-                  ,level=3
+                  ,biopaxlevel=3
                   ,namespaces=NULL) {
 
-                if (level==2){
+                if (biopaxlevel==2){
                         namespaces<-list(rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-                                         bp = "http://www.biopax.org/release/biopax-level2.owl#", 
+                                         bp = "http://www.biopax.org/release/biopax-biopaxlevel2.owl#", 
                                          rdfs = "http://www.w3.org/2000/01/rdf-schema#", owl = "http://www.w3.org/2002/07/owl#", 
                                          xsd = "http://www.w3.org/2001/XMLSchema#")
-                } else if (level==3){
+                } else if (biopaxlevel==3){
                         namespaces<-list(rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-                                         bp = "http://www.biopax.org/release/biopax-level3.owl#", 
+                                         bp = "http://www.biopax.org/release/biopax-biopaxlevel3.owl#", 
                                          rdfs = "http://www.w3.org/2000/01/rdf-schema#", owl = "http://www.w3.org/2002/07/owl#", 
                                          xsd = "http://www.w3.org/2001/XMLSchema#")
-                } else if (is.null(level)){
+                } else if (is.null(biopaxlevel)){
                         if(is.null(namespaces)){
-                                stop("Since you have provided a biopax level NULL, you have to specify namespaces. Stopping.")
+                                stop("Since you have provided a biopax biopaxlevel NULL, you have to specify namespaces. Stopping.")
                         }
                 }
                 
@@ -28,11 +28,15 @@ writeBiopax_Rancho<-
                                    sep = ""))
                 }
                 rBiopaxParser:::checkValidity(biopax)
-                d = rBiopaxParser:::internal_generateXMLfromBiopax(biopax, namespaces, verbose = verbose)
+                d = .internal_generateXMLfromBiopax_Rancho(biopax
+                                                           ,namespaces
+                                                           ,verbose = verbose
+                                                           ,biopaxlevel = biopaxlevel)
                 if (is.null(file)) {
                         file=paste0(Sys.Date()
                                     ,"_generated_biopax.owl")
                 }
                 XML::saveXML(d$value()
-                             ,file = file)
+                             ,file = file
+                             ,encoding = "ISO-8859-1")
         }
