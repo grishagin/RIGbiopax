@@ -19,16 +19,18 @@ writeBiopax_Rancho<-
                 if (is.null(namespaces)){
                     if (biopaxlevel==2){
                         message("Using default namespaces for biopax level 2.")
-                        namespaces<-list(rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-                                         bp = "http://www.biopax.org/release/biopax-biopaxlevel2.owl#", 
-                                         rdfs = "http://www.w3.org/2000/01/rdf-schema#", owl = "http://www.w3.org/2002/07/owl#", 
-                                         xsd = "http://www.w3.org/2001/XMLSchema#")
+                        namespaces<-list(rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                         ,bp = "http://www.biopax.org/release/biopax-biopaxlevel2.owl#" 
+                                         ,rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+                                         ,owl = "http://www.w3.org/2002/07/owl#", 
+                                         ,xsd = "http://www.w3.org/2001/XMLSchema#")
                     } else if (biopaxlevel==3){
                         message("Using default namespaces for biopax level 3.")
-                        namespaces<-list(rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-                                         bp = "http://www.biopax.org/release/biopax-biopaxlevel3.owl#", 
-                                         rdfs = "http://www.w3.org/2000/01/rdf-schema#", owl = "http://www.w3.org/2002/07/owl#", 
-                                         xsd = "http://www.w3.org/2001/XMLSchema#")
+                        namespaces<-list(rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                         ,bp = "http://www.biopax.org/release/biopax-biopaxlevel3.owl#"
+                                         ,rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+                                         ,owl = "http://www.w3.org/2002/07/owl#"
+                                         ,xsd = "http://www.w3.org/2001/XMLSchema#")
                     }
                 } 
                 
