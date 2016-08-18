@@ -40,7 +40,7 @@ function(df_pw_proteins=NULL
         #split them and expand the df
         df_pw_proteins<-
             df_pw_proteins %>%
-            expand.df.via.split.col(colToSplit="biopax.Gene.ID")
+            expand.df.via.split.col(colsToSplit="biopax.Gene.ID")
         
         #annotate data table iteratively
         for(KEYTYPE in keytypes){
@@ -53,7 +53,7 @@ function(df_pw_proteins=NULL
         #split them and expand the df
         df_pw_proteins<-
             df_pw_proteins %>%
-            expand.df.via.split.col(colToSplit=c("ENTREZID","biopax.Gene.Symbol"))
+            expand.df.via.split.col(colsToSplit=c("ENTREZID","biopax.Gene.Symbol"))
         
         
         if(filter_keytypes){

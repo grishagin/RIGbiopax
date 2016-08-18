@@ -9,8 +9,8 @@ Split Column(s) Based on Pattern
 Wrapper for a \code{strsplit} function. In a given dataframe, split specified column values based on certain pattern. New values are inserted by duplicating corresponding rows, where the cells that were affected were located. Can work for multiple columns.
 }
 \usage{
-expand.df.via.split.col(dFrame = NULL
-                        ,colsToSplit = NULL
+expand.df.via.split.col(dFrame
+                        ,colsToSplit
                         ,patternToSplit = ",|;|\\|")
 }
 %- maybe also 'usage' for other objects documented here.

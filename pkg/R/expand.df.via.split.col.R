@@ -1,7 +1,8 @@
 expand.df.via.split.col <-
-    function(dFrame=NULL
+    function(dFrame
              ,colsToSplit
              ,patternToSplit=",|;|\\|"){
+        #called by add.MULT.symbols.entrezids
         
         if(any(!colsToSplit %in% colnames(dFrame))){
             stop("expand.df.via.split.col: Some colsToSplit values were not found among colnames!")
