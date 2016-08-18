@@ -67,14 +67,17 @@ function(owl_biopax=NULL
             filter(class %in% "RelationshipXref" | class %in% "UnificationXref") %>%
             dplyr::select(biopax.Component.ID=id
                           ,property
-                          ,property_value) %>%
-            spread(property
-                   ,property_value)
+                          ,property_value)
         
         if(nrow(results_df)<1){
             return(data.frame(biopax.Component.ID=NA
                               ,biopax.Gene.ID.Type=NA
                               ,biopax.Gene.ID=NA))
+        } else {
+            results_df<-
+                results_df %>%
+                spread(property
+                       ,property_value)
         }
         
         setnames(results_df,"db","biopax.Gene.ID.Type")
