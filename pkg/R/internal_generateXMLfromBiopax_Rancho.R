@@ -4,16 +4,17 @@ internal_generateXMLfromBiopax_Rancho<-
               ,verbose = TRUE
               ,biopaxlevel=3) 
     {
-        
+        print(1)
         if (biopaxlevel==2){
             level_url<-"http://www.biopax.org/release/biopax-level2.owl"
         } else if (biopaxlevel==3){
             level_url<-"http://www.biopax.org/release/biopax-level3.owl"
         }
-        
+        print(2)
         
         d = XML::xmlTree("rdf:RDF"
                          ,namespaces = namespaces)
+        print(3)
         d$addNode("Ontology"
                   ,namespace = "owl"
                   ,attrs = c(`rdf:about` = "")
