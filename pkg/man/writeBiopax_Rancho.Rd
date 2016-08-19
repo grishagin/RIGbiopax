@@ -15,7 +15,7 @@ writeBiopax_Rancho(biopax
                   ,verbose = TRUE
                   ,overwrite = FALSE
                   ,biopaxlevel=3
-                  ,namespaces=NULL))
+                  ,namespaces=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
