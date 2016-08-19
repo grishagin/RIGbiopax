@@ -4,7 +4,8 @@ writeBiopax_Rancho<-
                   ,verbose = TRUE
                   ,overwrite = FALSE
                   ,biopaxlevel=3
-                  ,namespaces=NULL) {
+                  ,namespaces=NULL
+                  ,encoding="UTF-8") {
             
                 if (!biopaxlevel %in% c(2,3)){
                     stop("writeBiopax_Rancho: Incorrect biopax level specified. Aborting.")
@@ -50,10 +51,15 @@ writeBiopax_Rancho<-
                 
                 
                 if (is.null(file)) {
-                        file=paste0(Sys.Date()
-                                    ,"_generated_biopax.owl")
+                    file<-paste0(Sys.Date()
+                                 ,"_generated_biopax.owl")
                 }
-                XML::saveXML(d$value()
-                             ,file = file
-                             ,encoding = "ISO-8859-1")
+                #cannot use internal XML writing method
+                #because addition of encoding or changing of prefix
+                #messes up indents (results in one-line output)
+                writeLines(XML::saveXML(d$value()
+                             ,encoding=encoding
+                             )
+                           ,con = file)
+                
         }

@@ -12,8 +12,8 @@ internal_generateXMLfromBiopax_Rancho<-
         }
         
         
-        d = XML::xmlTree("rdf:RDF"
-                         ,namespaces = namespaces)
+        d = suppressWarnings(XML::xmlTree("rdf:RDF"
+                                          ,namespaces = namespaces))
         d$addNode("Ontology"
                   ,namespace = "owl"
                   ,attrs = c(`rdf:about` = "")
