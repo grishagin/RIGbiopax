@@ -23,11 +23,11 @@ gene_bag_to_biopax<-
                                   }))
                    ,"_c")
         xref_ids<-
-            paste0(gene_df$Pathway.ID
-                   ,"_cx")
+            paste0(comp_ids
+                   ,"x")
         db_ids<-
-            paste0(gene_df$Pathway.ID
-                   ,"_cxx")
+            paste0(comp_ids
+                   ,"xx")
         #declare a biopax-style data table and fill pathway components
         dTable_list$dt_comp_ids<-
             data.frame(class="Pathway"
