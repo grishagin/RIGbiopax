@@ -20,14 +20,14 @@ shrink.df.via.merge.col(dFrame = NULL
 %%     ~~Describe \code{dFrame} here~~
 }
   \item{colKey}{
-%%     ~~Describe \code{colKey} here~~
+  key column. Duplicate values are looked up in this column.
 }
   \item{colToMerge}{
-%%     ~~Describe \code{colToMerge} here~~
+  columns to merge and return. If \code{NULL}, merges returns all but \code{colKey} columns.
 }
   \item{patternToMerge}{
-%%     ~~Describe \code{patternToMerge} here~~
-}
+  pattern to use for merging of the values. Defaults to comma (\code{,}).
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

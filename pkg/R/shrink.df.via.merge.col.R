@@ -3,6 +3,16 @@ function(dFrame=NULL
              ,colKey=NULL
              ,colToMerge=NULL
              ,patternToMerge=","){
+    
+        #if the columns to merge were not indicated
+        #merge all of them
+        if (is.null(colToMerge)){
+            colToMerge<-
+                colnames(dFrame)
+            #exclude colKey
+            colToMerge<-
+                colToMerge[colToMerge!=colKey]
+        }
         
         #find duplicate keys in key column
         duplicate_keys<-
