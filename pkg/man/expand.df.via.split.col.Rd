@@ -6,12 +6,16 @@
 Split Column(s) Based on Pattern
 }
 \description{
-Wrapper for a \code{strsplit} function. In a given dataframe, split specified column values based on certain pattern. New values are inserted by duplicating corresponding rows, where the cells that were affected were located. Can work for multiple columns.
+Wrapper for a \code{strsplit} function. In a given dataframe, split specified column values based on certain pattern. 
+With multiple columns, it can work in two ways: either one after the other with \code{at_once=FALSE} or all at the same time with \code{at_once=TRUE} (default). 
+When all columns are processed at once, the function attempts to find the same number of elements (that are produced after splitting) in all columns for every row that contains the pattern.
+ If some columns have just one element, it is replicated to match the maximum number of elements. If the number of elements is otherwise not equal between the columns, an error is thrown.
 }
 \usage{
 expand.df.via.split.col(dFrame
                         ,colsToSplit
-                        ,patternToSplit = ",|;|\\|")
+                        ,patternToSplit = "\\|"
+                        ,at_once=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,6 +26,9 @@ expand.df.via.split.col(dFrame
 %%     ~~Describe \code{colToSplit} here~~
 }
   \item{patternToSplit}{
+%%     ~~Describe \code{patternToSplit} here~~
+}
+  \item{at_once}{
 %%     ~~Describe \code{patternToSplit} here~~
 }
 }
