@@ -119,7 +119,8 @@ gene_bag_to_biopax<-
             )
         dTable<-
             do.call(rbind
-                    ,dTable_list)
+                    ,dTable_list) %>%
+            .[complete.cases(.)]
         
         biopax<-
             biopax_from_dt(dTable
