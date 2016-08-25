@@ -8,7 +8,14 @@ Converts a data table with pathway and gene IDs (a "gene bag") to a BioPAX objec
 }
 \usage{
 gene_bag_to_biopax(gene_df
-                   ,filename=NULL)
+                   ,filename=NULL
+                   ,cols=list(pwid="Pathway.ID"
+                        ,pwname="Pathway.Name"
+                        ,genedisplayname="Gene.Symbol"
+                        ,genename="Gene.Name"
+                        ,genesymbol="Gene.Symbol"
+                        ,geneid="Gene.ID")
+                   )
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,6 +24,9 @@ gene_bag_to_biopax(gene_df
   }
   \item{filename}{
   output filename. If \code{NULL} (default), does not output to file.
+  }
+   \item{cols}{
+  \code{gene_df} columns, assigned to self-explanatory variables used within the function.
   }
    
 }

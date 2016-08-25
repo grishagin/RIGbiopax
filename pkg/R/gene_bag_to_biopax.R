@@ -1,27 +1,26 @@
 gene_bag_to_biopax<-
     function(gene_df=NULL
-             ,filename=NULL){
-        mandatory_cols<-
-            c("Pathway.ID"
-              ,"Pathway.Name"
-              ,"Gene.Symbol"
-              ,"Gene.ID")
-        if (is.null(colnames(gene_df))){
-            stop("gene_bag_to_biopax: gene_df does not appear to have columns!")
-        } else if (!all(colnames(gene_df) %in% mandatory_cols)){
-            stop("gene_bag_to_biopax: gene_df does not have all mandatory columns!")
-        }
+             ,filename=NULL
+             ,cols=list(pwid="Pathway.ID"
+                        ,pwname="Pathway.Name"
+                        ,genedisplayname="Gene.Symbol"
+                        ,genename="Gene.Name"
+                        ,genesymbol="Gene.Symbol"
+                        ,geneid="Gene.ID")
+             ){
+        
         #declare list to store all biopax-style data table
         dTable_list<-
             list()
         #prepare component ids
         comp_ids<-
-            paste0(gene_df$Pathway.ID
-                   ,unlist(lapply(unique(gene_df$Pathway.ID)
-                                  ,FUN = function(id){
-                                      1:sum(gene_df$Pathway.ID %in% id)
-                                  }))
-                   ,"_c")
+            paste(gene_df[,cols$pwid]
+                  ,unlist(lapply(unique(gene_df[,cols$pwid])
+                                 ,FUN = function(id){
+                                     1:sum(gene_df[,cols$pwid] %in% id)
+                                 }))
+                  ,"c"
+                  ,sep = "_")
         xref_ids<-
             paste0(comp_ids
                    ,"x")
@@ -31,7 +30,7 @@ gene_bag_to_biopax<-
         #declare a biopax-style data table and fill pathway components
         dTable_list$dt_comp_ids<-
             data.frame(class="Pathway"
-                       ,id=gene_df$Pathway.ID
+                       ,id=gene_df[,cols$pwid]
                        ,property="pathwayComponent"
                        ,property_attr="rdf:resource"
                        ,property_attr_value=comp_ids
@@ -40,13 +39,22 @@ gene_bag_to_biopax<-
         #pathway names
         dTable_list$dt_pw_names<-
             data.frame(class="Pathway"
-                       ,id=gene_df$Pathway.ID
+                       ,id=gene_df[,cols$pwid]
                        ,property="name"
                        ,property_attr="rdf:datatype"
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value=gene_df$Pathway.Name
+                       ,property_value=gene_df[,cols$pwname]
             ) %>%
             unique
+        #protein display names
+        dTable_list$dt_prot_displaynames<-
+            data.frame(class="Protein"
+                       ,id=comp_ids
+                       ,property="displayName"
+                       ,property_attr="rdf:datatype"
+                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                       ,property_value=gene_df[,cols$genedisplayname]
+            )
         #protein names
         dTable_list$dt_prot_names<-
             data.frame(class="Protein"
@@ -54,21 +62,32 @@ gene_bag_to_biopax<-
                        ,property="name"
                        ,property_attr="rdf:datatype"
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value=gene_df$Gene.Symbol
+                       ,property_value=gene_df[,cols$genename]
             )
         
         #protein entity references
         dTable_list$dt_prot_refs<-
-            data.frame(class="ProteinReference"
+            data.frame(class="Protein"
                        ,id=comp_ids
                        ,property="entityReference"
                        ,property_attr="rdf:resource"
                        ,property_attr_value=xref_ids
                        ,property_value=""
             )
-        #more protein entity references 
+        
+        #protein gene symbol
+        dTable_list$dt_prot_refs_sym<-
+            data.frame(class="ProteinReference"
+                       ,id=xref_ids
+                       ,property="name"
+                       ,property_attr="rdf:datatype"
+                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                       ,property_value=gene_df[,cols$genesymbol]
+            )
+        
+        #protein entity references to the gene 
         dTable_list$dt_prot_refs_x<-
-            data.frame(class="RelationshipXref"
+            data.frame(class="ProteinReference"
                        ,id=xref_ids
                        ,property="xref"
                        ,property_attr="rdf:resource"
@@ -93,7 +112,7 @@ gene_bag_to_biopax<-
                        ,property="id"
                        ,property_attr="rdf:datatype"
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value=gene_df$Gene.ID
+                       ,property_value=gene_df[,cols$geneid]
             )
         dTable<-
             do.call(rbind
