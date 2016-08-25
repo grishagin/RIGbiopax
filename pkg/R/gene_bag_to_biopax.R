@@ -8,7 +8,10 @@ gene_bag_to_biopax<-
                         ,genesymbol="Gene.Symbol"
                         ,geneid="Gene.ID")
              ){
-        
+        #ensure that gene_df is a dataframe
+        gene_df<-
+            gene_df %>%
+            as.data.frame
         #declare list to store all biopax-style data table
         dTable_list<-
             list()
