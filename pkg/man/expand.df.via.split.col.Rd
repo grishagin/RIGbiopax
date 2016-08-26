@@ -14,7 +14,7 @@ When all columns are processed at once, the function attempts to find the same n
 \usage{
 expand.df.via.split.col(dFrame
                         ,colsToSplit
-                        ,patternToSplit = "\\|"
+                        ,patternToSplit = "\\\\|"
                         ,at_once=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
