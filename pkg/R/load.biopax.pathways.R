@@ -46,6 +46,12 @@ function(owl_biopax=NULL){
             stop("load.biopax.pathways: check your name properties!")
         }
         
+        #if pw_biopax is still empty, try default rBiopaxParser function
+        if (nrow(pw_biopax)<1){
+            pw_biopax<-
+                listPathways(owl_biopax)
+        }
+        
         #convert names to lower case
         pw_biopax$name<-tolower(pw_biopax$name)
         
