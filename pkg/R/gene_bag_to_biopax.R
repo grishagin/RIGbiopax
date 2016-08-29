@@ -15,21 +15,41 @@ gene_bag_to_biopax<-
         #declare list to store all biopax-style data table
         dTable_list<-
             list()
+        #add unique gene name/display name combinations to the dataframe
+        gene_df$cmbn<-
+            paste0(gene_df[,cols$genedisplayname]
+                   ,gene_df[,cols$genename])
+        
         #prepare component ids
         comp_ids<-
             paste(gene_df[,cols$pwid]
                   ,unlist(lapply(unique(gene_df[,cols$pwid])
                                  ,FUN = function(id){
-                                     1:sum(gene_df[,cols$pwid] %in% id)
+                                     #rows for given pw id
+                                     rows<-
+                                         (gene_df[,cols$pwid] %in% id)
+                                     #prepare indices for unique gene name/displayname
+                                     #combinations for given pw
+                                     ind<-
+                                         match(gene_df$cmbn[rows]
+                                               ,unique(gene_df$cmbn[rows]))
+                                     return(ind)
                                  }))
                   ,"c"
                   ,sep = "_")
+        
+        
+        
+        #references to the component names/xrefs/etc
         xref_ids<-
             paste0(comp_ids
-                   ,"x")
+                   ,"x"
+                   ,internal_seq_along_find_reps(comp_ids))
+        #references to db and id names
         db_ids<-
-            paste0(comp_ids
-                   ,"xx")
+            paste0(xref_ids
+                   ,"x")
+        
         #declare a biopax-style data table and fill pathway components
         dTable_list$dt_comp_ids<-
             data.frame(class="Pathway"
