@@ -1,7 +1,7 @@
 MAIN_compare_toxdb_biopax <-
 function(work_dir=NULL
              ,source_owl_dir=NULL
-             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v010.xlsx"
+             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
              ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
              ,source_name=NULL){
     
@@ -24,10 +24,12 @@ function(work_dir=NULL
             c("BioCarta"          
               ,"KEGG"
               ,"NCI-Nature"
-              ,"NetPath"         
               ,"Reactome"         
+              ,"NetPath"         
+              ,"Wiki Pathways"
               ,"Science Signaling"
-              ,"Wiki Pathways"  
+              ,"Ayesha"
+              ,"Evgeny"
             )
         ########################################################################
         ########################################################################
