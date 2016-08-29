@@ -1,2 +1,2 @@
-exportPattern("^[^\\.]")
+exportPattern("^[^internal]")
 import(data.table)
