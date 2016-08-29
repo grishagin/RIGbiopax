@@ -1,2 +1,2 @@
-exportPattern("^[^internal]")
+exportPattern("^(?!internal)",perl=TRUE)
 import(data.table)
