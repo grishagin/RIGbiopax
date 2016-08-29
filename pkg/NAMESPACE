@@ -1,2 +1,22 @@
-exportPattern("^(?!internal)",perl=TRUE)
+export("add.biopax.ids"
+		,"add.MULT.symbols.entrezids"
+		,"add.symbols.entrezids.mygene"
+		,"add_db_ids"
+		,"adjust_columns"
+		,"biopax_from_dt"
+		,"compare_pw_components"
+		,"expand.df.via.split.col"
+		,"gene_bag_to_biopax"
+		,"load.biopax.file"
+		,"load.biopax.pathways"
+		,"load.biopax"
+		,"load.toxdb.genes.per.source"
+		,"MAIN_compare_toxdb_biopax"
+		,"merge.biopax.files"
+		,"merge.gene.comparison.results"
+		,"RIGbiopax-internal"
+		,"shrink.df.via.merge.col"
+		,"update_RIGbiopax"
+		,"writeBiopax_Rancho"
+		)
 import(data.table)
