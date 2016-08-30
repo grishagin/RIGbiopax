@@ -10,7 +10,8 @@ Internal function. Add symbols and entrez IDs to a list of genes
 }
 \usage{
 add.symbols.entrezids.mygene(df_pw_proteins = NULL
-                             ,KEYTYPE = NULL)
+                             ,KEYTYPE = NULL
+                             ,species = "human")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,6 +19,9 @@ add.symbols.entrezids.mygene(df_pw_proteins = NULL
 %%     ~~Describe \code{df_pw_proteins} here~~
 }
   \item{KEYTYPE}{
+%%     ~~Describe \code{KEYTYPE} here~~
+}
+  \item{species}{
 %%     ~~Describe \code{KEYTYPE} here~~
 }
 }

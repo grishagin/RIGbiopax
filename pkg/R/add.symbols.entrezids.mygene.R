@@ -1,6 +1,7 @@
 add.symbols.entrezids.mygene <-
 function(df_pw_proteins=NULL
-             ,KEYTYPE=NULL
+         ,KEYTYPE=NULL
+         ,species="human"
     ){
         
         require(dplyr)
@@ -22,14 +23,27 @@ function(df_pw_proteins=NULL
             queryInput<-
                 df_pw_proteins$biopax.Gene.ID[KEYTYPE_rows]
             
-            #query the input values
-            queryResults<-
-                queryMany(unique(queryInput)
-                          ,scopes=KEYTYPE
-                          ,fields=c("entrezgene","symbol")
-                          ,return.as="DataFrame"
-                          ,species="human") %>% 
-                data.frame
+            if(KEYTYPE=="entrezgene"){
+                #if querying entrezgenes -- use a different function
+                #this way, it will return results regardless of species
+                #otherwise, substantial modification of the scrip is required
+                #to accommodate for different species
+                queryResults<-
+                    getGenes(unique(queryInput)
+                             ,fields=c("entrezgene","symbol")
+                             ,return.as="DataFrame") %>% 
+                    data.frame
+            } else {
+                #query the input values
+                queryResults<-
+                    queryMany(unique(queryInput)
+                              ,scopes=KEYTYPE
+                              ,fields=c("entrezgene","symbol")
+                              ,return.as="DataFrame"
+                              ,species=species) %>% 
+                    data.frame
+            }
+
             
             if(!("entrezgene" %chin% colnames(queryResults))){
                 message("Unsuccessful query for ", KEYTYPE,".")
@@ -40,7 +54,7 @@ function(df_pw_proteins=NULL
                 queryResults %>%
                 shrink.df.via.merge.col(colKey = "query"
                                         ,colToMerge = c("entrezgene","symbol")
-                                        ,patternToMerge=",")
+                                        ,patternToMerge="|")
             
             #fill the entrez gene and symbol values
             df_pw_proteins[KEYTYPE_rows
@@ -73,7 +87,7 @@ function(df_pw_proteins=NULL
                               ,scopes="symbol"
                               ,fields="entrezgene"
                               ,return.as="DataFrame"
-                              ,species="human") %>% 
+                              ,species=species) %>% 
                     data.frame 
                 
                 if(!("entrezgene" %chin% colnames(queryResults))){
@@ -85,7 +99,7 @@ function(df_pw_proteins=NULL
                     queryResults %>%
                     shrink.df.via.merge.col(colKey = "query"
                                             ,colToMerge = "entrezgene"
-                                            ,patternToMerge=",")
+                                            ,patternToMerge="|")
                 
                 df_pw_proteins[KEYTYPE_NA_rows
                                ,c("ENTREZID","biopax.Gene.Symbol")]<-

@@ -14,7 +14,7 @@ function(df_pw_proteins=NULL
         if (is.null(df_pw_proteins)){
             stop("add_symbols_entrezids: df_pw_proteins is missing!")
         }
-        
+
         #replace db ids name with proper annotation ids
         df_pw_proteins$biopax.Gene.ID.Type<-
             tolower(df_pw_proteins$biopax.Gene.ID.Type)
@@ -40,7 +40,8 @@ function(df_pw_proteins=NULL
         #split them and expand the df
         df_pw_proteins<-
             df_pw_proteins %>%
-            expand.df.via.split.col(colsToSplit="biopax.Gene.ID")
+            expand.df.via.split.col(colsToSplit="biopax.Gene.ID"
+                                    ,patternToSplit = ",|;|\\|)
         
         #annotate data table iteratively
         for(KEYTYPE in keytypes){

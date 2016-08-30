@@ -22,6 +22,11 @@ expand.df.via.split.col <-
                 unlist %>%
                 unique
             
+            #if none affected, return original dataframe
+            if (length(rowsAffected)<1){
+                return(dFrame)
+            }
+            
             #for each row do the following
             dFrame_proc<-
                 dFrame[rowsAffected,] %>%
@@ -61,7 +66,7 @@ expand.df.via.split.col <-
                               }
                               ,N=max(veclens))
                           
-                          #now all names, symbols, and ids vectors 
+                          #now all of the vectors on the list
                           #should have the same lenghts
                           dfrow<-
                               dfrow[rep(1,max(veclens)),]

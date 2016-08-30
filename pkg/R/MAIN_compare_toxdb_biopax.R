@@ -8,11 +8,11 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
         require(RIGessentials)
 
     
-        # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
-        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
-        # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
-        # source_name=NULL
-        # source_owl_dir=NULL
+        work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
+        pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
+        toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
+        source_name=NULL
+        source_owl_dir=NULL
         
         prepareSession(work_dir
                        ,nolocale=FALSE)
@@ -134,14 +134,10 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
             mutate(biopax.Gene.Symbol=NA
                    ,ENTREZID=NA) %>%
             data.frame
-        
-        #choose keytypes to look for
-        #keytypes<-c("ENTREZID","UNIPROT")
-        
+
         #add annotations and filter out only entries with db in keytypes
         df_pw_proteins_annot<-
             add.MULT.symbols.entrezids(df_pw_proteins=df_pw_proteins
-                                       #,keytypes=keytypes
                                        ,filter_keytypes = TRUE)
         
         #ensure toxdb and annotated biopax df have same columns
