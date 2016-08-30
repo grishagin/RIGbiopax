@@ -1,6 +1,6 @@
 merge.gene.comparison.results<-
     function(dir=NULL
-             ,pattern=NULL
+             ,pattern=c("genes","pathways")
              ,filename=NULL){
         require(readxl)
         require(dplyr)
@@ -14,6 +14,9 @@ merge.gene.comparison.results<-
         if(length(files)<1){
             stop("merge.toxdb.results: Haven't found any files! Stopping.")
         }
+        #ensure pattern is of length 1
+        pattern<-
+            pattern[1]
         
         #list of dataframes for each excel file
         #which are then merged into one big df
@@ -58,13 +61,20 @@ merge.gene.comparison.results<-
             warning("merge.toxdb.results: no columns to arrange by, returning unsorted dataframe.")
         }
         
-        if(!is.null(filename)){
-            #write to excel
-            openxlsx::write.xlsx(big_df
-                                 ,file.path(filename)
-                                 ,col.names = TRUE
-                                 ,row.names = FALSE)
+        if(is.null(filename)){
+            filename<-
+                paste0(Sys.Date()
+                       ,"_ALL_SOURCES_toxdb_vs_biopax_"
+                       ,pattern
+                       ,".xlsx")
         }
+        #write to excel
+        openxlsx::write.xlsx(big_df
+                             ,file.path(dir
+                                        ,filename)
+                             ,col.names = TRUE
+                             ,row.names = FALSE)
+        
         
         return(big_df)
     }
