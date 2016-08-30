@@ -41,7 +41,7 @@ function(df_pw_proteins=NULL
         df_pw_proteins<-
             df_pw_proteins %>%
             expand.df.via.split.col(colsToSplit="biopax.Gene.ID"
-                                    ,patternToSplit = ",|;|\\|)
+                                    ,patternToSplit = ",|;|\\|")
         
         #annotate data table iteratively
         for(KEYTYPE in keytypes){
