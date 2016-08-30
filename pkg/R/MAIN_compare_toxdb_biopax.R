@@ -71,6 +71,8 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
             filter(Source==source_name) 
         all_pathways$toxdb.Pathway.Name<-
             tolower(all_pathways$toxdb.Pathway.Name)
+        all_pathways$biopax.Pathway.Name<-
+            tolower(all_pathways$biopax.Pathway.Name)
         #choose only pertaining toxdb pathway source and its elements
         toxdb<-
             load.toxdb.genes.per.source(source_name=source_name
@@ -90,7 +92,9 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
         
         #check if pathways that are supposed to be in biopax, actually are there
         mismatch_pathways<-
+            #first check if biopax file has all pathways in pathway assignment table 
             all_pathways[!(all_pathways$biopax.Pathway.Name %in% pw_biopax$biopax.Pathway.Name) |
+                             #then check if the big table with genes has those pathways as well
                              !(all_pathways$toxdb.Pathway.Name %in% toxdb$toxdb.Pathway.Name),]
         if(nrow(mismatch_pathways)>0){
             message("Some pathways from the list do not match those in biopax or toxdb gene list!")
