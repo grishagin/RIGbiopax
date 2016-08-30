@@ -47,8 +47,9 @@ MAIN_compare_toxdb_biopax <-
         }
         if(is.null(output_dir)){
             output_dir<-
-                paste0(Sys.Date()
-                       ," RESULTS toxdb-vs-biopax genes comparison")
+                file.path(work_dir
+                          ,paste0(Sys.Date()
+                                  ," RESULTS toxdb-vs-biopax genes comparison"))
         }
         if(!(source_name %in% biopax_source_names)){
             message("Choose BioPAX source name. The choice picker is likely behind your active window.")
