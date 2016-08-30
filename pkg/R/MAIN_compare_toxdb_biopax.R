@@ -180,11 +180,11 @@ MAIN_compare_toxdb_biopax <-
         openxlsx:::write.xlsx(all_pathways_pwid
                               ,file=
                                   file.path(output_dir
-                                            paste(Sys.Date()
-                                                  ,"pathways"
-                                                  ,source_name
-                                                  ,"toxdb_biopax.xlsx"
-                                                  ,sep="_"))
+                                            ,paste(Sys.Date()
+                                                   ,"pathways"
+                                                   ,source_name
+                                                   ,"toxdb_biopax.xlsx"
+                                                   ,sep="_"))
                               ,col.names=TRUE
                               ,row.names=FALSE)
         
@@ -192,11 +192,11 @@ MAIN_compare_toxdb_biopax <-
         openxlsx:::write.xlsx(comparison_results
                               ,file=
                                   file.path(output_dir
-                                            paste(Sys.Date()
-                                                  ,"genes"
-                                                  ,source_name
-                                                  ,"toxdb_biopax.xlsx"
-                                                  ,sep="_"))
+                                            ,paste(Sys.Date()
+                                                   ,"genes"
+                                                   ,source_name
+                                                   ,"toxdb_biopax.xlsx"
+                                                   ,sep="_"))
                               ,col.names=TRUE
                               ,row.names=FALSE
                               ,keepNA=TRUE)
