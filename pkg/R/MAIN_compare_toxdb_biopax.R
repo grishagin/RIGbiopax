@@ -1,5 +1,5 @@
 MAIN_compare_toxdb_biopax <-
-    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
+    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB"
              ,source_owl_dir=NULL
              ,output_dir=NULL
              ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
