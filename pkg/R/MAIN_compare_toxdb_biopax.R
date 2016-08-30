@@ -46,10 +46,15 @@ MAIN_compare_toxdb_biopax <-
             source_name<-NA
         }
         if(is.null(output_dir)){
+            #make directory for output files
+            #unless provided
             output_dir<-
                 file.path(work_dir
                           ,paste0(Sys.Date()
                                   ," RESULTS toxdb-vs-biopax genes comparison"))
+            #create said directory
+            dir.create(output_dir
+                       ,showWarnings = FALSE)
         }
         if(!(source_name %in% biopax_source_names)){
             message("Choose BioPAX source name. The choice picker is likely behind your active window.")
