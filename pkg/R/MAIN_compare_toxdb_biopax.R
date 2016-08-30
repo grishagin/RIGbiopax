@@ -1,18 +1,19 @@
 MAIN_compare_toxdb_biopax <-
-function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
+    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
              ,source_owl_dir=NULL
+             ,output_dir=NULL
              ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
              ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
              ,source_name=NULL){
-    
+        
         require(RIGessentials)
-
-    
-        work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
-        pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
-        toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
-        source_name=NULL
-        source_owl_dir=NULL
+        
+        
+        # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
+        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
+        # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
+        # source_name=NULL
+        # source_owl_dir=NULL
         
         prepareSession(work_dir
                        ,nolocale=FALSE)
@@ -44,13 +45,18 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
         if(is.null(source_name)){
             source_name<-NA
         }
+        if(is.null(output_dir)){
+            output_dir<-
+                paste0(Sys.Date()
+                       ," RESULTS toxdb-vs-biopax genes comparison")
+        }
         if(!(source_name %in% biopax_source_names)){
             message("Choose BioPAX source name. The choice picker is likely behind your active window.")
             source_name<-
                 tkradio_from_vect(biopax_source_names
                                   ,"Select BioPAX Source.")
         }
-      
+        
         #load all pathways matched up
         pathways_per_source<-
             read_excel(path = pw_matchup_file
@@ -134,7 +140,7 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
             mutate(biopax.Gene.Symbol=NA
                    ,ENTREZID=NA) %>%
             data.frame
-
+        
         #add annotations and filter out only entries with db in keytypes
         df_pw_proteins_annot<-
             add.MULT.symbols.entrezids(df_pw_proteins=df_pw_proteins
@@ -172,21 +178,25 @@ function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
         ####################### output #################################
         #output the present and absent pathways into respective files
         openxlsx:::write.xlsx(all_pathways_pwid
-                              ,file=paste(Sys.Date()
-                                          ,"pathways"
-                                          ,source_name
-                                          ,"toxdb_biopax.xlsx"
-                                          ,sep="_")
+                              ,file=
+                                  file.path(output_dir
+                                            paste(Sys.Date()
+                                                  ,"pathways"
+                                                  ,source_name
+                                                  ,"toxdb_biopax.xlsx"
+                                                  ,sep="_"))
                               ,col.names=TRUE
                               ,row.names=FALSE)
         
         #output the comparison results
         openxlsx:::write.xlsx(comparison_results
-                              ,file=paste(Sys.Date()
-                                          ,"genes"
-                                          ,source_name
-                                          ,"toxdb_biopax.xlsx"
-                                          ,sep="_")
+                              ,file=
+                                  file.path(output_dir
+                                            paste(Sys.Date()
+                                                  ,"genes"
+                                                  ,source_name
+                                                  ,"toxdb_biopax.xlsx"
+                                                  ,sep="_"))
                               ,col.names=TRUE
                               ,row.names=FALSE
                               ,keepNA=TRUE)
