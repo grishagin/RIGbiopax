@@ -2,7 +2,7 @@ MAIN_compare_toxdb_biopax <-
     function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB"
              ,source_owl_dir=NULL
              ,output_dir=NULL
-             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
+             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v014.xlsx"
              ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
              ,source_name=NULL){
         
@@ -10,7 +10,7 @@ MAIN_compare_toxdb_biopax <-
         
         
         # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
-        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v013.xlsx"
+        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v014.xlsx"
         # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
         # source_name=NULL
         # source_owl_dir=NULL
