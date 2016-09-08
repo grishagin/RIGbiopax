@@ -179,7 +179,13 @@ MAIN_compare_toxdb_biopax <-
                                             ,dfrow=x
                                             ,output="all"
                       )}
-            )
+            ) %>%
+            #remove duplicated biopax pathways
+            internal_rm_duplicated_biopax_pw
+        #also clean up pathways dataframe accordingly
+        all_pathways_pwid<-
+            all_pathways_pwid %>%
+            filter(biopax.Pathway.ID %in% comparison_results$biopax.Pathway.ID)
         ####################### correlate which genes match ################################
         
         ####################### output #################################

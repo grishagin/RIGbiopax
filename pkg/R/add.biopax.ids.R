@@ -15,7 +15,10 @@ function(all_pathways
                           mutate(biopax.Pathway.ID=biopaxID)
                       
                       if(length(biopaxID)>1) {
-                          message("Found ",length(biopaxID)," IDs for ",unique(dfrow$biopax.Pathway.Name))
+                          message("add.biopax.ids: Found "
+                                  ,length(biopaxID)
+                                  ," IDs for "
+                                  ,unique(dfrow$biopax.Pathway.Name))
                       }
                       return(dfrow)
                       

@@ -25,23 +25,24 @@ merge.gene.comparison.results<-
                    ,read_excel) %>%
             do.call(rbind,.) 
         
-        if(all(c("ENTREZID","toxdb.Gene.ID","biopax.Gene.ID.Type") %chin% 
-           colnames(big_df))
-        ){
-            .genematch<-
-                rep(NA,nrow(big_df))
-            .genematch[which(big_df$ENTREZID==big_df$toxdb.Gene.ID)]<-
-                "1_match"
-            .genematch[which(is.na(big_df$biopax.Gene.ID.Type) & !is.na(big_df$toxdb.Gene.ID))]<-
-                "2_toxdb"
-            .genematch[which(!is.na(big_df$biopax.Gene.ID.Type) & is.na(big_df$toxdb.Gene.ID))]<-
-                "3_biopax"
-            .genematch[which(is.na(big_df$biopax.Gene.ID.Type) & is.na(big_df$toxdb.Gene.ID))]<-
-                "4_genes_not_found"
-            big_df <-
-                big_df%>%
-                mutate(.genematch=.genematch) 
-        }
+        # deprecated
+        # if(all(c("ENTREZID","toxdb.Gene.ID","biopax.Gene.ID.Type") %chin% 
+        #    colnames(big_df))
+        # ){
+        #     .genematch<-
+        #         rep(NA,nrow(big_df))
+        #     .genematch[which(big_df$ENTREZID==big_df$toxdb.Gene.ID)]<-
+        #         "1_match"
+        #     .genematch[which(is.na(big_df$biopax.Gene.ID.Type) & !is.na(big_df$toxdb.Gene.ID))]<-
+        #         "2_toxdb"
+        #     .genematch[which(!is.na(big_df$biopax.Gene.ID.Type) & is.na(big_df$toxdb.Gene.ID))]<-
+        #         "3_biopax"
+        #     .genematch[which(is.na(big_df$biopax.Gene.ID.Type) & is.na(big_df$toxdb.Gene.ID))]<-
+        #         "4_genes_not_found"
+        #     big_df <-
+        #         big_df%>%
+        #         mutate(.genematch=.genematch) 
+        # }
 
         #look at colnames to arrange by
         arrng_cols<-
