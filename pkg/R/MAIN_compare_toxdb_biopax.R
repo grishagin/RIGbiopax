@@ -214,4 +214,8 @@ MAIN_compare_toxdb_biopax <-
                               ,col.names=TRUE
                               ,row.names=FALSE
                               ,keepNA=TRUE)
+        rm(owl_biopax)
+        invisible(tkmessageBox(message = "All done!"
+                               ,icon = "info"
+                               ,type = "ok"))        
     }
