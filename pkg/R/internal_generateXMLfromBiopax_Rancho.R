@@ -38,15 +38,18 @@ internal_generateXMLfromBiopax_Rancho<-
                                      id == instanceList[i]$id, ]
             d$addNode(as.character(instance[1]$class)
                       ,namespace = "bp"
-                      ,attrs = c(`rdf:ID` = as.character(instance[1]$id))
+                      #,attrs = c(`rdf:ID` = as.character(instance[1]$id))
+                      #rdf:ID does not seem to work for SBML conversion -- yields empty document
+                      #in wiki, rdf:ID is replaced with rdf:about -- seems to work
+                      #inexplicably, original biocarta file works though
+                      ,attrs = c(`rdf:about` = as.character(instance[1]$id))
                       ,close = FALSE)
             
             for (p in 1:dim(instance)[1]) {
                 attrs = c(as.character(instance[p]$property_attr_value))
                 names(attrs) = as.character(instance[p]$property_attr)
                 
-                if (nchar(as.character(instance[p]$property_value)) > 
-                    0) {
+                if (nchar(as.character(instance[p]$property_value)) > 0) {
                     d$addNode(as.character(instance[p]$property), 
                               as.character(instance[p]$property_value)
                               ,namespace = "bp"
