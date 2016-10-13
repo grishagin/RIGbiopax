@@ -102,6 +102,10 @@ merge.biopax.files<-
                        return(temp_biopax$dt)
                    }) %>%
             do.call(rbind,.)
+        #remove hashes if any
+        new_biopax_dt$property_attr_value<-
+            rBiopaxParser:::striphash(new_biopax_dt$property_attr_value)
+            
         #create new biopax
         new_biopax<-
             createBiopax(level=3)
