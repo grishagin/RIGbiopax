@@ -85,16 +85,19 @@ merge.biopax.files<-
                            .$id %>%
                            unique
                        
-                       temp_biopax<-
-                           addPathwayComponents(temp_biopax
-                                                ,pwid
-                                                ,PATHWAY_COMPONENTS=nonref_ids)
-                       message("Added pathway components "
-                               ,paste(nonref_ids
-                                      ,collapse=", ")
-                               ," for the pathway "
-                               ,pwid
-                               ,".")
+                       if(length(nonref_ids)>0){
+                           #add previously un-referenced ids as new components
+                           temp_biopax<-
+                               addPathwayComponents(temp_biopax
+                                                    ,pwid
+                                                    ,PATHWAY_COMPONENTS=nonref_ids)
+                           message("Added pathway components "
+                                   ,paste(nonref_ids
+                                          ,collapse=", ")
+                                   ," for the pathway "
+                                   ,pwid
+                                   ,".")
+                       }
                       
                        return(temp_biopax$dt)
                    }) %>%
