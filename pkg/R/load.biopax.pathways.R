@@ -12,7 +12,7 @@ function(owl_biopax=NULL){
         #sometimes they are presented as standard name and name
         #and when they don't coincide, such "standardnames" are just GO processes
         if ("displayname" %in% name_properties) {
-            #get instances of name and displayName of class pathway
+            #get instances of displayName of class pathway
             owl_biopax_instances_stname<-
                 selectInstances(biopax=owl_biopax,
                                 class="pathway",
@@ -41,6 +41,17 @@ function(owl_biopax=NULL){
             #subset a standardname df, select id and property columns
             pw_biopax<-
                 owl_biopax_instances_stname[matching_rows,] %>%
+                dplyr::select(id, name=property_value)
+        } else if ("name" %in% name_properties) {
+            #get instances of name of class pathway
+            owl_biopax_instances_stname<-
+                selectInstances(biopax=owl_biopax,
+                                class="pathway",
+                                property="name") 
+            
+            #subset a standardname df, select id and property columns
+            pw_biopax<-
+                owl_biopax_instances_stname %>%
                 dplyr::select(id, name=property_value)
         } else {
             stop("load.biopax.pathways: check your name properties!")
