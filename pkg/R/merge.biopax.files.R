@@ -27,8 +27,8 @@ merge.biopax.files<-
         new_biopax_dt<-
             lapply(owl.filename
                    ,FUN=function(filename){
-                       biopax<-readBiopax(filename)
-                       dt<-biopax$dt
+                       temp_biopax<-readBiopax(filename)
+                       dt<-temp_biopax$dt
                        file_id<-
                            #get the filename without path
                            strsplit(filename
@@ -52,12 +52,46 @@ merge.biopax.files<-
                            dt$id<-
                                paste(dt$id
                                      ,file_id
-                                     ,sep="_pwref_")
+                                     #,sep="_pwref_")
+                                     ,sep="_")
+                           
                            dt$property_attr_value[clean_ref_ids %chin% ids]<-
                                dt$property_attr_value[clean_ref_ids %chin% ids] %>%
                                paste(file_id
-                                     ,sep="_pwref_")
+                                     #,sep="_pwref_")
+                                     ,sep="_")
+                           
                        }
+                       #change the dt in the temporary biopax object
+                       temp_biopax$dt<-
+                           dt
+                       
+                       #fix missing components
+                       #get all non-referenced ids except for pathway one
+                       #pathway ids
+                       pwid<-
+                           load.biopax.pathways(temp_biopax)
+                       if(length(pwid)>1){
+                           message("There's more than one pwid in the file "
+                                   ,file_id
+                                   ,"! Taking the first one with lowest number.")
+                           pwid<-
+                               sort(pwid)[1]
+                       }
+                       nonref_ids<-
+                           temp_biopax$dt %>%
+                           filter(!id %in% property_attr_value &
+                                      !id %in% pwid) %>%
+                           .$id %>%
+                           unique
+                       
+                       temp_biopax<-
+                           addPathwayComponents(temp_biopax
+                                                ,pwid
+                                                ,PATHWAY_COMPONENTS=nonref_ids)
+                       message("Added pathway components for the pathway "
+                               ,pwid
+                               ,".")
                       
                        return(dt)
                    }) %>%
@@ -68,6 +102,8 @@ merge.biopax.files<-
         new_biopax<-
             addBiopaxInstances(biopax=new_biopax
                                ,newInstancesDF=new_biopax_dt)
+
+        
         if(write_to_file){
             biopax_filename<-
                 paste(Sys.Date()

@@ -1,5 +1,5 @@
 add_db_ids <-
-function(owl_biopax=NULL
+    function(owl_biopax=NULL
              ,pw_id=NULL
              ,biopaxlevel=3){
         
@@ -27,26 +27,34 @@ function(owl_biopax=NULL
         #which sometimes do not have explicit relationships between components
         #and genes/proteins (i.e. these pathways are simply "gene bags")
         #to include them, first determine if there's a pathway reference
-        if(length(grep("_pwref_",pw_id))>0){
-            pwref<-
-                strsplit(pw_id,"_pwref_") %>%
-                unlist %>%
-                .[length(.)]
-            #get all instances with said pwref
-            pw_components_ids<-
-                owl_biopax$dt$id %>%
-                grep(pwref
-                     ,.
-                     ,value = TRUE)
-            
-        } else {
+        
+        #deprecated
+        # if(length(grep("_pwref_",pw_id))>0){
+        #     pwref<-
+        #         strsplit(pw_id,"_pwref_") %>%
+        #         unlist %>%
+        #         .[length(.)]
+        #     #get all instances with said pwref
+        #     pw_components_ids<-
+        #         owl_biopax$dt$id %>%
+        #         grep(pwref
+        #              ,.
+        #              ,value = TRUE)
+        #     
+        # } else {
             #if no such reference has been found
             #look for component ids
-            pw_components_ids<-
-                listPathwayComponents(biopax=owl_biopax
-                                      ,id=pw_id
-                                      ,returnIDonly=TRUE
-                                      ,biopaxlevel=biopaxlevel)
+        pw_components_ids<-
+            listPathwayComponents(biopax=owl_biopax
+                                  ,id=pw_id
+                                  ,returnIDonly=TRUE
+                                  ,biopaxlevel=biopaxlevel)
+        #}
+        if (is.null(pw_components_ids) | 
+            is.na(pw_components_ids)){
+            stop("add_db_ids: could not find any components in pathway "
+                 ,pw_id
+                 ,"!")
         }
     
         #get component instances
@@ -58,7 +66,7 @@ function(owl_biopax=NULL
             
         
         #determine Xref class name
-        print(pw_id)
+        #print(pw_id)
         
         #get a dataframe of db names and db ids
         #also add pw name and pw id columns
