@@ -70,7 +70,7 @@ merge.biopax.files<-
                        #get all non-referenced ids except for pathway one
                        #pathway ids
                        pwid<-
-                           load.biopax.pathways(temp_biopax)
+                           load.biopax.pathways(temp_biopax)$biopax.Pathway.ID
                        if(length(pwid)>1){
                            message("There's more than one pwid in the file "
                                    ,file_id
@@ -89,11 +89,14 @@ merge.biopax.files<-
                            addPathwayComponents(temp_biopax
                                                 ,pwid
                                                 ,PATHWAY_COMPONENTS=nonref_ids)
-                       message("Added pathway components for the pathway "
+                       message("Added pathway components "
+                               ,paste(nonref_ids
+                                      ,collapse=", ")
+                               ," for the pathway "
                                ,pwid
                                ,".")
                       
-                       return(dt)
+                       return(temp_biopax$dt)
                    }) %>%
             do.call(rbind,.)
         #create new biopax
