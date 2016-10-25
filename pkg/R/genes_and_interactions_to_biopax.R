@@ -41,6 +41,9 @@ genes_and_interactions_to_biopax<-
         gene_df_orig<-
             gene_df %>%
             as.data.frame
+        #replace all text "NA" with real NA values
+        gene_df_orig[gene_df_orig %in% "NA"]<-
+            NA
 
         #first component left or right property
         #NA by default, and left only if 
@@ -61,16 +64,54 @@ genes_and_interactions_to_biopax<-
         gene_df_orig$second_ctrl_prop[!is.na(gene_df_orig[,cols$ctrl_class])]<-
             "controlled"
         
+        #make up control component ids
+        gene_df_orig$ctrl_id<-
+            paste(gene_df_orig[,cols$pwid]
+                  ,RIGbiopax:::internal_seq_along_find_reps(gene_df_orig[,cols$pwid])
+                  ,sep="_"
+            )
+        #make up controlled reaction ids in the same way
+        #as control component ids
+        gene_df_orig$rxn_id<-
+            paste0(gene_df_orig$ctrl_id
+                   ,"rxn")
+        
+        #split the pmid_author column lengthwise
+        gene_df_orig<-
+            gene_df_orig %>%
+            split_cols_lengthen_df(colsToSplit = cols$pmid_author
+                                   ,patternToSplit = "\\|"
+            ) %>%
+            #split pmid from author into sep columns
+            split_col_widen_df(colToSplit = cols$pmid_author
+                               ,split = ":"
+                               ,newcolnames=c("pmid"
+                                              ,"author"))
+
+        #add pmids by merging original ctrl ids 
+        #with "pmid" and additional numeric identifier to distinguish between different 
+        #pmid/author combos that belong to the same entity
+        gene_df_orig$pmid_id<-
+            paste(gene_df_orig$ctrl_id
+                  ,"pmid"
+                  ,RIGbiopax:::internal_seq_along_find_reps(gene_df_orig$ctrl_id)
+                  ,sep=""
+            )
+        
         #stack first gene df over second gene df
         gene_df<-
             data.frame(pwid=
                            gene_df_orig[,cols$pwid]
                        ,srcpwname=
                            gene_df_orig[,cols$srcpwname]
+                       ,ctrl_id=
+                           gene_df_orig$ctrl_id
                        ,ctrl_class=
                            gene_df_orig[,cols$ctrl_class]
                        ,ctrl_type=
                            gene_df_orig[,cols$ctrl_type]
+                       ,rxn_id=
+                           gene_df_orig$rxn_id
                        ,rxn_class=
                            gene_df_orig[,cols$rxn_class]
                        
@@ -86,17 +127,25 @@ genes_and_interactions_to_biopax<-
                            gene_df_orig[,cols$first_geneid]
                        ,left_right=
                            gene_df_orig$first_left_right
-                       ,pmid_author=
-                           gene_df_orig[,cols$pmid_author]
+                       ,pmid_id=
+                           gene_df_orig$pmid_id
+                       ,pmid=
+                           gene_df_orig$pmid
+                       ,author=
+                           gene_df_orig$author
             ) %>%
             rbind.data.frame(data.frame(pwid=
                                             gene_df_orig[,cols$pwid]
                                         ,srcpwname=
                                             gene_df_orig[,cols$srcpwname]
+                                        ,ctrl_id=
+                                            gene_df_orig$ctrl_id
                                         ,ctrl_class=
                                             gene_df_orig[,cols$ctrl_class]
                                         ,ctrl_type=
                                             gene_df_orig[,cols$ctrl_type]
+                                        ,rxn_id=
+                                            gene_df_orig$rxn_id
                                         ,rxn_class=
                                             gene_df_orig[,cols$rxn_class]
                                         
@@ -112,31 +161,13 @@ genes_and_interactions_to_biopax<-
                                             gene_df_orig[,cols$second_geneid]
                                         ,left_right=
                                             gene_df_orig[,cols$second_left_right]
-                                        ,pmid_author=
-                                            gene_df_orig[,cols$pmid_author]
+                                        ,pmid_id=
+                                            gene_df_orig$pmid_id
+                                        ,pmid=
+                                            gene_df_orig$pmid
+                                        ,author=
+                                            gene_df_orig$author
                                         ))
-        
-        # #make up control component ids
-        gene_df$ctrl_id<-
-            paste(gene_df$pwid
-                   ,RIGbiopax:::internal_seq_along_find_reps(gene_df$pwid)
-                  ,sep="_"
-            )
-
-        #make up controlled reaction ids in the same way
-        gene_df$rxn_id<-
-            paste0(gene_df$ctrl_id
-                   ,"rxn")
-        gene_df$pmid_id<-
-            paste0(gene_df$ctrl_id
-                   ,"pmid")
-        #which are not control
-        noctrl<-
-            is.na(gene_df$ctrl_class)
-        #which are neither control nor reaction
-        noctrlrxn<-
-            is.na(gene_df$ctrl_class) &
-            is.na(gene_df$rxn_class)
         
         #split the name/geneid/etc cols by pipe
         gene_df<-
@@ -146,23 +177,17 @@ genes_and_interactions_to_biopax<-
                                                  ,"genesym"
                                                  ,"geneid")
                                    ,patternToSplit = "\\|"
-                                   ,at_once=TRUE) %>%
-            split_cols_lengthen_df(colsToSplit=c("pmid_author")
-                                   ,patternToSplit = "\\|"
-            ) %>%
-            #split pmid from author into sep columns
-            split_col_widen_df(colToSplit = "pmid_author"
-                               ,split = ":"
-                               ,newcolnames=c("pmid"
-                                              ,"author"))
+                                   ,at_once=TRUE
+                                   )
         
-        #add additional identifiers to distinguish between different 
-        #pmid/author combos that belong to the same entity
-        gene_df$pmid_id<-
-            paste(gene_df$pmid_id
-                  ,RIGbiopax:::internal_seq_along_find_reps(gene_df$pmid_id)
-                  ,sep=""
-            )
+        #which are not control
+        noctrl<-
+            is.na(gene_df$ctrl_class)
+        #which are neither control nor reaction
+        noctrlrxn<-
+            is.na(gene_df$ctrl_class) &
+            is.na(gene_df$rxn_class)
+        
         
         #make individual entity (protein) ids
         #by merging name, displayname, and id
