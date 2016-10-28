@@ -6,6 +6,8 @@ genes_and_interactions_to_biopax<-
                         ,srcpwname=
                             "source.Pathway.Name"
                         
+                        ,first_class=
+                            NULL
                         ,first_dispname=
                             "first_prot_sym"
                         ,first_name=
@@ -14,7 +16,13 @@ genes_and_interactions_to_biopax<-
                             "first_gene_sym"
                         ,first_geneid=
                             "first_gene_id"
+                        ,first_species=
+                            NULL
+                        ,first_taxid=
+                            NULL
                         
+                        ,second_class=
+                            NULL
                         ,second_dispname=
                             "second_prot_sym"	
                         ,second_name=
@@ -23,6 +31,10 @@ genes_and_interactions_to_biopax<-
                             "second_gene_sym"
                         ,second_geneid=
                             "second_gene_id"
+                        ,second_species=
+                            NULL
+                        ,second_taxid=
+                            NULL
                         
                         ,pmid_author=
                             "pmid_author"
@@ -35,6 +47,7 @@ genes_and_interactions_to_biopax<-
                             "control_type"
                         ,second_left_right=
                             "second_left_right"
+
                         )
     ){
         #ensure that gene_df is a dataframe
@@ -91,12 +104,12 @@ genes_and_interactions_to_biopax<-
         #add pmids by merging original ctrl ids 
         #with "pmid" and additional numeric identifier to distinguish between different 
         #pmid/author combos that belong to the same entity
-        gene_df_orig$pmid_id<-
-            paste(gene_df_orig$ctrl_id
-                  ,"pmid"
-                  ,RIGbiopax:::internal_seq_along_find_reps(gene_df_orig$ctrl_id)
-                  ,sep=""
-            )
+        # gene_df_orig$pmid_id<-
+        #     paste(gene_df_orig$ctrl_id
+        #           ,"pmid"
+        #           ,RIGbiopax:::internal_seq_along_find_reps(gene_df_orig$ctrl_id)
+        #           ,sep=""
+        #     )
         
         #stack first gene df over second gene df
         gene_df<-
@@ -114,9 +127,11 @@ genes_and_interactions_to_biopax<-
                            gene_df_orig$rxn_id
                        ,rxn_class=
                            gene_df_orig[,cols$rxn_class]
-                       
                        ,ctrl_prop=
                            gene_df_orig$first_ctrl_prop
+                       
+                       ,entity_class=
+                           gene_df_orig[,cols$first_class]
                        ,dispname=
                            gene_df_orig[,cols$first_dispname]
                        ,name=
@@ -127,12 +142,17 @@ genes_and_interactions_to_biopax<-
                            gene_df_orig[,cols$first_geneid]
                        ,left_right=
                            gene_df_orig$first_left_right
-                       ,pmid_id=
-                           gene_df_orig$pmid_id
+                       # ,pmid_id=
+                       #     gene_df_orig$pmid_id
                        ,pmid=
                            gene_df_orig$pmid
                        ,author=
                            gene_df_orig$author
+                       
+                       ,species=
+                           gene_df_orig[,cols$first_species]
+                       ,taxid=
+                           gene_df_orig[,cols$first_taxid]
             ) %>%
             rbind.data.frame(data.frame(pwid=
                                             gene_df_orig[,cols$pwid]
@@ -148,9 +168,11 @@ genes_and_interactions_to_biopax<-
                                             gene_df_orig$rxn_id
                                         ,rxn_class=
                                             gene_df_orig[,cols$rxn_class]
-                                        
                                         ,ctrl_prop=
                                             gene_df_orig$second_ctrl_prop
+                                        
+                                        ,entity_class=
+                                            gene_df_orig[,cols$second_class]
                                         ,dispname=
                                             gene_df_orig[,cols$second_dispname]
                                         ,name=
@@ -161,13 +183,42 @@ genes_and_interactions_to_biopax<-
                                             gene_df_orig[,cols$second_geneid]
                                         ,left_right=
                                             gene_df_orig[,cols$second_left_right]
-                                        ,pmid_id=
-                                            gene_df_orig$pmid_id
+                                        # ,pmid_id=
+                                        #     gene_df_orig$pmid_id
                                         ,pmid=
                                             gene_df_orig$pmid
                                         ,author=
                                             gene_df_orig$author
+                                        
+                                        ,species=
+                                            gene_df_orig[,cols$second_species]
+                                        ,taxid=
+                                            gene_df_orig[,cols$second_taxid]
                                         ))
+        
+        #fill columns of 0 length with NA values
+        #0-length columns originate from assigining NULL-value columns
+        for (cname in colnames(gene_df)) {
+            if(length(gene_df[,cname])<1){
+                gene_df[,cname]<-NA
+            }
+        }
+        #make pmid ids by equating them to pmid/author combination
+        #for those which don't have either -- fill NA
+        gene_df$pmid_id<-
+            paste0("pmid_"
+                   ,gene_df$pmid
+                   )
+        gene_df$pmid_id[is.na(gene_df$pmid)]<-
+            NA
+        
+        
+        #replace all missing entity classes with "Protein"
+        gene_df$entity_class[is.na(gene_df$entity_class)]<-
+            "Protein"
+        gene_df$entref_class<-
+            paste0(gene_df$entity_class
+                   ,"Reference")
         
         #split the name/geneid/etc cols by pipe
         gene_df<-
@@ -175,7 +226,9 @@ genes_and_interactions_to_biopax<-
             split_cols_lengthen_df(colsToSplit=c("dispname"
                                                  ,"name"
                                                  ,"genesym"
-                                                 ,"geneid")
+                                                 ,"geneid"
+                                                 ,"species"
+                                                 ,"taxid")
                                    ,patternToSplit = "\\|"
                                    ,at_once=TRUE
                                    )
@@ -190,10 +243,18 @@ genes_and_interactions_to_biopax<-
         
         
         #make individual entity (protein) ids
-        #by merging name, displayname, and id
+        #by displayname, and id
         #this way they'll be unique
+        #just in case, if both disp name and gene id are NA
+        #return NA
         gene_df$entity_id<-
-            gene_df$geneid
+            paste(gene_df$dispname
+                  ,gene_df$geneid
+                  ,sep="_")
+        gene_df$entity_id[is.na(gene_df$dispname) &
+                              is.na(gene_df$geneid)]<-
+            NA
+            
         #make up component ids
         #first, populate with control ids and classes
         gene_df$comp_id<-
@@ -205,20 +266,43 @@ genes_and_interactions_to_biopax<-
             gene_df$rxn_id[noctrl]
         gene_df$comp_class[noctrl]<-
             gene_df$rxn_class[noctrl]
-        #finally, those which don't have ctrl class or rxn class, populate with entity ids
-        #classes are protein
+        #finally, those which don't have ctrl class or rxn class
+        #populate with entity ids classes are protein
         gene_df$comp_id[noctrlrxn]<-
             gene_df$entity_id[noctrlrxn]
         gene_df$comp_class[noctrlrxn]<-
-            "Protein"
+            gene_df$entity_class[noctrlrxn]
         
         #add entityref and xref ids
+        #those, which do not have gene ids
+        #make into NA values
+        #so that there won't be links leading to nothing
         gene_df$entref_id<-
-            paste0(gene_df$entity_id
-                   ,"x")
+            paste0("protref_"
+                   ,gene_df$genesym
+                   )
+        gene_df$entref_id[is.na(gene_df$genesym)]<-
+            NA
         gene_df$xref_id<-
-            paste0(gene_df$entity_id
-                   ,"xx")
+            paste0("xref_"
+                   ,gene_df$geneid
+            )
+        gene_df$xref_id[is.na(gene_df$geneid)]<-
+            NA
+        
+        #add organism and taxonomy ids
+        gene_df$org_id<-
+            paste0("biosrc_"
+                   ,gene_df$taxid)  
+        gene_df$org_id[is.na(gene_df$species)]<-
+            NA
+        gene_df$taxid_id<-
+            paste0("taxon_"
+                   ,gene_df$taxid) 
+        gene_df$taxid_id[is.na(gene_df$taxid)]<-
+            NA
+        
+        
         
         ################################################################################
         #declare list to store all biopax-style data table
@@ -321,7 +405,7 @@ genes_and_interactions_to_biopax<-
         
         #protein display names
         dTable_list$dt_prot_dispname<-
-            data.frame(class="Protein"
+            data.frame(class=gene_df$entity_class
                        ,id=gene_df$entity_id
                        ,property="displayName"
                        ,property_attr="rdf:datatype"
@@ -330,7 +414,7 @@ genes_and_interactions_to_biopax<-
             )
         #protein names
         dTable_list$dt_prot_name<-
-            data.frame(class="Protein"
+            data.frame(class=gene_df$entity_class
                        ,id=gene_df$entity_id
                        ,property="name"
                        ,property_attr="rdf:datatype"
@@ -340,7 +424,7 @@ genes_and_interactions_to_biopax<-
         
         #protein entity references
         dTable_list$dt_prot_refs<-
-            data.frame(class="Protein"
+            data.frame(class=gene_df$entity_class
                        ,id=gene_df$entity_id
                        ,property="entityReference"
                        ,property_attr="rdf:resource"
@@ -350,7 +434,7 @@ genes_and_interactions_to_biopax<-
         
         #protein gene symbol
         dTable_list$dt_prot_refs_sym<-
-            data.frame(class="ProteinReference"
+            data.frame(class=gene_df$entref_class
                        ,id=gene_df$entref_id
                        ,property="name"
                        ,property_attr="rdf:datatype"
@@ -360,7 +444,7 @@ genes_and_interactions_to_biopax<-
         
         #protein entity references to the gene 
         dTable_list$dt_prot_refs_x<-
-            data.frame(class="ProteinReference"
+            data.frame(class=gene_df$entref_class
                        ,id=gene_df$entref_id
                        ,property="xref"
                        ,property_attr="rdf:resource"
@@ -386,6 +470,58 @@ genes_and_interactions_to_biopax<-
                        ,property_attr="rdf:datatype"
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
                        ,property_value=gene_df$geneid
+            )
+        
+        
+        
+        
+        
+        
+        #protein entity references to the gene 
+        dTable_list$dt_org<-
+            data.frame(class="ProteinReference"
+                       ,id=gene_df$entref_id
+                       ,property="organism"
+                       ,property_attr="rdf:resource"
+                       ,property_attr_value=gene_df$org_id
+                       ,property_value=""
+            )
+        
+        dTable_list$dt_org_name<-
+            data.frame(class="BioSource"
+                       ,id=gene_df$org_id
+                       ,property="dispName"
+                       ,property_attr="rdf:datatype"
+                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                       ,property_value=gene_df$species
+            )
+        dTable_list$dt_org_tax_ref<-
+            data.frame(class="BioSource"
+                       ,id=gene_df$org_id
+                       ,property="taxonXref"
+                       ,property_attr="rdf:resource"
+                       ,property_attr_value=gene_df$taxid_id
+                       ,property_value=""
+            )
+        
+        #protein id db
+        dTable_list$dt_org_tax_db<-
+            data.frame(class="UnificationXref"
+                       ,id=gene_df$taxid_id
+                       ,property="db"
+                       ,property_attr="rdf:datatype"
+                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                       ,property_value="entrezgene"
+            )
+        
+        #protein gene id
+        dTable_list$dt_org_tax_id<-
+            data.frame(class="UnificationXref"
+                       ,id=gene_df$taxid_id
+                       ,property="id"
+                       ,property_attr="rdf:datatype"
+                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                       ,property_value=gene_df$taxid
             )
         
         dTable<-
