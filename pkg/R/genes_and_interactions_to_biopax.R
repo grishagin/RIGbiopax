@@ -50,6 +50,26 @@ genes_and_interactions_to_biopax<-
 
                         )
     ){
+        #mandatory columns in the final df
+        mandatory_cols<-
+            c("pwid"
+              ,"srcpwname"
+              ,"ctrl_id"
+              ,"ctrl_class"
+              ,"ctrl_type"
+              ,"rxn_id"
+              ,"rxn_class"
+              ,"ctrl_prop"
+              ,"entity_class"
+              ,"dispname"
+              ,"name"
+              ,"genesym"
+              ,"geneid"
+              ,"left_right"
+              ,"pmid"
+              ,"author"
+              ,"species"
+              ,"taxid")
         #ensure that gene_df is a dataframe
         gene_df_orig<-
             gene_df %>%
@@ -101,16 +121,6 @@ genes_and_interactions_to_biopax<-
                                ,newcolnames=c("pmid"
                                               ,"author"))
 
-        #add pmids by merging original ctrl ids 
-        #with "pmid" and additional numeric identifier to distinguish between different 
-        #pmid/author combos that belong to the same entity
-        # gene_df_orig$pmid_id<-
-        #     paste(gene_df_orig$ctrl_id
-        #           ,"pmid"
-        #           ,RIGbiopax:::internal_seq_along_find_reps(gene_df_orig$ctrl_id)
-        #           ,sep=""
-        #     )
-        
         #stack first gene df over second gene df
         gene_df<-
             data.frame(pwid=
@@ -142,8 +152,6 @@ genes_and_interactions_to_biopax<-
                            gene_df_orig[,cols$first_geneid]
                        ,left_right=
                            gene_df_orig$first_left_right
-                       # ,pmid_id=
-                       #     gene_df_orig$pmid_id
                        ,pmid=
                            gene_df_orig$pmid
                        ,author=
@@ -183,8 +191,6 @@ genes_and_interactions_to_biopax<-
                                             gene_df_orig[,cols$second_geneid]
                                         ,left_right=
                                             gene_df_orig[,cols$second_left_right]
-                                        # ,pmid_id=
-                                        #     gene_df_orig$pmid_id
                                         ,pmid=
                                             gene_df_orig$pmid
                                         ,author=
@@ -198,9 +204,9 @@ genes_and_interactions_to_biopax<-
         
         #fill columns of 0 length with NA values
         #0-length columns originate from assigining NULL-value columns
-        for (cname in colnames(gene_df)) {
-            if(length(gene_df[,cname])<1){
-                gene_df[,cname]<-NA
+        for (cname in mandatory_cols) {
+            if(length(gene_df[[cname]])<1){
+                gene_df[[cname]]<-NA
             }
         }
         #make pmid ids by equating them to pmid/author combination
