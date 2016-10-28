@@ -308,8 +308,6 @@ genes_and_interactions_to_biopax<-
         gene_df$taxid_id[is.na(gene_df$taxid)]<-
             NA
         
-        
-        
         ################################################################################
         #declare list to store all biopax-style data table
         dTable_list<-
@@ -477,11 +475,6 @@ genes_and_interactions_to_biopax<-
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
                        ,property_value=gene_df$geneid
             )
-        
-        
-        
-        
-        
         
         #protein entity references to the gene 
         dTable_list$dt_org<-
