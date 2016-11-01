@@ -41,7 +41,7 @@ internal_generateXMLfromBiopax_Rancho<-
                       #,attrs = c(`rdf:ID` = as.character(instance[1]$id))
                       #rdf:ID does not seem to work for SBML conversion -- yields empty document
                       #in wiki, rdf:ID is replaced with rdf:about -- seems to work
-                      #inexplicably, original biocarta file works though
+                      #inexplicably, original biocarta file (which has rdf:ID) works though
                       ,attrs = c(`rdf:about` = as.character(instance[1]$id))
                       ,close = FALSE)
             

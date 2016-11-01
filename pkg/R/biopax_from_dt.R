@@ -1,7 +1,10 @@
 biopax_from_dt<-
     function(dTable
              ,filename=NULL
-             ,encoding="ISO-8859-1"){
+             ,encoding="UTF-8"){
+        
+        #makes biopax object from a biopax-style data table
+        #and optionally writes it to file
 
         #create new_biopax
         new_biopax<-

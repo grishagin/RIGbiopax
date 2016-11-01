@@ -15,7 +15,8 @@ writeBiopax_Rancho(biopax
                   ,verbose = TRUE
                   ,overwrite = FALSE
                   ,biopaxlevel=3
-                  ,namespaces=NULL)
+                  ,namespaces=NULL
+                  ,encoding = "UTF-8")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,6 +36,9 @@ writeBiopax_Rancho(biopax
   
   }
     \item{namespaces}{
+  
+  }
+    \item{encoding}{
   
   }
 }

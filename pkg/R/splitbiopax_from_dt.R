@@ -1,0 +1,64 @@
+splitbiopax_from_dt<-
+    function(dTable
+             ,write_to_files=FALSE
+             ,pwtoextract=NULL
+             
+    ){
+        #extract specified (or all) pathways from the biopax along with
+        #all of their referenced instances 
+        require(RIGbiopax)
+        
+        #ensure dTable is of data.table class
+        dTable<-
+            dTable %>%
+            as.data.table
+        #pathways in the biopax
+        bppws<-
+            listPathways(biopax = dTable) %>%
+            .$id
+        
+        if(is.null(pwtoextract)){
+            pwtoextract<-
+                bppws
+        } else {
+            pw_not_present<-
+                pwtoextract[!pwtoextract %in% bppws]
+            if(length(pw_not_present)>0){
+                msg<-
+                    paste0("Some pathways could not be found in the biopax table:\n"
+                           ,paste(pw_not_present
+                                  ,collapse="\n"))
+                message(msg)
+                #take only those pathways which are present in biopax
+                pwtoextract<-
+                    pwtoextract[pwtoextract %in% bppws]
+            }
+        }
+        #extract and store all biopax objects as a list
+        splitbiopax_list<-
+            pwtoextract %>%
+            lapply(FUN=function(pwid){
+                #select all instances referenced by a given pathway
+                tempdf<-
+                    selectInstances(biopax = dTable
+                                    ,id = pwid
+                                    ,includeReferencedInstances = TRUE
+                                    ,biopaxlevel = 3)
+                #if not write to files,
+                #replace pathway id with NULL
+                #so the function will only return a biopax object
+                if(!write_to_files){
+                    pwid=NULL
+                }
+                tempbp<-
+                    biopax_from_dt(tempdf
+                                   ,filename=paste0(pwid
+                                                    ,".owl"))
+                
+                return(tempbp)
+            })
+        names(splitbiopax_list)<-
+            pwtoextract
+        
+        return(splitbiopax_list)
+    }
