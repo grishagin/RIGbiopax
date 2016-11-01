@@ -1,7 +1,7 @@
 splitbiopax_from_dt<-
     function(dTable
-             ,write_to_files=FALSE
              ,pwtoextract=NULL
+             ,write_to_files=FALSE
              
     ){
         #extract specified (or all) pathways from the biopax along with
@@ -45,15 +45,19 @@ splitbiopax_from_dt<-
                                     ,includeReferencedInstances = TRUE
                                     ,biopaxlevel = 3)
                 #if not write to files,
-                #replace pathway id with NULL
+                #filename is NULL
                 #so the function will only return a biopax object
                 if(!write_to_files){
-                    pwid=NULL
+                    tempfilename<-
+                        NULL
+                } else {
+                    tempfilename<-
+                        paste0(pwid
+                               ,".owl")
                 }
                 tempbp<-
                     biopax_from_dt(tempdf
-                                   ,filename=paste0(pwid
-                                                    ,".owl"))
+                                   ,filename=tempfilename)
                 
                 return(tempbp)
             })
