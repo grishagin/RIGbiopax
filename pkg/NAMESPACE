@@ -15,6 +15,8 @@ export("add.biopax.ids"
 		,"merge.biopax.files"
 		,"merge.gene.comparison.results"
 		,"shrink.df.via.merge.col"
+		,"splitbiopax_from_dt.R"
+		,"unify_biopax_ids"
 		,"update_RIGbiopax"
 		,"writeBiopax_Rancho"
 		)
