@@ -8,8 +8,18 @@ unify_biopax_ids<-
             biopax_dt %>%
             dplyr::select(class,id) %>%
             filter(class!="Pathway") %>%
+            unique
+        #some entities refer to instances of multiple different classes
+        #in that case, we'll replace class with "PhysicalEntity"
+        dupl_ids<-
+            class_id$id[duplicated(class_id$id)]
+        class_id$class[class_id$id %in% dupl_ids]<-
+            "PhysicalEntity"
+        
+        #make new ids by merging class with its "order number"
+        class_id<-
+            class_id %>%
             unique %>%
-            #make new ids by merging class with its "order number"
             mutate(newid = paste(idtag
                                  ,class
                                  ,RIGbiopax:::internal_seq_along_find_reps(class)
