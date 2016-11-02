@@ -1,13 +1,16 @@
 unify_biopax_ids<-
     function(biopax_dt
-             ,idtag=NULL){
+             ,idtag=NULL
+             ,exclude_id_pattern="bioplanet"){
         #standardizes representation of all biopax ids
         #take unique classes with ids combinations
         st<-Sys.time()
         class_id<-
             biopax_dt %>%
             dplyr::select(class,id) %>%
-            filter(class!="Pathway") %>%
+            #exclude instances with ids featuring a given pattern
+            subset(!grepl(exclude_id_pattern
+                          ,id)) %>%
             unique
         #some entities refer to instances of multiple different classes
         #in that case, we'll replace class with "PhysicalEntity"
