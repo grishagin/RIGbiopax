@@ -1,5 +1,5 @@
 splitbiopax_from_dt<-
-    function(dTable
+    function(biopax
              ,pwtoextract=NULL
              ,write_to_files=FALSE
              
@@ -8,15 +8,9 @@ splitbiopax_from_dt<-
         #all of their referenced instances 
         require(RIGbiopax)
         
-        #ensure dTable is of data.table class
-        dTable<-
-            dTable %>%
-            as.data.table
         #pathways in the biopax
         bppws<-
-            listInstances(biopax=dTable
-                          ,class = "pathway") %>%
-            #listPathways(biopax = dTable) %>%
+            listPathways(biopax = biopax) %>%
             .$id
         
         if(is.null(pwtoextract)){
@@ -52,7 +46,7 @@ splitbiopax_from_dt<-
                 message(msg)
                 #select all instances referenced by a given pathway
                 tempdf<-
-                    selectInstances(biopax = dTable
+                    selectInstances(biopax = biopax
                                     ,id = pwid
                                     ,includeReferencedInstances = TRUE
                                     ,biopaxlevel = 3)
