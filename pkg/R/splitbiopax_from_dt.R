@@ -38,6 +38,16 @@ splitbiopax_from_dt<-
         splitbiopax_list<-
             pwtoextract %>%
             lapply(FUN=function(pwid){
+                msg<-
+                    paste0("Processing pathway "
+                           ,pwid
+                           ," ("
+                           ,match(pwid,pwtoextract)
+                           ," of "
+                           ,length(pwtoextract)
+                           ,")"
+                           )
+                message(msg)
                 #select all instances referenced by a given pathway
                 tempdf<-
                     selectInstances(biopax = dTable
