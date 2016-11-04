@@ -14,7 +14,9 @@ splitbiopax_from_dt<-
             as.data.table
         #pathways in the biopax
         bppws<-
-            listPathways(biopax = dTable) %>%
+            listInstances(biopax=dTable
+                          ,class = "pathway") %>%
+            #listPathways(biopax = dTable) %>%
             .$id
         
         if(is.null(pwtoextract)){
