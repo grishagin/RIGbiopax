@@ -1,15 +1,17 @@
 \name{splitbiopax_from_dt}
 \alias{splitbiopax_from_dt}
 \title{
-Convert a BioPAX-Style Data Table to List of BioPAX Objects (by Pathway)
+Convert BioPAX Object to List of BioPAX Objects (by Pathway)
 }
 \description{
-Converts BioPAX-style data table to a list of BioPAX objects by pathway. Has an option of recording all of these BioPAX objects to file.
+Splits a BioPAX object into a list of BioPAX objects by pathway. Has an option of recording all of these BioPAX objects to files.
 }
 \usage{
 splitbiopax_from_dt(dTable
                     ,write_to_files=FALSE
-                    ,pwtoextract=NULL)
+                    ,pwtoextract=NULL
+                    ,unifyids=TRUE
+                    )
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,6 +23,9 @@ splitbiopax_from_dt(dTable
   }
   \item{pwtoextract}{
   vector of pathway ids. If \code{NULL} (default), all pathways are extracted.
+  }
+  \item{unifyids}{
+  logical. Unify IDs by making all elements of one class receive ids in the form "ClassNUMBER", with NUMBER ranging from one to number of elements of such class?
   }
 }
 \details{

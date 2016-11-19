@@ -56,7 +56,7 @@ splitbiopax_from_dt<-
                         tempdf %>%
                         unify_biopax_ids(idtag=NULL
                                          ,exclude_id_pattern="bioplanet"
-                                         ,exclude_class="Pathway"))
+                                         ,exclude_class="Pathway")
                 }
                 #if not write to files,
                 #filename is NULL
