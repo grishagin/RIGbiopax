@@ -39,11 +39,11 @@ writeBiopax_Rancho<-
         RIGbiopax:::internal_checkValidity_Rancho(biopax)
         
         d <-
-            internal_generateXMLfromBiopax_Rancho_2(biopax = biopax
-                                                    ,filename=filename
-                                                    ,namespaces = namespaces
-                                                    ,biopaxlevel = biopaxlevel
-                                                    ,verbose=verbose)
+            internal_generateXMLfromBiopax_Rancho(biopax = biopax
+                                                  ,filename=filename
+                                                  ,namespaces = namespaces
+                                                  ,biopaxlevel = biopaxlevel
+                                                  ,verbose=verbose)
         return()
     }
 # writeBiopax_Rancho<-
