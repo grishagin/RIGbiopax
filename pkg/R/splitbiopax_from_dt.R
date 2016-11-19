@@ -2,6 +2,7 @@ splitbiopax_from_dt<-
     function(biopax
              ,pwtoextract=NULL
              ,write_to_files=FALSE
+             ,unifyids=TRUE
              
     ){
         #extract specified (or all) pathways from the biopax along with
@@ -50,6 +51,13 @@ splitbiopax_from_dt<-
                                     ,id = pwid
                                     ,includeReferencedInstances = TRUE
                                     ,biopaxlevel = 3)
+                if(unifyids){
+                    tempdf<-
+                        tempdf %>%
+                        unify_biopax_ids(idtag=NULL
+                                         ,exclude_id_pattern="bioplanet"
+                                         ,exclude_class="Pathway"))
+                }
                 #if not write to files,
                 #filename is NULL
                 #so the function will only return a biopax object

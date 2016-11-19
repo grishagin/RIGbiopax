@@ -5,17 +5,22 @@ unify_biopax_ids<-
              ,exclude_class="Pathway"){
         #standardizes representation of all biopax ids
         #take unique classes with ids combinations
-        #doesn't touch ids with exclude_id_pattern only OF class exclude_class
+        #doesn't touch ids with exclude_id_pattern of class exclude_class
         st<-Sys.time()
         class_id<-
             biopax_dt %>%
             dplyr::select(class,id) %>%
-            #exclude instances with ids featuring a given pattern
-            #AND belonging to the class to be excluded
-            filter(!(grepl(exclude_id_pattern
-                           ,id) &
-                         class %in% exclude_class)) %>%
-            unique
+            unique 
+        if(!is.null(exclude_id_pattern)){
+            class_id<-
+                class_id  %>%
+                #exclude instances with ids featuring a given pattern
+                #AND belonging to the class to be excluded
+                filter(!(grepl(exclude_id_pattern
+                               ,id) &
+                             class %in% exclude_class)) 
+        }
+       
         
         if (nrow(class_id)<1){
             message("unify_biopax_ids: no ids to replace!")
