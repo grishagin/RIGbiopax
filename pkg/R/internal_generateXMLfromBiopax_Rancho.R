@@ -113,8 +113,9 @@ internal_generateXMLfromBiopax_Rancho<-
         setkey(instance_df,classid)
         
         message("Adding instances' tags to referencing components' tags...")
-        message("It should take up to "
-                ,0.002*nrow(instance_class_id)
+        message("It should roughly "
+                ,round(x = 0.002*nrow(instance_class_id)
+                       ,digits = 0)
                 ," seconds.")
         
         st<-Sys.time()
@@ -128,7 +129,8 @@ internal_generateXMLfromBiopax_Rancho<-
             lapply(paste,collapse="")
         et<-Sys.time()
         message("Tag addition is over. It took "
-                ,difftime(et,st,units="secs")
+                ,round(x = difftime(et,st,units="secs")
+                       ,digits = 0)
                 ," seconds.")
         
         #merge open tags with referenced instances tag strings and with close tags
