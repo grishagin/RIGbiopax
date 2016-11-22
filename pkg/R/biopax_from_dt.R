@@ -19,10 +19,9 @@ biopax_from_dt<-
         if(!is.null(filename)){
             #write to file
             writeBiopax_Rancho(biopax = new_biopax
-                               ,file = filename
+                               ,filename = filename
                                ,overwrite = TRUE
-                               ,biopaxlevel =3
-                               ,encoding = encoding)
+                               ,biopaxlevel =3)
         }
         return(new_biopax)
     }
