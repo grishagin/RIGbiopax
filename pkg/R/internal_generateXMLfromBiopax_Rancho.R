@@ -113,7 +113,7 @@ internal_generateXMLfromBiopax_Rancho<-
         setkey(instance_df,classid)
         
         message("Adding instances' tags to referencing components' tags...")
-        message("It should roughly "
+        message("It should take roughly "
                 ,round(x = 0.002*nrow(instance_class_id)
                        ,digits = 0)
                 ," seconds.")
