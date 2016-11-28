@@ -285,8 +285,15 @@ genes_and_interactions_to_biopax<-
         #so that there won't be links leading to nothing
         gene_df$entref_id<-
             paste0("protref_"
-                   ,gene_df$genesym
-                   )
+                   ,gene_df$geneid
+            )
+            #if this is used, there will be multiple
+            #xrefs for one entref -- the following 
+            #extraction/remaking of biopax function does not cope with it
+            # paste0("protref_"
+            #        ,gene_df$genesym
+            #        )
+            
         gene_df$entref_id[is.na(gene_df$genesym)]<-
             NA
         gene_df$xref_id<-
