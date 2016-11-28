@@ -14,7 +14,7 @@ internal_generateXMLfromBiopax_Rancho<-
         
         #assemble the xml file header
         output<-
-            '<?xml version="1.0"?>\n<rdf:RDF '
+            '<?xml version="1.0" encoding="ISO-8859-1"?>\n<rdf:RDF '
         #add namespaces' definitions
         output<-
             paste0("xmlns:"
