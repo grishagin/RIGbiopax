@@ -23,12 +23,14 @@ add_db_ids <-
         require(data.table)
         require(rBiopaxParser)
         
+        
+        
+        #deprecated due to accommodate such cases without the need for 
+        #explicit reference
         #now, some biopax sources are prepared from multiple files
         #which sometimes do not have explicit relationships between components
         #and genes/proteins (i.e. these pathways are simply "gene bags")
         #to include them, first determine if there's a pathway reference
-        
-        #deprecated
         # if(length(grep("_pwref_",pw_id))>0){
         #     pwref<-
         #         strsplit(pw_id,"_pwref_") %>%
@@ -44,18 +46,20 @@ add_db_ids <-
         # } else {
             #if no such reference has been found
             #look for component ids
+        
         pw_components_ids<-
             listPathwayComponents(biopax=owl_biopax
                                   ,id=pw_id
                                   ,returnIDonly=TRUE
                                   ,biopaxlevel=biopaxlevel)
-        #}
 
-        if (all(is.null(pw_components_ids)) | 
-            all(is.na(pw_components_ids))){
-            stop("add_db_ids: could not find any components in pathway "
-                 ,pw_id
-                 ,"!")
+        if (all(is.null(pw_components_ids))){
+            message("add_db_ids: could not find any components in pathway "
+                    ,pw_id
+                    ,"!")
+            return(data.frame(biopax.Component.ID=NA
+                              ,biopax.Gene.ID.Type=NA
+                              ,biopax.Gene.ID=NA))
         }
     
         #get component instances
