@@ -1,13 +1,13 @@
-\name{merge.gene.comparison.results}
-\alias{merge.gene.comparison.results}
+\name{merge_gene_comparison_results}
+\alias{merge_gene_comparison_results}
 \title{
 Merge Multiple Gene Comparison Results into One File
 }
 \description{
-Merge multiple Excel files containing gene comparison results into one BioPAX file.
+Merges multiple Excel files containing gene comparison results into one Excel file. 
 }
 \usage{
-merge.gene.comparison.results(dir=NULL
+merge_gene_comparison_results(dir=NULL
                               ,pattern=NULL
                               ,filename=NULL)
 }

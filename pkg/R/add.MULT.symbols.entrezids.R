@@ -40,8 +40,9 @@ function(df_pw_proteins=NULL
         #split them and expand the df
         df_pw_proteins<-
             df_pw_proteins %>%
-            expand.df.via.split.col(colsToSplit="biopax.Gene.ID"
-                                    ,patternToSplit = ",|;|\\|")
+            split_cols_lengthen_df(colsToSplit="biopax.Gene.ID"
+                                   ,patternToSplit = ",|;|\\|"
+                                   ,at_once=TRUE)
         
         #annotate data table iteratively
         for(KEYTYPE in keytypes){
@@ -50,11 +51,14 @@ function(df_pw_proteins=NULL
                 add.symbols.entrezids.mygene(KEYTYPE)
         }
         
-        #if multiple comma|semicolon|pipe-separated values were added when annotating,
+        #if multiple pipe-separated values were added when annotating,
         #split them and expand the df
         df_pw_proteins<-
             df_pw_proteins %>%
-            expand.df.via.split.col(colsToSplit=c("ENTREZID","biopax.Gene.Symbol"))
+            split_cols_lengthen_df(colsToSplit=c("biopax.Gene.Symbol"
+                                                 ,"ENTREZID")
+                                   ,patternToSplit = "\\|"
+                                   ,at_once=TRUE)
         
         
         if(filter_keytypes){

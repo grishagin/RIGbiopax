@@ -1,4 +1,4 @@
-merge.gene.comparison.results<-
+merge_gene_comparison_results<-
     function(dir=NULL
              ,pattern=c("genes","pathways")
              ,filename=NULL){
@@ -12,7 +12,7 @@ merge.gene.comparison.results<-
                           full.names = TRUE,
                           pattern=pattern)
         if(length(files)<1){
-            stop("merge.toxdb.results: Haven't found any files! Stopping.")
+            stop("merge_gene_comparison_results: Haven't found any files! Stopping.")
         }
         #ensure pattern is of length 1
         pattern<-
@@ -59,7 +59,7 @@ merge.gene.comparison.results<-
                 big_df %>%
                 arrange_(.dots=arrng_cols)
         } else {
-            warning("merge.toxdb.results: no columns to arrange by, returning unsorted dataframe.")
+            warning("merge_gene_comparison_results: no columns to arrange by, returning unsorted dataframe.")
         }
         
         if(is.null(filename)){

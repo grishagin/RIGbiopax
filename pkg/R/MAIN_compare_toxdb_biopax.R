@@ -2,15 +2,16 @@ MAIN_compare_toxdb_biopax <-
     function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB"
              ,source_owl_dir=NULL
              ,output_dir=NULL
-             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v014.xlsx"
+             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v015.xlsx"
              ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
-             ,source_name=NULL){
+             ,source_name=NULL
+             ,owl_biopax=NULL){
         
         require(RIGessentials)
         
         
         # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
-        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v014.xlsx"
+        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v015.xlsx"
         # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
         # source_name=NULL
         # source_owl_dir=NULL
@@ -95,9 +96,12 @@ MAIN_compare_toxdb_biopax <-
                                         ,all_pathways=all_pathways)
         
         #load list of pathways and components from biopax
-        owl_biopax<-
-            load.biopax(source_name=source_name
-                        ,source_dir=source_owl_dir)
+        if(is.null(owl_biopax)){
+            owl_biopax<-
+                load.biopax(source_name=source_name
+                            ,source_dir=source_owl_dir)
+        }
+       
         pw_biopax<-
             load.biopax.pathways(owl_biopax=owl_biopax) 
         pw_biopax$biopax.Pathway.Name<-
