@@ -5,7 +5,8 @@ MAIN_compare_toxdb_biopax <-
              ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v015.xlsx"
              ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
              ,source_name=NULL
-             ,owl_biopax=NULL){
+             ,owl_biopax=NULL
+             ,verbose=FALSE){
         
         require(RIGessentials)
         
@@ -43,7 +44,8 @@ MAIN_compare_toxdb_biopax <-
                ,"mygene"
                ,"readxl"
                ,"openxlsx")
-        loadPackages(pkg)
+        loadPackages(pkg
+                     ,verbose = verbose)
         
         if(is.null(source_name)){
             source_name<-NA
@@ -220,7 +222,11 @@ MAIN_compare_toxdb_biopax <-
                               ,row.names=FALSE
                               ,keepNA=TRUE)
         rm(owl_biopax)
-        invisible(tkmessageBox(message = "All done!"
-                               ,icon = "info"
-                               ,type = "ok"))        
+        if(verbose){
+            invisible(tkmessageBox(message = "All done!"
+                                   ,icon = "info"
+                                   ,type = "ok")
+                      )
+        }
+                
     }
