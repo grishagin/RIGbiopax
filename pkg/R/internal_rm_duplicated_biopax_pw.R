@@ -1,6 +1,9 @@
 internal_rm_duplicated_biopax_pw<-
     function(big_df){
         
+        require(plyr)
+        require(dplyr)
+        
         #add gene match indicators
         .genematch<-
             rep(NA,nrow(big_df))
@@ -29,7 +32,7 @@ internal_rm_duplicated_biopax_pw<-
             group_by(toxdb.Pathway.ID
                      ,biopax.Pathway.ID
                      ,.genematch) %>%
-            summarise(count=n()) %>%
+            dplyr::summarise(count=n()) %>%
             spread(key=.genematch
                    ,value=count
                    ,fill = 0) %>%

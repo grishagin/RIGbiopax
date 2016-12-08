@@ -50,8 +50,9 @@ add_db_ids <-
                                   ,returnIDonly=TRUE
                                   ,biopaxlevel=biopaxlevel)
         #}
-        if (is.null(pw_components_ids) | 
-            is.na(pw_components_ids)){
+
+        if (all(is.null(pw_components_ids)) | 
+            all(is.na(pw_components_ids))){
             stop("add_db_ids: could not find any components in pathway "
                  ,pw_id
                  ,"!")

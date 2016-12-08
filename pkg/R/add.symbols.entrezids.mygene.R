@@ -3,7 +3,7 @@ function(df_pw_proteins=NULL
          ,KEYTYPE=NULL
          ,species="human"
     ){
-        
+        require(plyr)
         require(dplyr)
         require(mygene)
         

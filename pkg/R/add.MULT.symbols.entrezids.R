@@ -8,7 +8,8 @@ function(df_pw_proteins=NULL
                          ,"hprd"
                          ,"hgnc")
              ,filter_keytypes=TRUE){
-        
+    
+        require(plyr)
         require(dplyr)
         
         if (is.null(df_pw_proteins)){

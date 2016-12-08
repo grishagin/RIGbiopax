@@ -13,8 +13,9 @@ MAIN_compare_toxdb_biopax <-
         # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
         # pw_matchup_file="./_source_files/pathways_matched_to_sources_v015.xlsx"
         # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
-        # source_name=NULL
-        # source_owl_dir=NULL
+        # output_dir=NULL
+        # source_name=biopax_source_names[ondex]
+        # owl_biopax=get(owl_objs[ondex])
         
         prepareSession(work_dir
                        ,nolocale=FALSE)
