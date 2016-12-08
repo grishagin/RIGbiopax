@@ -52,9 +52,9 @@ internal_rm_duplicated_biopax_pw<-
                 bad_bpid<-
                     comp_df %>%
                     filter(toxdb.Pathway.ID %in% txid) %>%
-                    # dplyr::arrange(desc(`1_match`)
-                    #                ,desc(sum)
-                    #                ) %>%
+                    dplyr::arrange(desc(`1_match`)
+                                   ,desc(sum)
+                                   ) %>%
                     .$biopax.Pathway.ID %>%
                     .[-1]
                 return(bad_bpid)
