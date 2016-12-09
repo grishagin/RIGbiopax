@@ -7,7 +7,7 @@ internal_analyse_toxdb_biopax_results_df<-
             dFrame %>%
             #group by pathway id, then genematch
             group_by(toxdb.Pathway.ID,.genematch) %>%
-            summarise(count=n()) %>%
+            dplyr::summarise(count=n()) %>%
             spread(key = .genematch
                    ,value = count) %>%
             mutate(total_toxdb=sum(`1_match`
