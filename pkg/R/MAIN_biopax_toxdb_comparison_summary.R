@@ -61,20 +61,20 @@ MAIN_biopax_toxdb_comparison_summary<-
         #summary of original dataframe 
         summary_list$all<-
             gene_df %>%
-            analyse_toxdb_biopax_results_df("all")
+            internal_analyse_toxdb_biopax_results_df("all")
         
         #summary of dataframe with pathways only from original sources
         summary_list$origsrc<-
             gene_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
-            analyse_toxdb_biopax_results_df("origsrc")
+            internal_analyse_toxdb_biopax_results_df("origsrc")
         
         #summary of dataframe with pathways only from original sources+exact name matches
         summary_list$origsrc_exactmatch<-
             gene_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             filter(pathway.Match.Status=="Exact") %>%
-            analyse_toxdb_biopax_results_df("origsrc_exactmatch")
+            internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch")
         
         #summary of dataframe with pathways only from original sources+exact name matches+not changed
         summary_list$origsrc_exactmatch_noncur<-
@@ -82,7 +82,7 @@ MAIN_biopax_toxdb_comparison_summary<-
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             filter(pathway.Match.Status=="Exact") %>%
             filter(toxdb.Pathway.ID %in% pw_noncur) %>%
-            analyse_toxdb_biopax_results_df("origsrc_exactmatch_noncur")
+            internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch_noncur")
         
         summary_cols<-
             c("all"
@@ -117,7 +117,7 @@ MAIN_biopax_toxdb_comparison_summary<-
         #quantiles for all subsets
         quantile_summary_df<-
             summary_list %>%
-            lapply(prepare_quantile_summary) %>%
+            lapply(internal_prepare_quantile_summary) %>%
             do.call(rbind.data.frame,.) %>%
             cbind.data.frame(Subset=rep(summary_cols
                                         ,each=4)
