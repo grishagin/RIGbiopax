@@ -1,9 +1,9 @@
 MAIN_biopax_toxdb_comparison_summary<-
-    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/2016-09-08 RESULTS toxdb-vs-biopax genes comparison"
+    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/2016-12-08 RESULTS toxdb-vs-biopax genes comparison"
              ,output_dir="./summary"
              ,pw_matchup_file="../_source_files/pathways_matched_to_sources_v015.xlsx"
              ,pw_src_file="../_source_files/human_pathways_rbs_curated_20150615_with_source_info.xlsx"
-             ,gene_df_file="./2016-09-08_ALL_SOURCES_toxdb_vs_biopax_all_genes.xlsx"
+             ,gene_df_file="./2016-12-08_ALL_SOURCES_toxdb_vs_biopax_genes.xlsx"
              ){
         
         #' @title
@@ -127,7 +127,7 @@ MAIN_biopax_toxdb_comparison_summary<-
         pw_nogenes<-
             gene_df %>%
             group_by(toxdb.Pathway.ID) %>%
-            summarise(na.len=sum(is.na(biopax.Component.ID))
+            dplyr::summarise(na.len=sum(is.na(biopax.Component.ID))
                       ,all.len=length(biopax.Component.ID)
                       ,diff=all.len-na.len
                       ,Source=unique(Source)) %>%

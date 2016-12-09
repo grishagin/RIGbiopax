@@ -31,9 +31,9 @@ internal_analyse_toxdb_biopax_results_df<-
         #arrange by misses_toxdb
         summary_df<-
             summary_df %>%
-            arrange(`matches_toxdb,%`
-                    ,`matches_biopax,%`
-                    ,`extra_biopax,%`)
+            dplyr::arrange(`matches_toxdb,%`
+                           ,`matches_biopax,%`
+                           ,`extra_biopax,%`)
         
         #fix colnames
         colnames(summary_df)[2:4]<-
