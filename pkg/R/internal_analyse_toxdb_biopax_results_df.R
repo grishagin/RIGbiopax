@@ -6,25 +6,25 @@ internal_analyse_toxdb_biopax_results_df<-
         summary_df<-
             dFrame %>%
             #group by pathway id, then genematch
-            group_by(toxdb.Pathway.ID,.genematch) %>%
+            dplyr::group_by(toxdb.Pathway.ID,.genematch) %>%
             dplyr::summarise(count=n()) %>%
             spread(key = .genematch
                    ,value = count) %>%
-            mutate(total_toxdb=sum(`1_match`
-                                   ,`2_toxdb`
-                                   ,na.rm=TRUE)
-                   ,total_biopax=sum(`1_match`
-                              ,`3_biopax`
-                              ,na.rm=TRUE)
-                   ,`matches_toxdb,%`=
-                       round(100*`1_match`/total_toxdb,0) 
-                   ,`misses_toxdb,%`=
-                       round(100*`2_toxdb`/total_toxdb,0)
-                   ,`matches_biopax,%`=
-                       round(100*`1_match`/total_biopax,0)
-                   ,`extra_biopax,%`=
-                       round(100*`3_biopax`/total_biopax,0)
-                   ) 
+            dplyr::mutate(total_toxdb=sum(`1_match`
+                                          ,`2_toxdb`
+                                          ,na.rm=TRUE)
+                          ,total_biopax=sum(`1_match`
+                                            ,`3_biopax`
+                                            ,na.rm=TRUE)
+                          ,`matches_toxdb,%`=
+                              round(100*`1_match`/total_toxdb,0) 
+                          ,`misses_toxdb,%`=
+                              round(100*`2_toxdb`/total_toxdb,0)
+                          ,`matches_biopax,%`=
+                              round(100*`1_match`/total_biopax,0)
+                          ,`extra_biopax,%`=
+                              round(100*`3_biopax`/total_biopax,0)
+                          ) 
         #replace NA with 0
         summary_df[is.na(summary_df)]<-0
         

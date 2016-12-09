@@ -61,20 +61,20 @@ MAIN_biopax_toxdb_comparison_summary<-
         #summary of original dataframe 
         summary_list$all<-
             gene_df %>%
-            internal_analyse_toxdb_biopax_results_df("all")
+            RIGbiopax:::internal_analyse_toxdb_biopax_results_df("all")
         
         #summary of dataframe with pathways only from original sources
         summary_list$origsrc<-
             gene_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
-            internal_analyse_toxdb_biopax_results_df("origsrc")
+            RIGbiopax:::internal_analyse_toxdb_biopax_results_df("origsrc")
         
         #summary of dataframe with pathways only from original sources+exact name matches
         summary_list$origsrc_exactmatch<-
             gene_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             filter(pathway.Match.Status=="Exact") %>%
-            internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch")
+            RIGbiopax:::internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch")
         
         #summary of dataframe with pathways only from original sources+exact name matches+not changed
         summary_list$origsrc_exactmatch_noncur<-
@@ -82,7 +82,7 @@ MAIN_biopax_toxdb_comparison_summary<-
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             filter(pathway.Match.Status=="Exact") %>%
             filter(toxdb.Pathway.ID %in% pw_noncur) %>%
-            internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch_noncur")
+            RIGbiopax:::internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch_noncur")
         
         summary_cols<-
             c("all"
@@ -109,15 +109,15 @@ MAIN_biopax_toxdb_comparison_summary<-
             do.call(rbind,.) %>%
             cbind.data.frame(Subset=summary_cols
                              ,.) %>%
-            mutate(`misses_toxdb,%`=round(100*misses_toxdb/(misses_toxdb+
+            dplyr::mutate(`misses_toxdb,%`=round(100*misses_toxdb/(misses_toxdb+
                                                                 matches)
-                                          ,0))
+                                                 ,0))
         
         
         #quantiles for all subsets
         quantile_summary_df<-
             summary_list %>%
-            lapply(internal_prepare_quantile_summary) %>%
+            lapply(RIGbiopax:::internal_prepare_quantile_summary) %>%
             do.call(rbind.data.frame,.) %>%
             cbind.data.frame(Subset=rep(summary_cols
                                         ,each=4)
@@ -126,7 +126,7 @@ MAIN_biopax_toxdb_comparison_summary<-
         #pathways with no genes in biopax
         pw_nogenes<-
             gene_df %>%
-            group_by(toxdb.Pathway.ID) %>%
+            dplyr::group_by(toxdb.Pathway.ID) %>%
             dplyr::summarise(na.len=sum(is.na(biopax.Component.ID))
                       ,all.len=length(biopax.Component.ID)
                       ,diff=all.len-na.len
