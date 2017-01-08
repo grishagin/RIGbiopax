@@ -52,8 +52,8 @@ function(df_pw_proteins=NULL
             
             queryResults<-
                 queryResults %>%
-                shrink.df.via.merge.col(colKey = "query"
-                                        ,colToMerge = c("entrezgene","symbol")
+                merge_cols_shorten_df(colKey = "query"
+                                        ,colsToMerge = c("entrezgene","symbol")
                                         ,patternToMerge="|")
             
             #fill the entrez gene and symbol values
