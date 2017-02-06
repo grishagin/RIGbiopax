@@ -1,8 +1,24 @@
 unify_biopax_ids<-
     function(biopax_dt
              ,idtag=NULL
-             ,exclude_id_pattern="bioplanet"
+             ,exclude_id_pattern="inxight_pathways"
              ,exclude_class="Pathway"){
+        
+        #' @title
+        #' Uniformly Format IDs in a BioPAX-Style Data Table
+        #' @description 
+        #' Converts IDs in a BioPAX-style data table to a uniform format.
+        #' @details 
+        #' ID unification is conducted by appending a class of a component to its throughout number.
+        #' E.g. for a component of class Protein, #11 from the top of the table, ID will be "Protein11".
+        #' @param biopax_dt BioPAX-style data table.
+        #' @param idtag String to append to each id (defaults to \code{NULL}).
+        #' @param exclude_id_pattern Exclude components with such pattern in their IDs and of class \code{exclude_class} from ID unification.
+        #' @param exclude_class Exclude components with such class and \code{exclude_id_pattern} from ID unification.
+        
+        #' @author 
+        #' Ivan Grishagin
+        
         #standardizes representation of all biopax ids
         #take unique classes with ids combinations
         #doesn't touch ids with exclude_id_pattern of class exclude_class

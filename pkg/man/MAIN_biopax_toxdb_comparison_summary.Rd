@@ -4,12 +4,9 @@
 \alias{MAIN_biopax_toxdb_comparison_summary}
 \title{Prepare BioPAX-ToxDB Comparison Summary}
 \usage{
-
-  MAIN_biopax_toxdb_comparison_summary(work_dir = "D:/Dropbox/Rancho/NCATS/ToxDB/2016-09-08 RESULTS toxdb-vs-biopax genes comparison",
-  output_dir = "./summary",
-  pw_matchup_file = "../_source_files/pathways_matched_to_sources_v015.xlsx",
-  pw_src_file = "../_source_files/human_pathways_rbs_curated_20150615_with_source_info.xlsx",
-  gene_df_file = "./2016-09-08_ALL_SOURCES_toxdb_vs_biopax_all_genes.xlsx")
+MAIN_biopax_toxdb_comparison_summary(work_dir = "default",
+  output_dir = "./summary", pw_matchup_file = "default",
+  pw_src_file = "default", gene_df_file = NULL)
 }
 \arguments{
 \item{work_dir}{Work directory.}
@@ -18,7 +15,7 @@
 
 \item{pw_matchup_file}{File with pathway matchups between BioPAX sources and ToxDB list.}
 
-\item{pw_src_file}{ToxDB pathway spreadsheet with curation information.}
+\item{pw_src_file}{Inxight Pathways spreadsheet with pathway curation information.}
 
 \item{gene_df_file}{Spreadsheet with BioPAX-ToxDB gene comparison.}
 }

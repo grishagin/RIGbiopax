@@ -5,6 +5,23 @@ splitbiopax_from_dt<-
              ,unifyids=TRUE
              
     ){
+        #' @title
+        #' Convert BioPAX Object to List of BioPAX Objects (by Pathway)
+        #' @description 
+        #' Splits a BioPAX object into a list of BioPAX objects by pathway. 
+        #' Has an option of recording all of these BioPAX objects to files.
+        #' @details 
+        #' Returns a list of biopax objects.
+        #' @param biopax BioPAX object.
+        #' @param pwtoextract Vector of pathway ids. If \code{NULL} (default), all pathways are extracted.
+        #' @param write_to_files Logical. Write to files? Default is \code{FALSE}.
+        #' @param unifyids Logical. Unify IDs by making all elements of one class receive ids in the form "ClassNUMBER", 
+        #' with NUMBER ranging from one to number of elements of such class? Default is \code{TRUE}.
+.
+        
+        #' @author 
+        #' Ivan Grishagin
+
         #extract specified (or all) pathways from the biopax along with
         #all of their referenced instances 
         require(RIGbiopax)
@@ -54,9 +71,7 @@ splitbiopax_from_dt<-
                 if(unifyids){
                     tempdf<-
                         tempdf %>%
-                        unify_biopax_ids(idtag=NULL
-                                         ,exclude_id_pattern="bioplanet"
-                                         ,exclude_class="Pathway")
+                        unify_biopax_ids(idtag=NULL)
                 }
                 #if not write to files,
                 #filename is NULL

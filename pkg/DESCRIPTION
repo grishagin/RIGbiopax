@@ -1,7 +1,7 @@
 Package: RIGbiopax
 Type: Package
 Title: Extract and Compare Genes and Pathways from BioPAX
-Version: 3.3
+Version: 3.4
 Depends:
     tcltk,
     plyr,
@@ -10,7 +10,7 @@ Depends:
     RIGessentials
 Imports:
     data.table
-Date: 2017-01-07
+Date: 2017-02-06
 Author: Ivan Grishagin
 Maintainer: Ivan Grishagin <grishagin@gmail.com>
 Description: Extract genes and pathways from all available BioPAX sources and

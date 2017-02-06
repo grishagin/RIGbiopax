@@ -1,9 +1,9 @@
 MAIN_biopax_toxdb_comparison_summary<-
-    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/2016-12-08 RESULTS toxdb-vs-biopax genes comparison"
+    function(work_dir="default"
              ,output_dir="./summary"
-             ,pw_matchup_file="../_source_files/pathways_matched_to_sources_v015.xlsx"
-             ,pw_src_file="../_source_files/human_pathways_rbs_curated_20150615_with_source_info.xlsx"
-             ,gene_df_file="./2016-12-08_ALL_SOURCES_toxdb_vs_biopax_genes.xlsx"
+             ,pw_matchup_file="default"
+             ,pw_src_file="default"
+             ,gene_df_file=NULL
              ){
         
         #' @title
@@ -13,7 +13,7 @@ MAIN_biopax_toxdb_comparison_summary<-
         #' @param work_dir Work directory.
         #' @param output_dir Output directory (will be created if non-existent).
         #' @param pw_matchup_file File with pathway matchups between BioPAX sources and ToxDB list.
-        #' @param pw_src_file ToxDB pathway spreadsheet with curation information.
+        #' @param pw_src_file Inxight Pathways spreadsheet with pathway curation information.
         #' @param gene_df_file Spreadsheet with BioPAX-ToxDB gene comparison.
         
         #' @author 
@@ -21,6 +21,28 @@ MAIN_biopax_toxdb_comparison_summary<-
         
         require(RIGessentials)
         require(readxl)
+        
+        #establish key parameters, if not supplied by user
+        if(is.null(gene_df_file)){
+            stop("Please specify gene_df_file!")
+        }
+        
+        if(work_dir=="default"){
+            work_dir<-getwd()
+        }
+        if(pw_matchup_file=="default"){
+            pw_matchup_file<-
+                system.file("extdata"
+                            ,"pathways_matched_to_sources_current_version.xlsx"
+                            ,package="RIGbiopax")
+        }
+        if(pw_src_file=="default"){
+            pw_src_file<-
+                system.file("extdata"
+                            ,"human_pathways_rbs_curated_current_version.xlsx"
+                            ,package="RIGbiopax")
+        }
+        
         prepareSession(work_dir)
         
         dir.create(output_dir

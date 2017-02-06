@@ -1,23 +1,50 @@
 MAIN_compare_toxdb_biopax <-
-    function(work_dir="D:/Dropbox/Rancho/NCATS/ToxDB"
+    function(work_dir=NULL
              ,source_owl_dir=NULL
              ,output_dir=NULL
-             ,pw_matchup_file="./_source_files/pathways_matched_to_sources_v015.xlsx"
-             ,toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
+             ,pw_matchup_file="default"
+             ,toxdb_genes_file="default"
              ,source_name=NULL
              ,owl_biopax=NULL
              ,verbose=FALSE){
         
+        #' @title
+        #' Compare Proteins Extracted from BioPAX to ToxDB Proteins
+        #' @description 
+        #' Main function of the package. Extract all proteins ("genes") from a BioPAX source, 
+        #' convert their IDs to gene IDs and Symbols, and then compare those to a supplied gene list.
+        #' @param work_dir Directory, where all source files/folders are located and will be written to.
+        #' @param source_owl_dir Directory with \code{*.owl} files. 
+        #' If no directory provided, a prompt will pop up. See \code{load.biopax} function for more information.
+        #' @param output_dir .
+        #' @param pw_matchup_file File that provides match-up between toxdb pathway names and BioPAX pathway names.
+        #' @param toxdb_genes_file File that has a table of all genes listed for all pathways. 
+        #' @param source_name Name of the BioPAX source.
+        #' @param owl_biopax BioPAX object.
+        #' @param verbose Logical. Show all relevant progress messages?
+        
+        #' @author 
+        #' Ivan Grishagin
+        
         require(RIGessentials)
         
-        
-        # work_dir="D:/Dropbox/Rancho/NCATS/ToxDB/"
-        # pw_matchup_file="./_source_files/pathways_matched_to_sources_v015.xlsx"
-        # toxdb_genes_file="./_source_files/toxdb_pathways_15Jun_edIG_2016-08-04.txt"
-        # output_dir=NULL
-        # source_name=biopax_source_names[ondex]
-        # owl_biopax=get(owl_objs[ondex])
-        
+        #establish initial key parameters, if not supplied by user
+        if(work_dir=="default"){
+            work_dir<-getwd()
+        }
+        if(pw_matchup_file=="default"){
+            pw_matchup_file<-
+                system.file("extdata"
+                            ,"pathways_matched_to_sources_current_version.xlsx"
+                            ,package="RIGbiopax")
+        }
+        if(toxdb_genes_file=="default"){
+            toxdb_genes_file<-
+                system.file("extdata"
+                            ,"inxight_pathways_current_version.txt"
+                            ,package="RIGbiopax")
+        }
+
         prepareSession(work_dir
                        ,nolocale=FALSE)
         
