@@ -17,7 +17,7 @@ If no directory provided, a prompt will pop up. See \code{load.biopax} function 
 
 \item{output_dir}{.}
 
-\item{pw_matchup_file}{File that provides match-up between toxdb pathway names and BioPAX pathway names.}
+\item{pw_matchup_file}{File that provides match-up between inxight pathway names and BioPAX pathway names.}
 
 \item{toxdb_genes_file}{File that has a table of all genes listed for all pathways.}
 

@@ -12,7 +12,7 @@ MAIN_biopax_toxdb_comparison_summary<-
         #' Prepares comprehensive summary of comparison of genes in BioPAX sources to ToxDB gene list.
         #' @param work_dir Work directory.
         #' @param output_dir Output directory (will be created if non-existent).
-        #' @param pw_matchup_file File with pathway matchups between BioPAX sources and ToxDB list.
+        #' @param pw_matchup_file File with pathway matchups between BioPAX sources and Inxight Pathways list.
         #' @param pw_src_file Inxight Pathways spreadsheet with pathway curation information.
         #' @param gene_df_file Spreadsheet with BioPAX-ToxDB gene comparison.
         

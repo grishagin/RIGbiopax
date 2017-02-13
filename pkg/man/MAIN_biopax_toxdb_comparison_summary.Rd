@@ -13,7 +13,7 @@ MAIN_biopax_toxdb_comparison_summary(work_dir = "default",
 
 \item{output_dir}{Output directory (will be created if non-existent).}
 
-\item{pw_matchup_file}{File with pathway matchups between BioPAX sources and ToxDB list.}
+\item{pw_matchup_file}{File with pathway matchups between BioPAX sources and Inxight Pathways list.}
 
 \item{pw_src_file}{Inxight Pathways spreadsheet with pathway curation information.}
 

@@ -17,7 +17,7 @@ MAIN_compare_toxdb_biopax <-
         #' @param source_owl_dir Directory with \code{*.owl} files. 
         #' If no directory provided, a prompt will pop up. See \code{load.biopax} function for more information.
         #' @param output_dir .
-        #' @param pw_matchup_file File that provides match-up between toxdb pathway names and BioPAX pathway names.
+        #' @param pw_matchup_file File that provides match-up between inxight pathway names and BioPAX pathway names.
         #' @param toxdb_genes_file File that has a table of all genes listed for all pathways. 
         #' @param source_name Name of the BioPAX source.
         #' @param owl_biopax BioPAX object.
