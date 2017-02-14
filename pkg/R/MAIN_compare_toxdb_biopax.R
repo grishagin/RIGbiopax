@@ -98,9 +98,9 @@ MAIN_compare_toxdb_biopax <-
         
         #load all pathways matched up
         pathways_per_source<-
-            read_excel(path = pw_matchup_file
-                       ,col_types = rep("text",11)
-                       ,sheet = 1) %>%
+            read_excel_astext(path = pw_matchup_file
+                              #,col_types = rep("text",11)
+                              ,sheet = 1) %>%
             dplyr::filter(!is.na(biopax.Pathway.Name)) %>%
             dplyr::select(toxdb.Pathway.ID
                           ,toxdb.Pathway.Name

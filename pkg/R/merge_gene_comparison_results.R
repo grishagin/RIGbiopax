@@ -22,7 +22,7 @@ merge_gene_comparison_results<-
         #which are then merged into one big df
         big_df<-
             lapply(files
-                   ,read_excel) %>%
+                   ,read_excel_astext) %>%
             do.call(rbind,.) 
         
         # deprecated

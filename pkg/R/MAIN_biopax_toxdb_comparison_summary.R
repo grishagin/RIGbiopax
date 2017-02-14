@@ -49,20 +49,20 @@ MAIN_biopax_toxdb_comparison_summary<-
                    ,showWarnings = FALSE)
         
         pw_match<-
-            read_excel(path = pw_matchup_file
-                       ,col_types = rep("text",11)
-                       ,sheet = 1) 
+            read_excel_astext(path = pw_matchup_file
+                              #,col_types = rep("text",11)
+                              ,sheet = 1) 
         
         pw_src<-
-            read_excel(path = pw_src_file
-                       ,col_types = rep("text",4)
-                       ,sheet = 1) 
+            read_excel_astext(path = pw_src_file
+                              #,col_types = rep("text",4)
+                              ,sheet = 1) 
         
         
         gene_df<-
-            read_excel(path = gene_df_file
-                       ,col_types = rep("text",14)
-                       ,sheet = 1) %>%
+            read_excel_astext(path = gene_df_file
+                              #,col_types = rep("text",14)
+                              ,sheet = 1) %>%
             filter(!is.na(toxdb.Pathway.ID))
         
         #non-curated (non-altered) pathways
