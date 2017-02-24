@@ -33,8 +33,8 @@ unify_biopax_ids<-
                 #exclude instances with ids featuring a given pattern
                 #AND belonging to the class to be excluded
                 filter(!(grepl(exclude_id_pattern
-                               ,id) &
-                             class %in% exclude_class)) 
+                               ,id) 
+                         & class %in% exclude_class)) 
         }
        
         
@@ -55,7 +55,7 @@ unify_biopax_ids<-
             unique %>%
             mutate(newid = paste(idtag
                                  ,class
-                                 ,RIGbiopax:::internal_seq_along_find_reps(class)
+                                 ,internal_seq_along_find_reps(class)
                                  ,sep=""))
         #replace ids
         biopax_dt$id<-
