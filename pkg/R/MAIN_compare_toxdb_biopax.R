@@ -59,8 +59,7 @@ MAIN_compare_toxdb_biopax <-
               ,"NetPath"         
               ,"Wiki Pathways"
               ,"Science Signaling"
-              ,"Ayesha"
-              ,"Evgeny"
+              ,"RMC"
             ) %>%
             sort
         ########################################################################
