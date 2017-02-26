@@ -19,4 +19,3 @@ Extract pathways from a BioPAX object, then convert them into a separate biopax 
 \author{
 Ivan Grishagin
 }
-

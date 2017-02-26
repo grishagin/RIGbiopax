@@ -15,4 +15,3 @@ Removes the first \code{#} from each element of a string vector.
 \author{
 Ivan Grishagin
 }
-

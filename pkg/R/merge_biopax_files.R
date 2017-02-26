@@ -1,9 +1,18 @@
-
-############################### merge.biopax.files ############################### 
-merge.biopax.files<-
+merge_biopax_files<-
     function(source_dir=NULL
              ,change_ids=TRUE
-             ,write_to_file=FALSE){
+             ,filename=NULL){
+        
+        #' @title
+        #' Merge Multiple BioPAX Files into One File
+        #' @description 
+        #' Merge multiple BioPAX files into one BioPAX file, while preserving all unique relationships between pathway components.
+        #' @param source_dir Directory with BioPAX files.
+        #' @param change_ids Logical. Change ids to unify them throughout the files?
+        #' @param filename Output filename (optional). If NULL (default), does not write the output to file.
+        
+        #' @author 
+        #' Ivan Grishagin
 
         #in case a biopax source is in multiple files,
         #their tables are loaded and merged into one file
@@ -15,9 +24,10 @@ merge.biopax.files<-
         }
         
         #find owl directory and filenames in it
-        owl.filename<-list.files(source_dir
-                                 ,pattern = "\\.owl"
-                                 ,full.names = TRUE)
+        owl.filename<-
+            list.files(source_dir
+                       ,pattern = "\\.owl"
+                       ,full.names = TRUE)
         if(length(owl.filename)<1){
             stop("Biopax file has not been found in the following folder:\n"
                  ,owl.dirs[owl_num])
@@ -47,7 +57,7 @@ merge.biopax.files<-
                        if(change_ids){
                            ids<-dt$id
                            clean_ref_ids<-
-                               rBiopaxParser:::striphash(dt$property_attr_value)
+                               striphash(dt$property_attr_value)
                            
                            dt$id<-
                                paste(dt$id
@@ -104,27 +114,12 @@ merge.biopax.files<-
             do.call(rbind,.)
         #remove hashes if any
         new_biopax_dt$property_attr_value<-
-            rBiopaxParser:::striphash(new_biopax_dt$property_attr_value)
+            striphash(new_biopax_dt$property_attr_value)
             
         #create new biopax
         new_biopax<-
-            createBiopax(level=3)
-        new_biopax<-
-            addBiopaxInstances(biopax=new_biopax
-                               ,newInstancesDF=new_biopax_dt)
-
-        
-        if(write_to_file){
-            biopax_filename<-
-                paste(Sys.Date()
-                      ,"combined_biopax.owl"
-                      ,sep="_")
-            writeBiopax_Rancho(biopax = new_biopax
-                               ,file = biopax_filename
-                               ,overwrite = TRUE
-                               ,level=3)
-        }
+            new_biopax_dt %>% 
+            biopax_from_dt(filename=filename)
 
         return(new_biopax)
     }
-############################### merge.biopax.files ############################### 

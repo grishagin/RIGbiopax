@@ -25,4 +25,3 @@ Prepares comprehensive summary of comparison of genes in BioPAX sources to ToxDB
 \author{
 Ivan Grishagin
 }
-

@@ -27,4 +27,3 @@ Returns a list of biopax objects.
 \author{
 Ivan Grishagin
 }
-

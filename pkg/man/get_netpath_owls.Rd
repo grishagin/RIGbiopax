@@ -15,4 +15,3 @@ Downloads NetPath BioPAX files in the *.owl format.
 \author{
 Ivan Grishagin
 }
-
