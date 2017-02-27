@@ -17,5 +17,7 @@ clean_biopax_property_value<-
             gsub(pattern="^RecName: Full=(.*?);.*$"
                  ,replacement = "\\1"
                  ,.)
+        biopax$dt$property_value[biopax$dt$property_value=="NA"]<-
+            "UNKNOWN"
         return(biopax)
     }
