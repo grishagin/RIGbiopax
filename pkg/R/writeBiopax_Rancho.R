@@ -40,7 +40,6 @@ writeBiopax_Rancho<-
         
         output <-
             internal_generateXMLfromBiopax_Rancho(biopax = biopax
-                                                  ,filename=filename
                                                   ,namespaces = namespaces
                                                   ,biopaxlevel = biopaxlevel
                                                   ,verbose=verbose)

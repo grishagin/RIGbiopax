@@ -1,6 +1,5 @@
 internal_generateXMLfromBiopax_Rancho<-
     function (biopax
-              ,filename="default"
               ,namespaces = namespaces
               ,biopaxlevel=3
               ,verbose=TRUE) 
