@@ -3,7 +3,8 @@ writeBiopax_Rancho<-
               ,filename = "default"
               ,overwrite = FALSE
               ,biopaxlevel=3
-              ,namespaces=NULL) {
+              ,namespaces=NULL
+              ,verbose=TRUE) {
         
         if (!biopaxlevel %in% c(2,3)){
             stop("writeBiopax_Rancho: Incorrect biopax level specified. Aborting.")
@@ -38,19 +39,38 @@ writeBiopax_Rancho<-
         
         RIGbiopax:::internal_checkValidity_Rancho(biopax)
         
-        output <-
-            internal_generateXMLfromBiopax_Rancho(biopax = biopax
-                                                  ,namespaces = namespaces
-                                                  ,biopaxlevel = biopaxlevel
-                                                  ,verbose=verbose)
         if (filename=="default") {
             filename<-
                 paste0(Sys.Date()
                        ,"_generated_biopax.owl")
         }
+        
+        if(verbose){
+             message("Writing BioPAX object to file \n"
+                ,filename
+                ,".\nIt should take "
+                ,round(x = 2e-5*nrow(biopax$dt)
+                       ,digits = 0)
+                ," seconds.")
+        }
+       
+        st<-Sys.time()
+        output<-
+            internal_generateXMLfromBiopax_Rancho(biopax = biopax
+                                                  ,namespaces = namespaces
+                                                  ,biopaxlevel = biopaxlevel)
         #write to file
         writeLines(output
               ,con = filename
               ,useBytes = TRUE)
+     
+        et<-Sys.time()
+        
+        if(verbose){
+            message("Writing BioPAX object is complete. It took "
+                    ,round(x = difftime(et,st,units="secs")
+                           ,digits = 2)
+                    ," seconds.")
+        }
         return()
     }

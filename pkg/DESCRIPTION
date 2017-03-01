@@ -1,7 +1,7 @@
 Package: RIGbiopax
 Type: Package
 Title: Extract and Compare Genes and Pathways from BioPAX
-Version: 3.9
+Version: 4.0
 Depends:
     tcltk,
     plyr,

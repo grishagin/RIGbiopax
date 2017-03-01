@@ -1,8 +1,7 @@
 internal_generateXMLfromBiopax_Rancho<-
     function (biopax
               ,namespaces = namespaces
-              ,biopaxlevel=3
-              ,verbose=TRUE) 
+              ,biopaxlevel=3) 
     {
         
         if (biopaxlevel==2){
@@ -107,28 +106,14 @@ internal_generateXMLfromBiopax_Rancho<-
             rbind(instance_df_no_pv) %>% 
             .[order(classid)]
         
-        message("All tags for interaction components and each instance were prepared.")
-        
         #set datatable key column
         setkey(instance_df,classid)
         
-        message("Adding instances' tags to referencing components' tags...")
-        message("It should take roughly "
-                ,round(x = 1e-5*nrow(instance_class_id)
-                       ,digits = 0)
-                ," seconds.")
         
-        st<-Sys.time()
         #for each unique class/id combo find correponding referenced instances
         #and merge their corresponding tags into one line
         df_by_classid_kids<-
             instance_df[,.(kidstags=paste(tag,collapse="")),by=classid]
-        
-        et<-Sys.time()
-        message("Tag addition is over. It took "
-                ,round(x = difftime(et,st,units="secs")
-                       ,digits = 5)
-                ," seconds.")
         
         #merge open tags with referenced instances tag strings and with close tags
         df_by_classid_full<-
