@@ -46,7 +46,7 @@ writeBiopax_Rancho<-
         }
         
         if(verbose){
-             message("Writing BioPAX object to file \n"
+             message("Writing BioPAX object to file "
                 ,filename
                 ,".\nIt should take "
                 ,round(x = 2e-5*nrow(biopax$dt)
