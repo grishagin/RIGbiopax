@@ -49,7 +49,7 @@ writeBiopax_Rancho<-
              message("Writing BioPAX object to file "
                 ,filename
                 ,".\nIt should take "
-                ,round(x = 2e-5*nrow(biopax$dt)
+                ,round(x = 1.55e-5*nrow(biopax$dt)
                        ,digits = 0)
                 ," seconds.")
         }
