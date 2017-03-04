@@ -111,12 +111,12 @@ MAIN_biopax_toxdb_comparison_summary<-
             lapply(FUN=function(dFrame){
                 summ_vect<-
                     nrow(dFrame)
-                names(summ_vect)<-"N_genes"
+                names(summ_vect)<-"N_pathways"
                 summ_vect<-
                     c(summ_vect
-                      ,dFrame[,c("matches"
-                                 ,"misses_toxdb"
-                                 ,"extra_biopax")] %>%
+                      ,dFrame[,c("N_genes_matches"
+                                 ,"N_genes_misses_toxdb"
+                                 ,"N_genes_extra_biopax")] %>%
                           apply(MARGIN = 2
                                 ,sum))
                 return(summ_vect)
