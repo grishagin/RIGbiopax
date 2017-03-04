@@ -4,13 +4,10 @@
 \alias{MAIN_biopax_toxdb_comparison_summary}
 \title{Prepare BioPAX-ToxDB Comparison Summary}
 \usage{
-MAIN_biopax_toxdb_comparison_summary(work_dir = "default",
-  output_dir = "./summary", pw_matchup_file = "default",
-  pw_src_file = "default", genes_df)
+MAIN_biopax_toxdb_comparison_summary(output_dir = "./summary",
+  pw_matchup_file = "default", pw_src_file = "default", genes_df)
 }
 \arguments{
-\item{work_dir}{Work directory.}
-
 \item{output_dir}{Output directory (will be created if non-existent).}
 
 \item{pw_matchup_file}{File with pathway matchups between BioPAX sources and Inxight Pathways list.}

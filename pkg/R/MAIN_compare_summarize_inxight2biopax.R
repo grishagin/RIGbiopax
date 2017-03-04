@@ -72,8 +72,9 @@ MAIN_compare_summarize_inxight2biopax<-
                                           ,filename = NULL)
         
         #conduct comparisons
-        MAIN_biopax_toxdb_comparison_summary(work_dir=wkdir
-                                             ,output_dir="./summary"
+        MAIN_biopax_toxdb_comparison_summary(output_dir=
+                                                 file.path(wkdir
+                                                           ,"summary")
                                              ,pw_matchup_file="default"
                                              ,pw_src_file="default"
                                              ,genes_df=genes_df

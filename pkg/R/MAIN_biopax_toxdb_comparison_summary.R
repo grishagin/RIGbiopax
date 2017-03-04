@@ -1,6 +1,5 @@
 MAIN_biopax_toxdb_comparison_summary<-
-    function(work_dir="default"
-             ,output_dir="./summary"
+    function(output_dir="./summary"
              ,pw_matchup_file="default"
              ,pw_src_file="default"
              ,genes_df
@@ -10,7 +9,6 @@ MAIN_biopax_toxdb_comparison_summary<-
         #' Prepare BioPAX-ToxDB Comparison Summary
         #' @description 
         #' Prepares comprehensive summary of comparison of genes in BioPAX sources to ToxDB gene list.
-        #' @param work_dir Work directory.
         #' @param output_dir Output directory (will be created if non-existent).
         #' @param pw_matchup_file File with pathway matchups between BioPAX sources and Inxight Pathways list.
         #' @param pw_src_file Inxight Pathways spreadsheet with pathway curation information.
@@ -23,6 +21,10 @@ MAIN_biopax_toxdb_comparison_summary<-
         require(RIGessentials)
         require(readxl)
         
+        dir.create(output_dir
+                   ,showWarnings = FALSE)
+        prepareSession(output_dir)
+        
         #establish key parameters, if not supplied by user
         if("character" %in% class(genes_df)){
             genes_df<-
@@ -31,9 +33,6 @@ MAIN_biopax_toxdb_comparison_summary<-
                                   ,sheet = 1)
         }
         
-        if(work_dir=="default"){
-            work_dir<-getwd()
-        }
         if(pw_matchup_file=="default"){
             pw_matchup_file<-
                 system.file("extdata"
@@ -46,11 +45,6 @@ MAIN_biopax_toxdb_comparison_summary<-
                             ,"human_pathways_rbs_curated_current_version.xlsx"
                             ,package="RIGbiopax")
         }
-        
-        prepareSession(work_dir)
-        
-        dir.create(output_dir
-                   ,showWarnings = FALSE)
         
         pw_match<-
             read_excel_astext(path = pw_matchup_file
