@@ -65,7 +65,7 @@ merge_gene_comparison_results<-
         if(is.null(filename)){
             filename<-
                 paste0(Sys.Date()
-                       ,"_ALL_SOURCES_toxdb_vs_biopax_"
+                       ,"_ALL_SOURCES_inxight-list_VS_biopax_"
                        ,pattern
                        ,".xlsx")
         }

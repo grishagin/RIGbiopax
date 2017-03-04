@@ -3,7 +3,7 @@ MAIN_biopax_toxdb_comparison_summary<-
              ,output_dir="./summary"
              ,pw_matchup_file="default"
              ,pw_src_file="default"
-             ,gene_df_file=NULL
+             ,genes_df
              ){
         
         #' @title
@@ -14,7 +14,8 @@ MAIN_biopax_toxdb_comparison_summary<-
         #' @param output_dir Output directory (will be created if non-existent).
         #' @param pw_matchup_file File with pathway matchups between BioPAX sources and Inxight Pathways list.
         #' @param pw_src_file Inxight Pathways spreadsheet with pathway curation information.
-        #' @param gene_df_file Spreadsheet with BioPAX-ToxDB gene comparison.
+        #' @param genes_df Either a dataframe with BioPAX-ToxDB gene comparison 
+        #' or a filename of a spreadsheet with such dataframe.
         
         #' @author 
         #' Ivan Grishagin
@@ -23,8 +24,11 @@ MAIN_biopax_toxdb_comparison_summary<-
         require(readxl)
         
         #establish key parameters, if not supplied by user
-        if(is.null(gene_df_file)){
-            stop("Please specify gene_df_file!")
+        if("character" %in% class(genes_df)){
+            genes_df<-
+                read_excel_astext(path = genes_df
+                                  #,col_types = rep("text",14)
+                                  ,sheet = 1)
         }
         
         if(work_dir=="default"){
@@ -52,17 +56,12 @@ MAIN_biopax_toxdb_comparison_summary<-
             read_excel_astext(path = pw_matchup_file
                               #,col_types = rep("text",11)
                               ,sheet = 1) 
-        
         pw_src<-
             read_excel_astext(path = pw_src_file
                               #,col_types = rep("text",4)
                               ,sheet = 1) 
-        
-        
-        gene_df<-
-            read_excel_astext(path = gene_df_file
-                              #,col_types = rep("text",14)
-                              ,sheet = 1) %>%
+        genes_df<-
+            genes_df %>%
             filter(!is.na(toxdb.Pathway.ID))
         
         #non-curated (non-altered) pathways
@@ -82,25 +81,25 @@ MAIN_biopax_toxdb_comparison_summary<-
         
         #summary of original dataframe 
         summary_list$all<-
-            gene_df %>%
+            genes_df %>%
             RIGbiopax:::internal_analyse_toxdb_biopax_results_df("all")
         
         #summary of dataframe with pathways only from original sources
         summary_list$origsrc<-
-            gene_df %>%
+            genes_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             RIGbiopax:::internal_analyse_toxdb_biopax_results_df("origsrc")
         
         #summary of dataframe with pathways only from original sources+exact name matches
         summary_list$origsrc_exactmatch<-
-            gene_df %>%
+            genes_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             filter(pathway.Match.Status=="Exact") %>%
             RIGbiopax:::internal_analyse_toxdb_biopax_results_df("origsrc_exactmatch")
         
         #summary of dataframe with pathways only from original sources+exact name matches+not changed
         summary_list$origsrc_exactmatch_noncur<-
-            gene_df %>%
+            genes_df %>%
             filter(!toxdb.Pathway.ID %in% pw_altsrc) %>%
             filter(pathway.Match.Status=="Exact") %>%
             filter(toxdb.Pathway.ID %in% pw_noncur) %>%
@@ -147,7 +146,7 @@ MAIN_biopax_toxdb_comparison_summary<-
         
         #pathways with no genes in biopax
         pw_nogenes<-
-            gene_df %>%
+            genes_df %>%
             dplyr::group_by(toxdb.Pathway.ID) %>%
             dplyr::summarise(na.len=sum(is.na(biopax.Component.ID))
                       ,all.len=length(biopax.Component.ID)

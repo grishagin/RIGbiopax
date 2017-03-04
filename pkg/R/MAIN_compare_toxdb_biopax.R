@@ -82,7 +82,7 @@ MAIN_compare_toxdb_biopax <-
             output_dir<-
                 file.path(work_dir
                           ,paste0(Sys.Date()
-                                  ," RESULTS toxdb-vs-biopax genes comparison"))
+                                  ,"_RESULTS_inxight-list_VS_biopax_comparison"))
         }
         #create output directory (ignored if exists)
         dir.create(output_dir
@@ -230,7 +230,7 @@ MAIN_compare_toxdb_biopax <-
                                             ,paste(Sys.Date()
                                                    ,"pathways"
                                                    ,source_name
-                                                   ,"toxdb_biopax.xlsx"
+                                                   ,"inxight-list_VS_biopax.xlsx"
                                                    ,sep="_"))
                               ,col.names=TRUE
                               ,row.names=FALSE)
@@ -242,7 +242,7 @@ MAIN_compare_toxdb_biopax <-
                                             ,paste(Sys.Date()
                                                    ,"genes"
                                                    ,source_name
-                                                   ,"toxdb_biopax.xlsx"
+                                                   ,"inxight-list_VS_biopax.xlsx"
                                                    ,sep="_"))
                               ,col.names=TRUE
                               ,row.names=FALSE

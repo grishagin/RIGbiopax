@@ -6,7 +6,7 @@
 \usage{
 MAIN_biopax_toxdb_comparison_summary(work_dir = "default",
   output_dir = "./summary", pw_matchup_file = "default",
-  pw_src_file = "default", gene_df_file = NULL)
+  pw_src_file = "default", genes_df)
 }
 \arguments{
 \item{work_dir}{Work directory.}
@@ -17,7 +17,8 @@ MAIN_biopax_toxdb_comparison_summary(work_dir = "default",
 
 \item{pw_src_file}{Inxight Pathways spreadsheet with pathway curation information.}
 
-\item{gene_df_file}{Spreadsheet with BioPAX-ToxDB gene comparison.}
+\item{genes_df}{Either a dataframe with BioPAX-ToxDB gene comparison 
+or a filename of a spreadsheet with such dataframe.}
 }
 \description{
 Prepares comprehensive summary of comparison of genes in BioPAX sources to ToxDB gene list.
