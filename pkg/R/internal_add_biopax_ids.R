@@ -1,5 +1,5 @@
-add.biopax.ids <-
-function(all_pathways
+internal_add_biopax_ids<-
+    function(all_pathways
              ,pw_biopax){
         #add biopax pathway ids
         all_pathways_pwid<-
@@ -15,7 +15,7 @@ function(all_pathways
                           mutate(biopax.Pathway.ID=biopaxID)
                       
                       if(length(biopaxID)>1) {
-                          message("add.biopax.ids: Found "
+                          message("add_biopax_ids: Found "
                                   ,length(biopaxID)
                                   ," IDs for "
                                   ,unique(dfrow$biopax.Pathway.Name))

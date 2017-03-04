@@ -1,8 +1,7 @@
-add.symbols.entrezids.mygene <-
-function(df_pw_proteins=NULL
-         ,KEYTYPE=NULL
-         ,species="human"
-    ){
+internal_add_symbols_entrezids_mygene<-
+    function(df_pw_proteins=NULL
+             ,KEYTYPE=NULL
+             ,species="human"){
         require(plyr)
         require(dplyr)
         require(mygene)
@@ -97,9 +96,9 @@ function(df_pw_proteins=NULL
                 
                 queryResults<-
                     queryResults %>%
-                    shrink.df.via.merge.col(colKey = "query"
-                                            ,colToMerge = "entrezgene"
-                                            ,patternToMerge="|")
+                    merge_cols_shorten_df(colKey = "query"
+                                          ,colsToMerge = "entrezgene"
+                                          ,patternToMerge="|")
                 
                 df_pw_proteins[KEYTYPE_NA_rows
                                ,c("ENTREZID","biopax.Gene.Symbol")]<-

@@ -1,7 +1,4 @@
-export("add.biopax.ids"
-		,"add.MULT.symbols.entrezids"
-		,"add.symbols.entrezids.mygene"
-		,"add_db_ids"
+export("add_db_ids"
 		,"adjust_columns"
 		,"biopax_from_dt"
 		,"clean_biopax_property_value"

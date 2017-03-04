@@ -158,8 +158,8 @@ MAIN_compare_toxdb_biopax <-
         ####################### add pathway IDs ################################
         #add biopax pw ids
         all_pathways_pwid<-
-            add.biopax.ids(all_pathways=all_pathways
-                           ,pw_biopax=pw_biopax)
+            internal_add_biopax_ids(all_pathways=all_pathways
+                                    ,pw_biopax=pw_biopax)
         
         #add missing pathways from biopax
         all_pathways_pwid<-
@@ -183,8 +183,8 @@ MAIN_compare_toxdb_biopax <-
         
         #add annotations and filter out only entries with db in keytypes
         df_pw_proteins_annot<-
-            add.MULT.symbols.entrezids(df_pw_proteins=df_pw_proteins
-                                       ,filter_keytypes = TRUE)
+            internal_add_multiple_symbols_entrezids(df_pw_proteins=df_pw_proteins
+                                                    ,filter_keytypes = TRUE)
         
         #ensure toxdb and annotated biopax df have same columns
         #and fill some of them

@@ -1,5 +1,5 @@
-add.MULT.symbols.entrezids <-
-function(df_pw_proteins=NULL
+internal_add_multiple_symbols_entrezids <-
+    function(df_pw_proteins=NULL
              ,keytypes=c("entrezgene"
                          ,"mim"
                          ,"uniprot"
@@ -49,7 +49,7 @@ function(df_pw_proteins=NULL
         for(KEYTYPE in keytypes){
             df_pw_proteins<-
                 df_pw_proteins %>%
-                add.symbols.entrezids.mygene(KEYTYPE)
+                internal_add_symbols_entrezids_mygene(KEYTYPE)
         }
         
         #if multiple pipe-separated values were added when annotating,
