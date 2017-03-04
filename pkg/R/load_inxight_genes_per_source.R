@@ -1,14 +1,23 @@
-load.toxdb.genes.per.source <-
-function(source_name
-             ,source_dir=NULL
+load_inxight_genes_per_source<-
+    function(source_name
              ,toxdb_genes_file=NULL
              ,all_pathways){
+        #' @title
+        #' Load Dataframe with Genes/Pathways
+        #' @description 
+        #' Load a table with all genes listed for each of the pathways.
+        #' @param source_name Name of the BioPAX source.
+        #' @param toxdb_genes_file File that has a table of all genes listed for all pathways. 
+        #' @param all_pathways Dataframe with all desired pathways.
+        
+        #' @author 
+        #' Ivan Grishagin
+        
         #list of genes and pathways
         #and select only pertaining columns
         options(stringsAsFactors = FALSE)
         
-        toxdb<-read.table(file.path(source_dir
-                                    ,toxdb_genes_file)
+        toxdb<-read.table(toxdb_genes_file
                           ,header = TRUE
                           ,quote=""
                           ,sep="\t") %>% 

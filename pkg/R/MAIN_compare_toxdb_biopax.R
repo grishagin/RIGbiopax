@@ -119,10 +119,9 @@ MAIN_compare_toxdb_biopax <-
             tolower(all_pathways$biopax.Pathway.Name)
         #choose only pertaining toxdb pathway source and its elements
         toxdb<-
-            load.toxdb.genes.per.source(source_name=source_name
-                                        ,source_dir=work_dir
-                                        ,toxdb_genes_file=toxdb_genes_file
-                                        ,all_pathways=all_pathways)
+            load_inxight_genes_per_source(source_name=source_name
+                                          ,toxdb_genes_file=toxdb_genes_file
+                                          ,all_pathways=all_pathways)
         
         #load list of pathways and components from biopax
         if(is.null(owl_biopax)){
