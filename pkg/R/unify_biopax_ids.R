@@ -22,7 +22,6 @@ unify_biopax_ids<-
         #standardizes representation of all biopax ids
         #take unique classes with ids combinations
         #doesn't touch ids with exclude_id_pattern of class exclude_class
-        st<-Sys.time()
         class_id<-
             biopax_dt %>%
             dplyr::select(class,id) %>%
@@ -72,10 +71,7 @@ unify_biopax_ids<-
             biopax_dt$property_attr_value %>%
             mapvalues(from = class_id$id
                       ,to = class_id$newid)
-        et<-Sys.time()
-        #print(et-st)
-        
-        
+
         return(biopax_dt)
         
     }
