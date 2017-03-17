@@ -25,7 +25,7 @@ internal_add_symbols_entrezids_mygene<-
             if(KEYTYPE=="entrezgene"){
                 #if querying entrezgenes -- use a different function
                 #this way, it will return results regardless of species
-                #otherwise, substantial modification of the scrip is required
+                #otherwise, substantial modification of the script is required
                 #to accommodate for different species
                 queryResults<-
                     getGenes(unique(queryInput)
