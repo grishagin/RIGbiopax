@@ -10,7 +10,8 @@ unify_biopax_ids<-
         #' Converts IDs in a BioPAX-style data table to a uniform format.
         #' @details 
         #' ID unification is conducted by appending a class of a component to its throughout number.
-        #' E.g. for a component of class Protein, #11 from the top of the table, ID will be "Protein11".
+        #' E.g. for a component of class Protein, #11 from the top of the table, ID will be "Protein11". 
+        #' In addition, component classes are corrected as well to ensure that components with the same id have the same class.
         #' @param biopax_dt BioPAX-style data table.
         #' @param idtag String to append to each id (defaults to \code{NULL}).
         #' @param exclude_id_pattern Exclude components with such pattern in their IDs and of class \code{exclude_class} from ID unification.
@@ -27,13 +28,13 @@ unify_biopax_ids<-
             dplyr::select(class,id) %>%
             unique 
         if(!is.null(exclude_id_pattern)){
+            #exclude instances with ids featuring a given pattern
+            #AND belonging to the class to be excluded
             class_id<-
-                class_id  %>%
-                #exclude instances with ids featuring a given pattern
-                #AND belonging to the class to be excluded
-                filter(!(grepl(exclude_id_pattern
-                               ,id) 
-                         & class %in% exclude_class)) 
+                class_id[!(grepl(exclude_id_pattern
+                                 ,id) 
+                           & class %in% exclude_class)]
+                
         }
        
         
@@ -42,35 +43,51 @@ unify_biopax_ids<-
             return(biopax_dt)
         }
         #some entities refer to instances of multiple different classes
-        #in that case, we'll replace class with "PhysicalEntity"
-        dupl_ids<-
-            class_id$id[duplicated(class_id$id)]
-        class_id$class[class_id$id %in% dupl_ids]<-
-            "PhysicalEntity"
         
-        #make new ids by merging class with its "order number"
+        #for those dupl ids that have class ModificationFeature and FragmentFeature
+        #replace them with just ModificationFeature 
+        class_id[id %in% id[duplicated(id)]][id %in% id[class=="ModificationFeature"]]$class<-
+            "ModificationFeature"
         class_id<-
             class_id %>%
-            unique %>%
-            mutate(newid = paste(idtag
-                                 ,class
-                                 ,internal_seq_along_find_reps(class)
-                                 ,sep=""))
+            unique 
+        
+        #in leftover cases, we'll replace class with "PhysicalEntity"
+        class_id[id %in% id[duplicated(id)]]$class<-
+            "PhysicalEntity"
+        class_id<-
+            class_id %>%
+            unique 
+        
+        class_id[,newid := paste0(idtag
+                                  ,class
+                                  ,1:length(id))
+                 ,by=class]
+        
         #replace ids
         biopax_dt$id<-
             biopax_dt$id %>%
             mapvalues(from = class_id$id
                       ,to = class_id$newid)
+        
+        #replace classes
+        biopax_dt[id %in% class_id$newid]$class<-
+            biopax_dt[id %in% class_id$newid]$id %>%
+            match(class_id$newid) %>% 
+            class_id$class[.]
+           
+        
         #remove ids that are not referenced in the original dataframe
         class_id<-
-            class_id %>%
-            filter(id %in% biopax_dt$property_attr_value)
+            class_id[id %in% biopax_dt$property_attr_value]
 
         #replace prop attr values (references)
         biopax_dt$property_attr_value<-
             biopax_dt$property_attr_value %>%
             mapvalues(from = class_id$id
                       ,to = class_id$newid)
+        
+        class_id<-NULL
 
         return(biopax_dt)
         
