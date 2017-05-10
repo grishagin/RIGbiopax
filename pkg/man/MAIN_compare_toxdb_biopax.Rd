@@ -13,7 +13,7 @@ MAIN_compare_toxdb_biopax(work_dir = NULL, source_owl_dir = NULL,
 \item{work_dir}{Directory, where all source files/folders are located and will be written to.}
 
 \item{source_owl_dir}{Directory with \code{*.owl} files. 
-If no directory provided, a prompt will pop up. See \code{load.biopax} function for more information.}
+If no directory provided, a prompt will pop up. See \code{load_biopax} function for more information.}
 
 \item{output_dir}{.}
 

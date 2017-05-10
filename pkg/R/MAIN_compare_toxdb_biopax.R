@@ -15,7 +15,7 @@ MAIN_compare_toxdb_biopax <-
         #' convert their IDs to gene IDs and Symbols, and then compare those to a supplied gene list.
         #' @param work_dir Directory, where all source files/folders are located and will be written to.
         #' @param source_owl_dir Directory with \code{*.owl} files. 
-        #' If no directory provided, a prompt will pop up. See \code{load.biopax} function for more information.
+        #' If no directory provided, a prompt will pop up. See \code{load_biopax} function for more information.
         #' @param output_dir .
         #' @param pw_matchup_file File that provides match-up between inxight pathway names and BioPAX pathway names.
         #' @param toxdb_genes_file File that has a table of all genes listed for all pathways. 
@@ -126,12 +126,12 @@ MAIN_compare_toxdb_biopax <-
         #load list of pathways and components from biopax
         if(is.null(owl_biopax)){
             owl_biopax<-
-                load.biopax(source_name=source_name
+                load_biopax(source_name=source_name
                             ,source_dir=source_owl_dir)
         }
        
         pw_biopax<-
-            load.biopax.pathways(owl_biopax=owl_biopax) 
+            load_biopax_pathways(owl_biopax=owl_biopax) 
         pw_biopax$biopax.Pathway.Name<-
             pw_biopax$biopax.Pathway.Name %>%
             trimws

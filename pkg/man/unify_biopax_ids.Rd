@@ -21,7 +21,8 @@ Converts IDs in a BioPAX-style data table to a uniform format.
 }
 \details{
 ID unification is conducted by appending a class of a component to its throughout number.
-E.g. for a component of class Protein, #11 from the top of the table, ID will be "Protein11".
+E.g. for a component of class Protein, #11 from the top of the table, ID will be "Protein11". 
+In addition, component classes are corrected as well to ensure that components with the same id have the same class.
 }
 \author{
 Ivan Grishagin

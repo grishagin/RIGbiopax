@@ -80,7 +80,7 @@ merge_biopax_files<-
                        #get all non-referenced ids except for pathway one
                        #pathway ids
                        pwid<-
-                           load.biopax.pathways(temp_biopax)$biopax.Pathway.ID
+                           load_biopax_pathways(temp_biopax)$biopax.Pathway.ID
                        if(length(pwid)>1){
                            message("There's more than one pwid in the file "
                                    ,file_id

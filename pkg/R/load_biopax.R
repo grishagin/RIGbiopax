@@ -1,9 +1,17 @@
-load.biopax <-
+load_biopax <-
     function(source_name=NULL
              ,source_dir=NULL){
-        require(tcltk)
-        require(rBiopaxParser)
-        require(RIGessentials)
+        #' @title 
+        #' Load BioPAX from Environment or OWL or Workspace File
+        #' @description 
+        #' Tries to load BioPAX object in several ways: searches for a BioPAX object in the environment, 
+        #' and prompts if more than one object or no object has been found. Otherwise, looks for an \code{*.owl} file in the specified directory. 
+        #' Returns a BioPAX object.
+        #' @param source_name Name of a BioPAX source.
+        #' @param source_dir Directory with BioPAX files (optional).
+        #' 
+        #' @author 
+        #' Ivan Grishagin
         
         #get all obj names in global environment
         objects<-
@@ -45,7 +53,7 @@ load.biopax <-
                 
                 #successful or not, try loading biopax again
                 biopax<-
-                    load.biopax()
+                    load_biopax()
 
             } else if(sum(is_biopax)>1){
                 #if more than one biopax, 
@@ -70,7 +78,7 @@ load.biopax <-
             #if both file name and dir name have been provided
             #try to load the file
             biopax<-
-                load.biopax.file(source_name=source_name
+                load_biopax_file(source_name=source_name
                                  ,source_dir=source_dir)
         }
         

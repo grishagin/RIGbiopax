@@ -1,5 +1,15 @@
-load.biopax.pathways <-
-function(owl_biopax=NULL){
+load_biopax_pathways<-
+    function(owl_biopax=NULL){
+        #' @title 
+        #' Load BioPAX Pathways From BioPAX Object
+        #' @description 
+        #' Extracts all pathways from a BioPAX Object.
+        #' @param owl_biopax A BioPAX object.
+        #' 
+        #' @author 
+        #' Ivan Grishagin
+        
+        
         if(is.null(owl_biopax)){
             stop("Biopax object was not provided")
         }
@@ -54,7 +64,7 @@ function(owl_biopax=NULL){
                 owl_biopax_instances_stname %>%
                 dplyr::select(id, name=property_value)
         } else {
-            stop("load.biopax.pathways: check your name properties!")
+            stop("load_biopax_pathways: check your name properties!")
         }
         
         #if pw_biopax is still empty, try default rBiopaxParser function
