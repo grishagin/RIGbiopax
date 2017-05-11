@@ -10,7 +10,8 @@ remove_deadend_refs<-
         #' Ivan Grishagin
         
         to_remove_logi<-
-            biopax$dt[,.(to_remove=property_attr=="rdf:resource" & 
+            biopax$dt[,.(to_remove=
+                             property_attr=="rdf:resource" & 
                              !property_attr_value %in% id)]$to_remove
         
         if(sum(to_remove_logi)>0){
