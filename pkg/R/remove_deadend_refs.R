@@ -9,6 +9,13 @@ remove_deadend_refs<-
         #' @author 
         #' Ivan Grishagin
         
+        
+        #remove hashes from property_attr_value column -- else it'll fail miserably
+        biopax$dt$property_attr_value<-
+            biopax$dt$property_attr_value %>% 
+            striphash
+        
+        #candidate rows for removal
         to_remove_logi<-
             biopax$dt[,.(to_remove=
                              property_attr=="rdf:resource" & 
