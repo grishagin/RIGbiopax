@@ -1,7 +1,7 @@
 export("add_db_ids"
 		,"adjust_columns"
 		,"biopax_from_dt"
-		,"clean_biopax_property_value"
+		,"clean_biopax"
 		,"compare_pw_components"
 		,"extract_pathways_from_biopax"
 		,"gene_bag_to_biopax"
