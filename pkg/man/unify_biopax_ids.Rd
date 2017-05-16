@@ -2,13 +2,13 @@
 % Please edit documentation in R/unify_biopax_ids.R
 \name{unify_biopax_ids}
 \alias{unify_biopax_ids}
-\title{Uniformly Format IDs in a BioPAX-Style Data Table}
+\title{Uniformly Format IDs in BioPAX}
 \usage{
-unify_biopax_ids(biopax_dt, idtag = NULL,
+unify_biopax_ids(biopax, idtag = NULL,
   exclude_id_pattern = "inxight_pathways", exclude_class = "Pathway")
 }
 \arguments{
-\item{biopax_dt}{BioPAX-style data table.}
+\item{biopax}{BioPAX object or a BioPAX-style data table.}
 
 \item{idtag}{String to append to each id (defaults to \code{NULL}).}
 
@@ -17,7 +17,7 @@ unify_biopax_ids(biopax_dt, idtag = NULL,
 \item{exclude_class}{Exclude components with such class and \code{exclude_id_pattern} from ID unification.}
 }
 \description{
-Converts IDs in a BioPAX-style data table to a uniform format.
+Converts IDs in a BioPAX object or a BioPAX-style data table to a uniform format.
 }
 \details{
 ID unification is conducted by appending a class of a component to its throughout number.

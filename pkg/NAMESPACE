@@ -1,4 +1,7 @@
 export("add_db_ids"
+		,"add_symbols_entrezids_mult_keytypes"
+		,"add_symbols_entrezids_single_keytype"
+		,"add_symbols_entrezids2biopax"
 		,"adjust_columns"
 		,"biopax_from_dt"
 		,"clean_biopax"

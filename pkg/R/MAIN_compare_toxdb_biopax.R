@@ -183,8 +183,20 @@ MAIN_compare_toxdb_biopax <-
         
         #add annotations and filter out only entries with db in keytypes
         df_pw_proteins_annot<-
-            internal_add_multiple_symbols_entrezids(df_pw_proteins=df_pw_proteins
-                                                    ,filter_keytypes = TRUE)
+            df_pw_proteins %>% 
+            add_symbols_entrezids_mult_keytypes(col_names=
+                                                    c(id_col = "biopax.Gene.ID"
+                                                      ,type_col = "biopax.Gene.ID.Type"
+                                                      ,entrez_col = "ENTREZID"
+                                                      ,symbol_col = "biopax.Gene.Symbol")
+                                                ,keytypes=c("entrezgene"
+                                                            ,"mim"
+                                                            ,"uniprot"
+                                                            ,"unigene"
+                                                            ,"ensemblgene"
+                                                            ,"hprd"
+                                                            ,"hgnc")
+                                                ,filter_keytypes = TRUE)
         
         #ensure toxdb and annotated biopax df have same columns
         #and fill some of them

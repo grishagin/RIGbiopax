@@ -1,18 +1,18 @@
 unify_biopax_ids<-
-    function(biopax_dt
+    function(biopax
              ,idtag=NULL
              ,exclude_id_pattern="inxight_pathways"
              ,exclude_class="Pathway"){
         
         #' @title
-        #' Uniformly Format IDs in a BioPAX-Style Data Table
+        #' Uniformly Format IDs in BioPAX
         #' @description 
-        #' Converts IDs in a BioPAX-style data table to a uniform format.
+        #' Converts IDs in a BioPAX object or a BioPAX-style data table to a uniform format.
         #' @details 
         #' ID unification is conducted by appending a class of a component to its throughout number.
         #' E.g. for a component of class Protein, #11 from the top of the table, ID will be "Protein11". 
         #' In addition, component classes are corrected as well to ensure that components with the same id have the same class.
-        #' @param biopax_dt BioPAX-style data table.
+        #' @param biopax BioPAX object or a BioPAX-style data table.
         #' @param idtag String to append to each id (defaults to \code{NULL}).
         #' @param exclude_id_pattern Exclude components with such pattern in their IDs and of class \code{exclude_class} from ID unification.
         #' @param exclude_class Exclude components with such class and \code{exclude_id_pattern} from ID unification.
@@ -20,13 +20,33 @@ unify_biopax_ids<-
         #' @author 
         #' Ivan Grishagin
         
-        #standardizes representation of all biopax ids
+        return_biopax<-
+            FALSE
+        
+        #check input
+        if("biopax" %in% class(biopax)){
+            return_biopax<-
+                TRUE
+            biopax_dt<-
+                biopax$dt
+        } else if (is.data.table(biopax)){
+            biopax_dt<-
+                biopax
+        } else if (is.data.frame(biopax)){
+            biopax_dt<-
+                biopax %>%
+                as.data.table
+        } else {
+            stop("unify_biopax_ids: something's wrong with the supplied 'biopax' argument!")
+        }
+        
+        
         #take unique classes with ids combinations
-        #doesn't touch ids with exclude_id_pattern of class exclude_class
         class_id<-
-            biopax_dt %>%
-            dplyr::select(class,id) %>%
+            biopax_dt[,.(class
+                         ,id)] %>%
             unique 
+        
         if(!is.null(exclude_id_pattern)){
             #exclude instances with ids featuring a given pattern
             #AND belonging to the class to be excluded
@@ -40,7 +60,7 @@ unify_biopax_ids<-
         
         if (nrow(class_id)<1){
             message("unify_biopax_ids: no ids to replace!")
-            return(biopax_dt)
+            return(biopax)
         }
         #some entities refer to instances of multiple different classes
         
@@ -78,6 +98,7 @@ unify_biopax_ids<-
            
         
         #remove ids that are not referenced in the original dataframe
+        #from class_id dataframe
         class_id<-
             class_id[id %in% biopax_dt$property_attr_value]
 
@@ -88,7 +109,14 @@ unify_biopax_ids<-
                       ,to = class_id$newid)
         
         class_id<-NULL
-
-        return(biopax_dt)
+        
+        if(return_biopax){
+            biopax$dt<-
+                biopax_dt
+        } else {
+            biopax<-
+                biopax_dt
+        }
+        return(biopax)
         
     }
