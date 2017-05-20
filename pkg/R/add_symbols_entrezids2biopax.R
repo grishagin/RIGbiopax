@@ -104,7 +104,7 @@ add_symbols_entrezids2biopax<-
                        ,property="db"
                        ,property_attr="rdf:datatype"
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value=dbid_db)]
+                       ,property_value="entrezgene")]
         
         dTable_list$id<-
             dbid_df[,.(class="RelationshipXref"
@@ -114,7 +114,7 @@ add_symbols_entrezids2biopax<-
                        ,property="id"
                        ,property_attr="rdf:datatype"
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value=dbid_id)]
+                       ,property_value=entrezgene)]
         
         #merge them and add them to biopax$dt
         biopax$dt<-
