@@ -78,7 +78,7 @@ add_symbols_entrezids_single_keytype<-
                                                ,"symbol")
                                      ,return.as="DataFrame"))
                     
-                    if(class(queryResults=="try-error"){
+                    if(class(queryResults)=="try-error"){
                         queryResults<-NULL
                     }
                 }
@@ -97,7 +97,7 @@ add_symbols_entrezids_single_keytype<-
                     # %>% 
                     #     data.frame
                     
-                    if(class(queryResults=="try-error"){
+                    if(class(queryResults)=="try-error"){
                         queryResults<-NULL
                     }
                 }
@@ -162,7 +162,7 @@ add_symbols_entrezids_single_keytype<-
                         # %>% 
                         #     data.frame 
                         
-                        if(class(queryResults=="try-error"){
+                        if(class(queryResults)=="try-error"){
                             queryResults<-NULL
                         }
                     }
