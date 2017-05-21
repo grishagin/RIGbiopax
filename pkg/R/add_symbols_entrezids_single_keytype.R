@@ -27,6 +27,9 @@ add_symbols_entrezids_single_keytype<-
             dFrame %>% 
             as.data.table
         
+        #set default values for query results
+        queryResults<-
+            NULL
         #replace the key column names 
         colnames(dFrame)<-
             colnames(dFrame) %>% 
@@ -66,21 +69,38 @@ add_symbols_entrezids_single_keytype<-
                 #this way, it will return results regardless of species
                 #otherwise, substantial modification of the script is required
                 #to accommodate for different species
-                queryResults<-
-                    getGenes(unique(queryInput)
-                             ,fields=c("entrezgene"
-                                       ,"symbol")
-                             ,return.as="DataFrame") 
+                
+                while(is.null(queryResults)){
+                    #sometimes curl error is thrown, so try until it budges
+                    queryResults<-
+                        try(getGenes(unique(queryInput)
+                                     ,fields=c("entrezgene"
+                                               ,"symbol")
+                                     ,return.as="DataFrame"))
+                    
+                    if(class(queryResults=="try-error"){
+                        queryResults<-NULL
+                    }
+                }
+               
             } else {
                 #query the input values
-                queryResults<-
-                    queryMany(unique(queryInput)
-                              ,scopes=KEYTYPE
-                              ,fields=c("entrezgene"
-                                        ,"symbol")
-                              ,return.as="DataFrame"
-                              ,species=species) %>% 
-                    data.frame
+                while(is.null(queryResults)){
+                    #sometimes curl error is thrown, so try until it budges
+                    queryResults<-
+                        try(queryMany(unique(queryInput)
+                                      ,scopes=KEYTYPE
+                                      ,fields=c("entrezgene"
+                                                ,"symbol")
+                                      ,return.as="DataFrame"
+                                      ,species=species))
+                    # %>% 
+                    #     data.frame
+                    
+                    if(class(queryResults=="try-error"){
+                        queryResults<-NULL
+                    }
+                }
             }
             
             
@@ -119,6 +139,9 @@ add_symbols_entrezids_single_keytype<-
                 KEYTYPE_NA_rows<-
                     which(dFrame$type_col %chin% KEYTYPE &
                               is.na(dFrame$id_col))
+                #set default values for query results
+                queryResults<-
+                    NULL
                 
                 if(length(KEYTYPE_NA_rows)>0){
                     #for those rows, extract gene symbols from the component ID column
@@ -128,13 +151,22 @@ add_symbols_entrezids_single_keytype<-
                         sapply("[[",2)
                     
                     #try to get entrez id for each of the symbols
-                    queryResults<-
-                        queryMany(unique(symbols)
-                                  ,scopes="symbol"
-                                  ,fields="entrezgene"
-                                  ,return.as="DataFrame"
-                                  ,species=species) %>% 
-                        data.frame 
+                    while(is.null(queryResults)){
+                        #sometimes curl error is thrown, so try until it budges
+                        queryResults<-
+                            try(queryMany(unique(symbols)
+                                          ,scopes="symbol"
+                                          ,fields="entrezgene"
+                                          ,return.as="DataFrame"
+                                          ,species=species))
+                        # %>% 
+                        #     data.frame 
+                        
+                        if(class(queryResults=="try-error"){
+                            queryResults<-NULL
+                        }
+                    }
+                   
                     
                     if(!("entrezgene" %chin% colnames(queryResults))){
                         message("Unsuccessful query for symbols: "
