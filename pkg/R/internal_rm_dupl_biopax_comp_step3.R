@@ -1,6 +1,8 @@
 internal_rm_dupl_biopax_comp_step3<-
     function(biopax){
-        #this function calls itself iteratively 
+        #this function is a wrapper for another one,
+        #which sorts out duplicates of the highest level components based on class
+        #in the following order:
         #first, remove copies of all physical entities except Complex
         #then do same for complexes (iteratively)
         #then reactions

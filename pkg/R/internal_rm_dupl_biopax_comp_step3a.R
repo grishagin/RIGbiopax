@@ -1,6 +1,10 @@
 internal_rm_dupl_biopax_comp_step3a<-
     function(biopax
              ,keep_class){
+        #this function sorts out duplicates of the highest level components based on class
+        #(as opposed to property)
+        #needs to be applied iteratively to cover all tiers of nesting
+        
         #create an explicit copy, such that the original object is not affected
         biopax_dt<-
             copy(biopax$dt)
@@ -29,7 +33,8 @@ internal_rm_dupl_biopax_comp_step3a<-
                       ,.(from=id
                          ,to=id[1])
                       ,by=combo2][from!=to] %>% 
-            unique
+            unique %>% 
+            .[!duplicated(from)]
         
         #now replace all those ids in the dataframe
         #in id and pav columns

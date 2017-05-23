@@ -1,5 +1,6 @@
 internal_rm_dupl_biopax_comp_step1<-
     function(biopax){
+        #this function sorts out all duplicate term-db-id, db-id, and position-status values
         
         #create an explicit copy, such that the original object is not affected
         biopax_dt<-
@@ -48,7 +49,8 @@ internal_rm_dupl_biopax_comp_step1<-
         biopax_dt$property_attr_value<-
             biopax_dt$property_attr_value %>% 
             mapvalues(from=allid_by_combo2$from
-                      ,to=allid_by_combo2$to)
+                      ,to=allid_by_combo2$to
+                      ,warn_missing = FALSE)
         
         #take only unique rows
         biopax_dt<-

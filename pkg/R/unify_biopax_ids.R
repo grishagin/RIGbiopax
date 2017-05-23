@@ -108,8 +108,11 @@ unify_biopax_ids<-
             mapvalues(from = class_id$id
                       ,to = class_id$newid)
         
+        #clean up
         class_id<-NULL
         
+        #if biopax object was originally supplied,
+        #convert the modified data table back into the biopax object
         if(return_biopax){
             biopax$dt<-
                 biopax_dt
