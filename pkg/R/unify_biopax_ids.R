@@ -62,12 +62,17 @@ unify_biopax_ids<-
             message("unify_biopax_ids: no ids to replace!")
             return(biopax)
         }
+        
         #some entities refer to instances of multiple different classes
         
         #for those dupl ids that have class ModificationFeature and FragmentFeature
         #replace them with just ModificationFeature 
         class_id[id %in% id[duplicated(id)]][id %in% id[class=="ModificationFeature"]]$class<-
             "ModificationFeature"
+        
+        #for those that have Complex class (and perhaps smth else) -- use Complex
+        class_id[id %in% id[duplicated(id)]][id %in% id[class=="Complex"]]$class<-
+            "Complex"
         class_id<-
             class_id %>%
             unique 

@@ -7,13 +7,13 @@ add_symbols_entrezids_mult_keytypes<-
                    ,symbol_col = "biopax.Gene.Symbol"
                    ,pathway_col = "biopax.Pathway.ID"
                    ,comp_col = "biopax.Component.ID")
-             ,keytypes=c("entrezgene"
-                         ,"mim"
-                         ,"uniprot"
-                         ,"unigene"
-                         ,"ensemblgene"
-                         ,"hprd"
-                         ,"hgnc")
+             ,key_types=c("entrezgene"
+                          ,"mim"
+                          ,"uniprot"
+                          ,"unigene"
+                          ,"ensemblgene"
+                          ,"hprd"
+                          ,"hgnc")
              ,filter_keytypes=TRUE){
         
         #' @title 
@@ -22,7 +22,7 @@ add_symbols_entrezids_mult_keytypes<-
         #' Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids in multiple other formats.
         #' @param dFrame Dataframe or data table to process.
         #' @param col_names A named vector of actual column names in the supplied \code{dFrame}. 
-        #' @param keytypes A format of IDs to be converted. 
+        #' @param key_types A format of IDs to be converted. 
         #' @param filter_keytypes Logical. Return only rows with desired format types? Defaults to \code{TRUE}.
         #' 
         #' @author 
@@ -42,7 +42,7 @@ add_symbols_entrezids_mult_keytypes<-
         
         #if entrez or symbol cols are not present -- add them
         if(is.null(dFrame$entrez_col)){
-            dFrame$entrez_col<-NA
+            dFrame$entrez_col<-NA_integer_
         }
         if(is.null(dFrame$symbol_col)){
             dFrame$symbol_col<-NA
@@ -67,7 +67,7 @@ add_symbols_entrezids_mult_keytypes<-
             as.data.table
         
         #annotate data table iteratively
-        for(KEYTYPE in keytypes){
+        for(KEYTYPE in key_types){
             dFrame<-
                 dFrame %>%
                 add_symbols_entrezids_single_keytype(col_names = 
@@ -93,7 +93,7 @@ add_symbols_entrezids_mult_keytypes<-
         
         if(filter_keytypes){
             dFrame<-
-                dFrame[type_col %chin% keytypes]
+                dFrame[type_col %chin% key_types]
         }
         
         #change colnames back

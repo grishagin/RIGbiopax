@@ -57,6 +57,7 @@ add_symbols_entrezids2biopax<-
                                                       ,type_col = "dbid_db"
                                                       ,entrez_col = "entrezgene"
                                                       ,symbol_col = "symbol"))
+        
         #prepare all actual data tables that connect
         #physical entities to the entrez ids and symbols
         dTable_list<-list()
@@ -67,20 +68,6 @@ add_symbols_entrezids2biopax<-
                        ,property_attr="rdf:resource"
                        ,property_attr_value=
                            paste0(xref_id
-                                  ,"entrez")
-                       ,property_value="")]
-        
-        dTable_list$xref<-
-            dbid_df[,.(class=
-                           paste0(physent_class
-                                  ,"Reference")
-                       ,id=
-                           paste0(xref_id
-                                  ,"entrez")
-                       ,property="xref"
-                       ,property_attr="rdf:resource"
-                       ,property_attr_value=
-                           paste0(id
                                   ,"entrez")
                        ,property_value="")]
         
@@ -96,25 +83,43 @@ add_symbols_entrezids2biopax<-
                        ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
                        ,property_value=symbol)]
         
-        dTable_list$db<-
-            dbid_df[,.(class="RelationshipXref"
-                       ,id=
-                           paste0(id
-                                  ,"entrez")
-                       ,property="db"
-                       ,property_attr="rdf:datatype"
-                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value="entrezgene")]
+        if(nrow(dbid_df[dbid_id!=entrezgene])>0){
+            dTable_list$xref<-
+                dbid_df[,.(class=
+                               paste0(physent_class[dbid_id!=entrezgene]
+                                      ,"Reference")
+                           ,id=
+                               paste0(xref_id[dbid_id!=entrezgene]
+                                      ,"entrez")
+                           ,property="xref"
+                           ,property_attr="rdf:resource"
+                           ,property_attr_value=
+                               paste0(id[dbid_id!=entrezgene]
+                                      ,"entrez")
+                           ,property_value="")]
+            dTable_list$db<-
+                #do not take those values, where dbid_id==entrezid
+                dbid_df[,.(class="RelationshipXref"
+                           ,id=
+                               paste0(id[dbid_id!=entrezgene]
+                                      ,"entrez")
+                           ,property="db"
+                           ,property_attr="rdf:datatype"
+                           ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                           ,property_value="entrezgene")]
+            
+            dTable_list$id<-
+                #do not take those values, where dbid_id==entrezid
+                dbid_df[,.(class="RelationshipXref"
+                           ,id=
+                               paste0(id[dbid_id!=entrezgene]
+                                      ,"entrez")
+                           ,property="id"
+                           ,property_attr="rdf:datatype"
+                           ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
+                           ,property_value=entrezgene[dbid_id!=entrezgene])]
+        }
         
-        dTable_list$id<-
-            dbid_df[,.(class="RelationshipXref"
-                       ,id=
-                           paste0(id
-                                  ,"entrez")
-                       ,property="id"
-                       ,property_attr="rdf:datatype"
-                       ,property_attr_value="http://www.w3.org/2001/XMLSchema#string"
-                       ,property_value=entrezgene)]
         
         #merge them and add them to biopax$dt
         biopax$dt<-

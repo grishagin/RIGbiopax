@@ -1,30 +1,25 @@
-internal_rm_dupl_biopax_comp_step1<-
-    function(biopax){
-        #this function sorts out all duplicate term-db-id, db-id, and position-status values
+internal_rm_dupl_biopax_comp<-
+    function(biopax
+             ,logical_subset_vect){
         
-        #create an explicit copy, such that the original object is not affected
+        #make a copy of the biopax dt
         biopax_dt<-
             copy(biopax$dt)
         
-        keep_props<-
-            c("term"
-              ,"db"
-              ,"id"
-              ,"positionStatus"
-              ,"sequencePosition")
-        
-        #merge class, property, and property value
-        #only for instances with "good" properties
-        #i.e. explicitly exclude all other properties with same id
-        biopax_dt[!id %in% id[!property %in% keep_props]
+        #merge class, property, property_attr_value, and property_value
+        #only for desired instances 
+        biopax_dt[logical_subset_vect
                   ,combo1 := paste0(class
                                     ,property
+                                    ,property_attr_value
                                     ,property_value)]
+        
+        #order by id, then combo1 -- for consistency later
         biopax_dt<-
             biopax_dt[order(id
                             ,combo1)]
         
-        #merge all such values within one id
+        #merge all non-NA combo1 values within one id
         biopax_dt[combo1!="NA"
                   ,combo2 := paste0(combo1
                                     ,collapse="")
@@ -39,6 +34,15 @@ internal_rm_dupl_biopax_comp_step1<-
                          ,to=id[1])
                       ,by=combo2][from!=to] %>% 
             unique
+        # print(allid_by_combo2[from %in% to])
+        # print(allid_by_combo2[to %in% from])
+        # print(allid_by_combo2)
+        
+        #if no such rows found -- return original biopax
+        if(nrow(allid_by_combo2)<1){
+            rm(biopax_dt)
+            return(biopax)
+        }
         
         #now replace all those ids in the dataframe
         #in id and pav columns
@@ -68,5 +72,4 @@ internal_rm_dupl_biopax_comp_step1<-
         rm(biopax_dt)
         
         return(biopax)
-        
     }

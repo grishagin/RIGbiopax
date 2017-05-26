@@ -10,6 +10,17 @@ remove_duplicate_biopax_components(biopax)
 BioPAX objects frequently have components that are identical in everything, but id. 
 This function removes all such duplicates, and changes all property_attr_values accordingly.
 }
+\details{
+The biopax is processed iteratively.\cr
+First, two sets of properties are used to identify and remove:\cr
+1) duplicate term-db-id, db-id, and position-status instances;\cr
+2) duplicate instances that refer to instance listed in 1) -- 
+they have properties xref, term, evidenceCode, featureLocation, 
+modificationType, sequenceIntervalBegin, sequenceIntervalEnd. \cr\cr
+Second, two sets of classes are used to identify and remove:\cr
+1) duplicate Protein, SmallMolecule, PhysicalEntity, RNA, DNA instances;\cr
+2) duplicate Complex instances.\cr
+}
 \author{
 Ivan Grishagin
 }

@@ -119,7 +119,8 @@ add_symbols_entrezids_single_keytype<-
             #fill the entrez gene and symbol values
             dFrame[KEYTYPE_rows]$entrez_col<-
                 queryResults$entrezgene[match(queryInput
-                                              ,queryResults$query)]
+                                              ,queryResults$query)] %>% 
+                as.integer
             dFrame[KEYTYPE_rows]$symbol_col<-
                 queryResults$symbol[match(queryInput
                                           ,queryResults$query)]
