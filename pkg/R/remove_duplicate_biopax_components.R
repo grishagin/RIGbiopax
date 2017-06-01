@@ -19,6 +19,11 @@ remove_duplicate_biopax_components<-
         #' @author 
         #' Ivan Grishagin
         
+        #strip hashes from the biopax property attr value column
+        biopax$dt$property_attr_value<-
+            biopax$dt$property_attr_value %>% 
+            striphash
+        
         #first, clean-up entities by properties
         #then by class
         for(keep_list_name in c("property","class")){
