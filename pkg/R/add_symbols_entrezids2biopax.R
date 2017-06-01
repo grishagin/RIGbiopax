@@ -128,6 +128,11 @@ add_symbols_entrezids2biopax<-
                     ,.) %>% 
             unique %>% 
             rbind(biopax$dt)
+        
+        #fix the classes
+        class(biopax$dt)<-
+            c("biopax_df"
+              ,class(biopax$dt))
 
         
         return(biopax)
