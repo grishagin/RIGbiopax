@@ -8,7 +8,7 @@ split_pathway_into_chunks<-
         #'Split a given pathway supplied in a BioPAX object into N new BioPAX objects.
         #'@param biopax BioPAX object.
         #'@param pw_id ID of a pathway to split.
-        #'@param Nchuncks How many new BioPAX objects to produce from the original one?
+        #'@param Nchunks How many new BioPAX objects to produce from the original one?
         #'
         #'@author
         #'Ivan Grishagin
@@ -28,16 +28,16 @@ split_pathway_into_chunks<-
                                   ,includeSubPathways = FALSE
                                   ,returnIDonly = TRUE)
         
-        ############################################# split the id vector up into Nchuncks
+        ############################################# split the id vector up into Nchunks
         #safeguard agains too manu chuncks
-        Nchuncks<-
-            min(Nchuncks,length(pw_comp_ids))
+        Nchunks<-
+            min(Nchunks,length(pw_comp_ids))
         
         #get split intervals based on desired number of intervals 
         quant_splits<-
             quantile(1:length(pw_comp_ids)
                      ,probs=seq(0,1
-                                ,1/Nchuncks)
+                                ,1/Nchunks)
                      ,type=1)
         #change the first element to zero (see below)
         quant_splits[1]<-0
