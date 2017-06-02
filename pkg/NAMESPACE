@@ -21,9 +21,10 @@ export("add_db_ids"
 		,"merge_gene_comparison_results"
 		,"remove_deadend_refs"
 		,"remove_duplicate_biopax_components"
+		,"split_pathway_into_chunks"
 		,"splitbiopax_from_dt"
 		,"striphash"
 		,"unify_biopax_ids"
 		,"update_RIGbiopax"
 		,"writeBiopax_Rancho"
-)
+		)
