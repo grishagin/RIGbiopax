@@ -4,9 +4,10 @@
 \alias{add_symbols_entrezids_single_keytype}
 \title{Annotate DataFrame with Gene ID and Gene Symbol}
 \usage{
-add_symbols_entrezids_single_keytype(dFrame, col_names = c(id_col = "id_col",
-  type_col = "type_col", entrez_col = "entrez_col", symbol_col = "symbol_col",
-  pathway_col = "", comp_col = ""), KEYTYPE = NULL, species = "human")
+add_symbols_entrezids_single_keytype(dFrame, col_names = c(id_col =
+  "id_col", type_col = "type_col", entrez_col = "entrez_col", symbol_col =
+  "symbol_col", pathway_col = "", comp_col = ""), KEYTYPE = NULL,
+  species = "human")
 }
 \arguments{
 \item{dFrame}{Dataframe or data table to process.}

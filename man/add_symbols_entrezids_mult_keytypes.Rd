@@ -5,10 +5,11 @@
 \title{Annotate DataFrame with Gene ID and Gene Symbol}
 \usage{
 add_symbols_entrezids_mult_keytypes(dFrame, col_names = c(id_col =
-  "biopax.Gene.ID", type_col = "biopax.Gene.ID.Type", entrez_col = "ENTREZID",
-  symbol_col = "biopax.Gene.Symbol", pathway_col = "biopax.Pathway.ID", comp_col
-  = "biopax.Component.ID"), key_types = c("entrezgene", "mim", "uniprot",
-  "unigene", "ensemblgene", "hprd", "hgnc"), filter_keytypes = TRUE)
+  "biopax.Gene.ID", type_col = "biopax.Gene.ID.Type", entrez_col =
+  "ENTREZID", symbol_col = "biopax.Gene.Symbol", pathway_col =
+  "biopax.Pathway.ID", comp_col = "biopax.Component.ID"),
+  key_types = c("entrezgene", "mim", "uniprot", "unigene", "ensemblgene",
+  "hprd", "hgnc"), filter_keytypes = TRUE)
 }
 \arguments{
 \item{dFrame}{Dataframe or data table to process.}

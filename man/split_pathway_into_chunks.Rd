@@ -11,7 +11,7 @@ split_pathway_into_chunks(biopax, pw_id, Nchunks = 2)
 
 \item{pw_id}{ID of a pathway to split.}
 
-\item{Nchuncks}{How many new BioPAX objects to produce from the original one?}
+\item{Nchunks}{How many new BioPAX objects to produce from the original one?}
 }
 \description{
 Split a given pathway supplied in a BioPAX object into N new BioPAX objects.

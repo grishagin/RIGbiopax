@@ -6,8 +6,8 @@
 \usage{
 MAIN_compare_toxdb_biopax(work_dir = NULL, source_owl_dir = NULL,
   output_dir = NULL, pw_matchup_file = "default",
-  toxdb_genes_file = "default", source_name = NULL, owl_biopax = NULL,
-  verbose = FALSE)
+  toxdb_genes_file = "default", source_name = NULL,
+  owl_biopax = NULL, verbose = FALSE)
 }
 \arguments{
 \item{work_dir}{Directory, where all source files/folders are located and will be written to.}

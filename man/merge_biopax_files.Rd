@@ -4,7 +4,8 @@
 \alias{merge_biopax_files}
 \title{Merge Multiple BioPAX Files into One File}
 \usage{
-merge_biopax_files(source_dir = NULL, change_ids = TRUE, filename = NULL)
+merge_biopax_files(source_dir = NULL, change_ids = TRUE,
+  filename = NULL)
 }
 \arguments{
 \item{source_dir}{Directory with BioPAX files.}

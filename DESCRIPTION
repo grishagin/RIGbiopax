@@ -1,7 +1,7 @@
 Package: RIGbiopax
 Type: Package
 Title: Extract and Compare Genes and Pathways from BioPAX
-Version: 5.6
+Version: 5.6.1
 Depends:
     tcltk,
     plyr,
@@ -17,4 +17,4 @@ Maintainer: Ivan Grishagin <grishagin@gmail.com>
 Description: Extract genes and pathways from all available BioPAX sources and
     compare them to a list of genes/pathways obtained from a different source.
 License: GPL-2
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

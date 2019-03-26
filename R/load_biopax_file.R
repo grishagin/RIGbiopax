@@ -4,8 +4,14 @@ load_biopax_file <-
         #' @title 
         #' Load BioPAX from OWL File
         #' @description 
-        #' Tries to load BioPAX object from an OWL file.
+        #' Tries to load a BioPAX object from an OWL file.
+        #' @details 
+        #' This function tries to perform a fuzzy search for a directory 
+        #' that contains \code{source_name} inside a \code{source_dir}. 
+        #' This is useful when you have several "sources" of pathways, 
+        #' i.e. SciSig, Biocarta, etc., with only one OWL file per directory.
         #' @param source_name Name of a BioPAX source.
+        #' Used to search for a directory with the source OWL file.
         #' @param source_dir Directory with BioPAX files (optional).   
         #'  
         #' @author 
