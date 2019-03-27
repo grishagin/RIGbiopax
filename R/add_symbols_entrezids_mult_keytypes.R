@@ -7,7 +7,7 @@ add_symbols_entrezids_mult_keytypes<-
                    ,symbol_col = "biopax.Gene.Symbol"
                    ,pathway_col = "biopax.Pathway.ID"
                    ,comp_col = "biopax.Component.ID")
-             ,key_types=c("entrezgene"
+             ,keytypes=c("entrezgene"
                           ,"mim"
                           ,"uniprot"
                           ,"unigene"
@@ -22,7 +22,7 @@ add_symbols_entrezids_mult_keytypes<-
         #' Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids in multiple other formats.
         #' @param dFrame Dataframe or data table to process.
         #' @param col_names A named vector of actual column names in the supplied \code{dFrame}. 
-        #' @param key_types A format of IDs to be converted. 
+        #' @param keytypes A format of IDs to be converted. 
         #' @param filter_keytypes Logical. Return only rows with desired format types? Defaults to \code{TRUE}.
         #' 
         #' @author 
@@ -67,7 +67,7 @@ add_symbols_entrezids_mult_keytypes<-
             as.data.table
         
         #annotate data table iteratively
-        for(KEYTYPE in key_types){
+        for(KEYTYPE in keytypes){
             dFrame<-
                 dFrame %>%
                 add_symbols_entrezids_single_keytype(col_names = 
@@ -93,7 +93,7 @@ add_symbols_entrezids_mult_keytypes<-
         
         if(filter_keytypes){
             dFrame<-
-                dFrame[type_col %chin% key_types]
+                dFrame[type_col %chin% keytypes]
         }
         
         #change colnames back

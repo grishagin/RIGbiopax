@@ -8,7 +8,7 @@ add_symbols_entrezids_mult_keytypes(dFrame, col_names = c(id_col =
   "biopax.Gene.ID", type_col = "biopax.Gene.ID.Type", entrez_col =
   "ENTREZID", symbol_col = "biopax.Gene.Symbol", pathway_col =
   "biopax.Pathway.ID", comp_col = "biopax.Component.ID"),
-  key_types = c("entrezgene", "mim", "uniprot", "unigene", "ensemblgene",
+  keytypes = c("entrezgene", "mim", "uniprot", "unigene", "ensemblgene",
   "hprd", "hgnc"), filter_keytypes = TRUE)
 }
 \arguments{
@@ -16,7 +16,7 @@ add_symbols_entrezids_mult_keytypes(dFrame, col_names = c(id_col =
 
 \item{col_names}{A named vector of actual column names in the supplied \code{dFrame}.}
 
-\item{key_types}{A format of IDs to be converted.}
+\item{keytypes}{A format of IDs to be converted.}
 
 \item{filter_keytypes}{Logical. Return only rows with desired format types? Defaults to \code{TRUE}.}
 }
