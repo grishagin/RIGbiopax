@@ -64,49 +64,34 @@ add_symbols_entrezids_single_keytype<-
       queryInput<-
         dFrame$id_col[KEYTYPE_rows]
       
-      if(KEYTYPE=="entrezgene"){
+      if(KEYTYPE == "entrezgene"){
         #if querying entrezgenes -- use a different function
         #this way, it will return results regardless of species
         #otherwise, substantial modification of the script is required
         #to accommodate for different species
         
-        while(is.null(queryResults)){
-          #sometimes curl error is thrown, so try until it budges
-          queryResults<-
-            try(getGenes(unique(queryInput)
-                         ,fields=c("entrezgene"
-                                   ,"symbol")
-                         ,return.as="DataFrame"))
-          
-          if(class(queryResults)=="try-error"){
-            queryResults<-NULL
-          }
-        }
-        
+        queryResults<-
+          try(getGenes(unique(queryInput)
+                       ,fields=c("entrezgene"
+                                 ,"symbol")
+                       ,return.as="DataFrame"))
       } else {
         #query the input values
-        while(is.null(queryResults)){
-          #sometimes curl error is thrown, so try until it budges
-          queryResults<-
-            try(queryMany(unique(queryInput)
-                          ,scopes=KEYTYPE
-                          ,fields=c("entrezgene"
-                                    ,"symbol")
-                          ,return.as="DataFrame"
-                          ,species=species))
-          # %>% 
-          #     data.frame
-          
-          if(class(queryResults)=="try-error"){
-            queryResults<-NULL
-          }
-        }
+        queryResults<-
+          try(queryMany(unique(queryInput)
+                        ,scopes=KEYTYPE
+                        ,fields=c("entrezgene"
+                                  ,"symbol")
+                        ,return.as="DataFrame"
+                        ,species=species))
       }
       
       
       if(!("entrezgene" %chin% colnames(queryResults))){
         message("Unsuccessful query for ", KEYTYPE,".")
         return(dFrame)
+      } else {
+        message("Successful query for ", KEYTYPE,"!")
       }
       
       queryResults<-

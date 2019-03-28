@@ -68,6 +68,8 @@ add_symbols_entrezids_mult_keytypes<-
         
         #annotate data table iteratively
         for(KEYTYPE in keytypes){
+          message("Querying ", KEYTYPE," keytype using mygene...")
+          
             dFrame<-
                 dFrame %>%
                 add_symbols_entrezids_single_keytype(col_names = 
