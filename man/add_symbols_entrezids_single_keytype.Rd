@@ -12,14 +12,16 @@ add_symbols_entrezids_single_keytype(dFrame, col_names = c(id_col =
 \arguments{
 \item{dFrame}{Dataframe or data table to process.}
 
-\item{col_names}{A named vector of actual column names in the supplied \code{dFrame}.}
+\item{col_names}{A named vector of actual column names 
+in the supplied \code{dFrame}.}
 
 \item{KEYTYPE}{A format of IDs to be converted.}
 
 \item{species}{Species to look for. Default is "human".}
 }
 \description{
-Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids in one other format (see \code{KEYTYPE} argument).
+Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids 
+in one other format (see \code{KEYTYPE} argument).
 }
 \author{
 Ivan Grishagin

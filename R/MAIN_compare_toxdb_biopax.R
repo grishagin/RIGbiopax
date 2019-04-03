@@ -8,6 +8,7 @@ MAIN_compare_toxdb_biopax <-
            ,owl_biopax=NULL
            ,verbose=FALSE){
     
+    #' @export
     #' @title
     #' Compare Proteins Extracted from BioPAX to ToxDB Proteins
     #' @description 

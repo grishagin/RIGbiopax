@@ -9,13 +9,15 @@ add_symbols_entrezids_single_keytype<-
                ,comp_col = "")
            ,KEYTYPE=NULL
            ,species="human"){
-    
+    #' @export
     #' @title 
     #' Annotate DataFrame with Gene ID and Gene Symbol
     #' @description 
-    #' Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids in one other format (see \code{KEYTYPE} argument).
+    #' Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids 
+    #' in one other format (see \code{KEYTYPE} argument).
     #' @param dFrame Dataframe or data table to process.
-    #' @param col_names A named vector of actual column names in the supplied \code{dFrame}. 
+    #' @param col_names A named vector of actual column names 
+    #' in the supplied \code{dFrame}. 
     #' @param KEYTYPE A format of IDs to be converted. 
     #' @param species Species to look for. Default is "human".
     #' 

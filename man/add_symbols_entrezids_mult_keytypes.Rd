@@ -14,14 +14,17 @@ add_symbols_entrezids_mult_keytypes(dFrame, col_names = c(id_col =
 \arguments{
 \item{dFrame}{Dataframe or data table to process.}
 
-\item{col_names}{A named vector of actual column names in the supplied \code{dFrame}.}
+\item{col_names}{A named vector of actual column names 
+in the supplied \code{dFrame}.}
 
 \item{keytypes}{A format of IDs to be converted.}
 
-\item{filter_keytypes}{Logical. Return only rows with desired format types? Defaults to \code{TRUE}.}
+\item{filter_keytypes}{Logical. Return only rows with desired 
+format types? Defaults to \code{TRUE}.}
 }
 \description{
-Adds a Gene ID and Symbol columns to a dataframe with a protein/gene ids in multiple other formats.
+Adds a Gene ID and Symbol columns to a dataframe with a protein/gene 
+ids in multiple other formats.
 }
 \author{
 Ivan Grishagin
